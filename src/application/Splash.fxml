@@ -10,9 +10,9 @@
 
 <StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.splashController">
    <children>
-      <ImageView fitHeight="375.0" fitWidth="510.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="189.0" fitWidth="596.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@riscv-logo-retina.png" />
+            <Image url="@../../../../../Desktop/risc-v-logo.png" />
          </image></ImageView>
       <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
