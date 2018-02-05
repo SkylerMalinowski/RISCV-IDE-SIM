@@ -15,7 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public  class splashController implements Initializable{
+public  class SplashController implements Initializable{
 
 	@FXML
 	private StackPane rootPane; // ID of panel
@@ -44,7 +44,7 @@ public  class splashController implements Initializable{
 						try {
 							root = FXMLLoader.load(getClass().getResource("MainGUI.fxml"));
 						}	catch (IOException ex){
-							Logger.getLogger(splashController.class.getName()).log(Level.SEVERE, null, ex);	
+							Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
 						}
 							Scene scene = new Scene(root);
 							Stage stage = new Stage();
@@ -57,7 +57,7 @@ public  class splashController implements Initializable{
 
 					
 				}	catch (InterruptedException ex){
-					Logger.getLogger(splashController.class.getName()).log(Level.SEVERE, null, ex);	
+					Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
 				}
 		}
 	}

@@ -7,15 +7,15 @@ import javafx.stage.StageStyle;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-
-
-public class Main extends Application {
-
+public class Main extends Application
+{
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) throws Exception
+	{
 		// TODO Auto-generated method stub
 		// Start Splash screen first, it will load Main GUI
-		try {
+		try
+		{
 			Parent root = FXMLLoader.load(getClass().getResource("Splash.fxml"));
 			
 			Scene scene = new Scene(root);
@@ -25,7 +25,9 @@ public class Main extends Application {
 			primaryStage.show();
 		
 			
-		}	catch(Exception e) {
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		
