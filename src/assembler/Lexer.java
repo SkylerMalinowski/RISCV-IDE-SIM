@@ -10,11 +10,13 @@ public class Lexer
 	// Token IDs
 	public static enum TokenType
 	{
-		// Token types cannot have underscores
-		ALPHA("-?[A-Za-z]+"),
+		// Token types
+		REGISTER("x[0-9]+"),
+		ALPHA("-?[A-z]+"),
 		NUMERIC("-?[0-9]+"),
-		SYMBOL("[`|~|!|@|#|$|%|^|&|*|(|)|_|+]"),
-		WHITESPACE("[ \t\f\r\n]+");
+		SYMBOL("[`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\|;|:|'|\"|.|/|<|>|?]"),
+		COMMENT("#-?[ A-z0-9]+"),
+		WHITESPACE("[' '|'\t'|'\f'|'\r'|'\n']+");
 
 		public final String pattern;
 
@@ -24,7 +26,7 @@ public class Lexer
 		}
 	}
 	
-	// What a token is
+	// Token definition
 	public static class Token
 	{
 		public TokenType type;
@@ -43,7 +45,7 @@ public class Lexer
 		}
 	}
 
-	public static ArrayList<Token> lex(String input)
+	public static ArrayList<Token> lexeme(String input)
 	{
 		// The tokens to return
 		ArrayList<Token> tokens = new ArrayList<Token>();
@@ -54,11 +56,21 @@ public class Lexer
 			tokenPatternsBuffer.append(String.format("|(?<%s>%s)", tokenType.name(), tokenType.pattern));
 		Pattern tokenPatterns = Pattern.compile(new String(tokenPatternsBuffer.substring(1)));
 
-		// Begin matching tokens
+		// Token matching logic
 		Matcher matcher = tokenPatterns.matcher(input);
 		while (matcher.find())
 		{
-			if (matcher.group(TokenType.ALPHA.name()) != null)
+			if (matcher.group(TokenType.COMMENT.name()) != null)
+			{
+				tokens.add(new Token(TokenType.COMMENT, matcher.group(TokenType.COMMENT.name())));
+				continue;
+			}
+			else if (matcher.group(TokenType.REGISTER.name()) != null)
+			{
+				tokens.add(new Token(TokenType.REGISTER, matcher.group(TokenType.REGISTER.name())));
+				continue;
+			}
+			else if (matcher.group(TokenType.ALPHA.name()) != null)
 			{
 				tokens.add(new Token(TokenType.ALPHA, matcher.group(TokenType.ALPHA.name())));
 				continue;
@@ -80,11 +92,12 @@ public class Lexer
 		return tokens;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		String input = "lw x5, x0(x3)  # load word";
 
 		// Create tokens and print them
-		ArrayList<Token> tokens = lex(input);
+		ArrayList<Token> tokens = lexeme(input);
 		for (Token token : tokens)
 			System.out.println(token);
 	}
