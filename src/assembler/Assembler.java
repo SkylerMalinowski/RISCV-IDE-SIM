@@ -2,7 +2,8 @@ package assembler;
 
 public class Assembler
 {
-	private String[][] program;
+	private String[][] programMemory;
+	private String[][] errorLog;
 	
 	public static void main(String [] args)
 	{

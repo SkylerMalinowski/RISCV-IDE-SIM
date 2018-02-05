@@ -81,7 +81,7 @@ public class Lexer
 	}
 
 	public static void main(String[] args) {
-		String input = "lw x5, x0(x3)  # load word\nsub x5, x0, x3 ";
+		String input = "lw x5, x0(x3)  # load word";
 
 		// Create tokens and print them
 		ArrayList<Token> tokens = lex(input);

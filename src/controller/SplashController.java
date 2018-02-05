@@ -30,35 +30,38 @@ public class SplashController implements Initializable{
 
 	
 	// Adding Thread to start loading MainGUI
-	class SplashScreen extends Thread{
+	class SplashScreen extends Thread
+	{
 		@Override
-		public void run() {
-				try {
-					Thread.sleep(5000); // let it render 
-					
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							// Loading Main GUI
-						Parent root = null;
-						try {
-							root = FXMLLoader.load(getClass().getResource("../application/MainGUI.fxml"));
-						}	catch (IOException ex){
-							Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
-						}
-							Scene scene = new Scene(root);
-							Stage stage = new Stage();
-							stage.setScene(scene);
-							stage.show();
-							rootPane.getScene().getWindow().hide(); // remove splash
-						}
-							
+		public void run()
+		{
+			try
+			{
+				Thread.sleep(5000); // let it render 
+				
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						// Loading Main GUI
+					Parent root = null;
+					try {
+						root = FXMLLoader.load(getClass().getResource("../application/MainGUI.fxml"));
+					}
+					catch (IOException ex){
+						Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
+					}
+					Scene scene = new Scene(root);
+					Stage stage = new Stage();
+					stage.setScene(scene);
+					stage.show();
+					rootPane.getScene().getWindow().hide(); // remove splash
+					}
 				});
-
-					
-				}	catch (InterruptedException ex){
-					Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
-				}
+			}
+			catch (InterruptedException ex)
+			{
+				Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
+			}
 		}
 	}
 }

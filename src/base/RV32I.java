@@ -2,8 +2,10 @@ package base;
 
 import java.util.HashMap;
 
-// RV32I :: 32-Bit Integrated Base Instruction Set
-// Standard, Version: 2.0
+/*
+ *  RV32I :: 32-Bit Integrated Base Instruction Set
+ *  Standard, Version: 2.0
+ */
 public class RV32I {
 	int xlen = 32;
 	int pc = 0;
