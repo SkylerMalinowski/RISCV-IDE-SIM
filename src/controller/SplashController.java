@@ -1,4 +1,4 @@
-package application;
+package controller;
 
 import java.io.IOException;
 import java.net.URL;
@@ -15,7 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public  class SplashController implements Initializable{
+public class SplashController implements Initializable{
 
 	@FXML
 	private StackPane rootPane; // ID of panel
@@ -42,7 +42,7 @@ public  class SplashController implements Initializable{
 							// Loading Main GUI
 						Parent root = null;
 						try {
-							root = FXMLLoader.load(getClass().getResource("MainGUI.fxml"));
+							root = FXMLLoader.load(getClass().getResource("../application/MainGUI.fxml"));
 						}	catch (IOException ex){
 							Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
 						}

@@ -1,15 +1,14 @@
 package assembler;
 
-import java.io.*;
-
 public class Assembler
 {
 	private String[][] program;
 	
 	public static void main(String [] args)
 	{
-		String file = "temp.txt";
+		String path = "C:\\Users\\Skyler Malinowski\\Documents\\GitHub\\RISCV-IDE-SIM\\src\\assembler";
+		String filename = "test.txt";
 		Parser myInst = new Parser();
-		myInst.LoadFile(file);
+		myInst.LoadFile(path,filename);
 	}
 }
