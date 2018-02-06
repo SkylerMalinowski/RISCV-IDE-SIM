@@ -11,13 +11,13 @@ public class Lexer
 	public static enum TokenType
 	{
 		// Token types and their patterns
-		STRING("\"-?+\""),  // Not working
+		STRING("\"[A-Z|a-z|0-9| |`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\\\|;|:|'|<|>|,|.|/|?]+\""),
 		LABEL("[_|A-Z|a-z]+:"),
 		REGISTER("(x|X|f|F)[0-9]+|(zero|ra|sp|gp|tp|fp)|(t|s|a)[0-9]+|(ft|fs|fa)[0-9]+"),
 		DIRECTIVE("[.][A-Z|a-z|0-9]+"),
-		COMMENT("[#][A-Z|a-z|0-9| |`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\|;|:|'|\"|<|>|,|.|/|?]+"),
+		COMMENT("#[A-Z|a-z|0-9| |`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\\\|;|:|'|\"|<|>|,|.|/|?]+"),
 		ALPHA("-?[_|.|A-Z|a-z]+"),
-		NUMERIC("0+[0-7]+|0x+[A-F|a-f|0-9]+|-?[0-9]+"),  // Octal 0, Hex 0x, Deci nothing
+		NUMERIC("0-?[.|0-7]+|0x-?[.|A-F|a-f|0-9]+|-?[.|0-9]+"),  // Octal 0, Hex 0x, Deci nothing
 		SYMBOL("[`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\|;|:|'|\"|<|>|.|/|?]"),
 		WHITESPACE("[ |\t|\f|\r|\n]+");
 
