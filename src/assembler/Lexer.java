@@ -10,13 +10,16 @@ public class Lexer
 	// Token IDs
 	public static enum TokenType
 	{
-		// Token types
-		REGISTER("x[0-9]+"),
-		ALPHA("-?[A-z]+"),
-		NUMERIC("-?[0-9]+"),
-		SYMBOL("[`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\|;|:|'|\"|.|/|<|>|?]"),
-		COMMENT("#-?[ A-z0-9]+"),
-		WHITESPACE("[' '|'\t'|'\f'|'\r'|'\n']+");
+		// Token types and their patterns
+		STRING("\"-?+\""),  // Not working
+		LABEL("[_|A-Z|a-z]+:"),
+		REGISTER("(x|X|f|F)[0-9]+|(zero|ra|sp|gp|tp|fp)|(t|s|a)[0-9]+|(ft|fs|fa)[0-9]+"),
+		DIRECTIVE("[.][A-Z|a-z|0-9]+"),
+		COMMENT("[#][A-Z|a-z|0-9| |`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\|;|:|'|\"|<|>|,|.|/|?]+"),
+		ALPHA("-?[_|.|A-Z|a-z]+"),
+		NUMERIC("0+[0-7]+|0x+[A-F|a-f|0-9]+|-?[0-9]+"),  // Octal 0, Hex 0x, Deci nothing
+		SYMBOL("[`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\|;|:|'|\"|<|>|.|/|?]"),
+		WHITESPACE("[ |\t|\f|\r|\n]+");
 
 		public final String pattern;
 
@@ -60,45 +63,49 @@ public class Lexer
 		Matcher matcher = tokenPatterns.matcher(input);
 		while (matcher.find())
 		{
-			if (matcher.group(TokenType.COMMENT.name()) != null)
-			{
-				tokens.add(new Token(TokenType.COMMENT, matcher.group(TokenType.COMMENT.name())));
+			if (matcher.group(TokenType.WHITESPACE.name()) != null)
 				continue;
-			}
-			else if (matcher.group(TokenType.REGISTER.name()) != null)
-			{
-				tokens.add(new Token(TokenType.REGISTER, matcher.group(TokenType.REGISTER.name())));
-				continue;
-			}
+			
+			else if (matcher.group(TokenType.LABEL.name()) != null)
+				tokens.add(new Token(TokenType.LABEL, matcher.group(TokenType.LABEL.name())));
+			
 			else if (matcher.group(TokenType.ALPHA.name()) != null)
-			{
 				tokens.add(new Token(TokenType.ALPHA, matcher.group(TokenType.ALPHA.name())));
-				continue;
-			}
+
 			else if (matcher.group(TokenType.NUMERIC.name()) != null)
-			{
 				tokens.add(new Token(TokenType.NUMERIC, matcher.group(TokenType.NUMERIC.name())));
-				continue;
-			}
+			
+			else if (matcher.group(TokenType.COMMENT.name()) != null)
+				tokens.add(new Token(TokenType.COMMENT, matcher.group(TokenType.COMMENT.name())));
+			
+			else if (matcher.group(TokenType.REGISTER.name()) != null)
+				tokens.add(new Token(TokenType.REGISTER, matcher.group(TokenType.REGISTER.name())));
+			
+			else if (matcher.group(TokenType.DIRECTIVE.name()) != null)
+				tokens.add(new Token(TokenType.DIRECTIVE, matcher.group(TokenType.DIRECTIVE.name())));
+			
+			else if (matcher.group(TokenType.STRING.name()) != null)
+				tokens.add(new Token(TokenType.STRING, matcher.group(TokenType.STRING.name())));
+			
 			else if (matcher.group(TokenType.SYMBOL.name()) != null)
-			{
 				tokens.add(new Token(TokenType.SYMBOL, matcher.group(TokenType.SYMBOL.name())));
-				continue;
-			}
-			else if (matcher.group(TokenType.WHITESPACE.name()) != null)
-				continue;
 		}
 
 		return tokens;
 	}
 
-	public static void main(String[] args)
+	// main for testing
+	public static void main(ArrayList<String> program)
 	{
-		String input = "lw x5, x0(x3)  # load word";
-
-		// Create tokens and print them
-		ArrayList<Token> tokens = lexeme(input);
-		for (Token token : tokens)
-			System.out.println(token);
+		//String input = "lw x5, x0(x3)  # load word";
+		
+		for (String line : program)
+		{
+			// Create tokens and print them
+			ArrayList<Token> lexemes = lexeme(line);
+			System.out.println(lexemes);
+			//for (Token token : lexemes)
+			//	System.out.println(lexemes);
+		}
 	}
 }
