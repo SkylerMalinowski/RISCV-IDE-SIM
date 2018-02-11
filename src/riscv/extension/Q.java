@@ -1,4 +1,4 @@
-package extension;
+package riscv.extension;
 
 /*
  * Q :: Quad-Precision Floating-Point

@@ -6,7 +6,6 @@ package base;
  */
 public class RV64I {
 	int xlen = 64;
-	int pc = 0;
 	long reg[] = new long[32];
 	
 	// Constructor

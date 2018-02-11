@@ -15,9 +15,9 @@ msg:	.string "Hello World\n" # Hello World
 ..extern CONST_VAR 4  	  # Constant Variable
 .global __start
 _start::
-	ori s0, t11, 00xXAB48
+	ori s0, t11, 00xXAb48
 	sw , 16(a0a0)
 	addi t3, zeroo, -+020.6
 	fmv..d fss0, fa22
 return:
-	jr ra # Return # Address
+	jr ra # Return ## Address

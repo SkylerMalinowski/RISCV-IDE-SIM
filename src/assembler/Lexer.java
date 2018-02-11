@@ -13,16 +13,16 @@ public class Lexer
 		// Token types and their patterns
 		STRING("\"[A-Z|a-z|0-9| |`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\\\|;|:|'|<|>|,|.|/|?]+\""),
 		LABEL("[_|A-Z|a-z]+:"),
-		REGISTER("(x|X|f|F)[0-9]+|(zero|ra|sp|gp|tp|fp)|(t|s|a)[0-9]+|(ft|fs|fa)[0-9]+"),
+		REGISTER("(x|f|v)[0-9]+|(zero|ra|sp|gp|tp|fp)|(t|s|a)[0-9]+|(ft|fs|fa)[0-9]+"),
 		DIRECTIVE("[.][A-Z|a-z|0-9]+"),
-		COMMENT("#[A-Z|a-z|0-9| |`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\\\|;|:|'|\"|<|>|,|.|/|?]+"),
+		COMMENT("#+[A-Z|a-z|0-9| |`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\\\|;|:|'|\"|<|>|,|.|/|?]+"),
 		ALPHA("-?[_|.|A-Z|a-z]+"),
-		NUMERIC("0-?[.|0-7]+|0x-?[.|A-F|a-f|0-9]+|-?[.|0-9]+"),  // Octal 0, Hex 0x, Deci nothing
+		NUMERIC("0-?[.|0-7]+|0(x|X)-?[.|A-F|a-f|0-9]+|-?[.|0-9]+"),  // Octal 0, Hex 0x, Deci nothing
 		SYMBOL("[`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\|;|:|'|\"|<|>|.|/|?]"),
 		WHITESPACE("[ |\t|\f|\r|\n]+");
-
+		
 		public final String pattern;
-
+		
 		private TokenType(String pattern)
 		{
 			this.pattern = pattern;
@@ -48,19 +48,21 @@ public class Lexer
 		}
 	}
 
-	public static ArrayList<Token> lexeme(String input)
+	public static ArrayList<Token> lex(String input)
 	{
 		// The tokens to return
 		ArrayList<Token> tokens = new ArrayList<Token>();
 
-		// Lexer logic begins here
 		StringBuffer tokenPatternsBuffer = new StringBuffer();
+		
 		for (TokenType tokenType : TokenType.values())
 			tokenPatternsBuffer.append(String.format("|(?<%s>%s)", tokenType.name(), tokenType.pattern));
+		
 		Pattern tokenPatterns = Pattern.compile(new String(tokenPatternsBuffer.substring(1)));
 
 		// Token matching logic
 		Matcher matcher = tokenPatterns.matcher(input);
+		
 		while (matcher.find())
 		{
 			if (matcher.group(TokenType.WHITESPACE.name()) != null)
@@ -90,22 +92,7 @@ public class Lexer
 			else if (matcher.group(TokenType.SYMBOL.name()) != null)
 				tokens.add(new Token(TokenType.SYMBOL, matcher.group(TokenType.SYMBOL.name())));
 		}
-
-		return tokens;
-	}
-
-	// main for testing
-	public static void main(ArrayList<String> program)
-	{
-		//String input = "lw x5, x0(x3)  # load word";
 		
-		for (String line : program)
-		{
-			// Create tokens and print them
-			ArrayList<Token> lexemes = lexeme(line);
-			System.out.println(lexemes);
-			//for (Token token : lexemes)
-			//	System.out.println(lexemes);
-		}
+		return tokens;
 	}
 }

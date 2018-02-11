@@ -8,13 +8,13 @@ import java.util.ArrayList;
 
 public class FileIO
 {	
-	public static ArrayList<String> LoadFile(String path, String filename)
+	public static ArrayList<String> LoadFile(String path)
 	{
 		ArrayList<String> fileContents = new ArrayList<String>();
 		
 		try
 		{
-			File file = new File(path+"\\"+filename);
+			File file = new File(path);
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			//StringBuffer stringBuffer = new StringBuffer();
@@ -37,12 +37,12 @@ public class FileIO
 		return fileContents;
 	}
 	
-	public static void main()
+	// main for debugging
+	public static void main(String[] args)
 	{
-		String path = "C:\\Users\\Skyler Malinowski\\Documents\\GitHub\\RISCV-IDE-SIM\\src\\assembler";
-		String filename = "test.asm";
-		ArrayList<String> programMemory = LoadFile(path,filename);
-		for (String str : programMemory)
-			System.out.println(str);
+		String path = "C:\\Users\\Skyler Malinowski\\Documents\\GitHub\\RISCV-IDE-SIM\\src\\assembler\\test.asm";
+		ArrayList<String> program = LoadFile(path);
+		for (String line : program)
+			System.out.println(line);
 	}
 }

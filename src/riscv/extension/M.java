@@ -1,4 +1,4 @@
-package extension;
+package riscv.extension;
 
 /*
  * M :: Integer Multiplication & Division

@@ -1,4 +1,4 @@
-package extension;
+package riscv.extension;
 
 /*
  * D :: Double-Precision Floating-Point

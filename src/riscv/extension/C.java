@@ -1,4 +1,4 @@
-package extension;
+package riscv.extension;
 
 /*
  * C :: Compressed Instructions

@@ -1,4 +1,4 @@
-package extension;
+package riscv.extension;
 
 /*
  * A :: Atomic Instructions

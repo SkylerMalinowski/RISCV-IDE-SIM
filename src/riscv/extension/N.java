@@ -1,4 +1,4 @@
-package extension;
+package riscv.extension;
 
 /*
  * N :: User-Level Interrupts

@@ -1,4 +1,4 @@
-package base;
+package riscv.base;
 
 import java.util.HashMap;
 
@@ -7,10 +7,9 @@ import java.util.HashMap;
  *  Standard, Version: 2.0
  */
 public class RV32I {
-	int xlen = 32;
-	int pc = 0;
-	int reg[] = new int[32];
-	HashMap<String, String> TypeMap = new HashMap<String, String>();
+	public int xlen = 32;
+	public int reg[] = new int[32];
+	public HashMap<String, String> TypeMap = new HashMap<String, String>();
 	
 	// Constructor
 	RV32I()
@@ -66,14 +65,14 @@ public class RV32I {
 		TypeMap.put("JAL", "U-Type");
 		TypeMap.put("AUIPC", "U-Type");
 		
-		/*
-		TypeMap.put("FENCE", "");
-		TypeMap.put("FENCE.I", "");
-		TypeMap.put("ECALL", "");
-		TypeMap.put("EBREAK", "");
-		TypeMap.put("CSRRWI", "");
-		TypeMap.put("CSRRSI", "");
-		TypeMap.put("CSRRCI", "");
-		*/
+		/* Unimplemented Instructions
+		 * TypeMap.put("FENCE", "");
+		 * TypeMap.put("FENCE.I", "");
+		 * TypeMap.put("ECALL", "");
+		 * TypeMap.put("EBREAK", "");
+		 * TypeMap.put("CSRRWI", "");
+		 * TypeMap.put("CSRRSI", "");
+		 * TypeMap.put("CSRRCI", "");
+		 */
 	}
 }
