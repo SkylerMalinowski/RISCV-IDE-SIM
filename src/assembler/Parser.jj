@@ -1,0 +1,138 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
+ */
+options{
+  STATIC = false;              // Default: true
+  IGNORE_CASE = true;          // Default: false
+  USER_CHAR_STREAM = false;    // Default: false
+  USER_TOKEN_MANAGER = false;  // Default: false
+  DEBUG_PARSER = true;         // Default: false}PARSER_BEGIN(Parser)package assembler;
+
+import java.io.*;
+import java.util.*;
+
+public class Parser{
+  public static void theThing(String filePath)
+  {
+    try
+    {
+      Parser parser = new Parser(new FileInputStream(filePath));
+      parser.Analyze();
+    }
+    catch (Exception e)
+    {
+      System.out.println("NOK.");
+      System.out.println(e.getMessage());
+      //System.exit(0);
+    }
+    catch (Error e)
+    {
+      System.out.println("Oops.");
+      System.out.println(e.getMessage());
+      //System.exit(0);
+    }
+  }
+    public static void main(String args []) throws ParseException  {
+    try
+    {
+      Parser parser = new Parser(System.in);
+      System.out.println("Reading from standard input...");
+      System.out.print("Enter code : ");
+      parser.Analyze();
+    }
+    catch (Exception e)
+    {
+      System.out.println("NOK.");
+      System.out.println(e.getMessage());
+      //Parser.ReInit(System.in);
+      System.exit(0);
+    }
+    catch (Error e)
+    {
+      System.out.println("Oops.");
+      System.out.println(e.getMessage());
+      System.exit(0);
+    }
+  }}PARSER_END(Parser)
+/**
+ * Token Declarations
+ */
+SKIP : /* WHITESPACE */{  " "   // space| "\t"  // tab
+| "\n"
+| "\r"
+| "\f"
+}
+
+//SKIP : /* END OF LINE */
+//{
+//  < EOL : ("\n"|"\r"|"\f")+ >
+//}
+
+SKIP : /* COMMENT */
+{
+  < COMMENT : "#" (~["\r","\n"])* >
+}
+TOKEN : /* SYMBOL */{
+  < COMMA : "," >
+| < L_PAREN : "(" >
+| < R_PAREN : ")" >
+| < PLUS : "+" >
+| < MINUS : "-" >
+}
+
+TOKEN : /* RISC-V */
+{  < REGISTER : "x" (<NUMERIC>) >
+| < DIRECTIVE : "." (<ALPHA>) >
+| < LABEL : (<ALPHA>) ":" >
+| < STRING : "\"" (~["\""])+ "\"" >
+}TOKEN : /* ALPHA NUMERIC */
+{
+  < ALPHA : (<LETTER>|"_")+ >
+| < #LETTER : ["a"-"z","A"-"Z"] >
+| < NUMERIC : (<DECIMAL>|<HEXADECIMAL>|<OCTAL>|<BINARY>) >
+| < DECIMAL : (<DECI_DIGIT>)+ >
+| < HEXADECIMAL : ("0x"|"0X") (<HEX_DIGIT>)+ >
+| < OCTAL : ("0o"|"0O") (<OCT_DIGIT>)+ >
+| < BINARY : ("0b"|"0B") (<BIN_DIGIT>)+ >
+| < #DECI_DIGIT : ["0"-"9"] >
+| < #HEX_DIGIT : (["0"-"9","a"-"f","A"-"F"]) >
+| < #OCT_DIGIT : ["0"-"7"] >
+| < #BIN_DIGIT : ["0","1"] >
+| < FLOATING_NUMERIC : (<DECIMAL_FLOAT>|<HEXADECIMAL_FLOAT>|<OCTAL_FLOAT>|<BINARY_FLOAT>) >
+| < DECIMAL_FLOAT : (<DECI_DIGIT>)+ "." (<DECI_DIGIT>)* (<EXPONENT>)? (<DECI_DIGIT>)+ >
+| < HEXADECIMAL_FLOAT : ("0x"|"0X") (<HEX_DIGIT>)+ "." (<HEX_DIGIT>)* (<EXPONENT>)? (<HEX_DIGIT>)+ >
+| < OCTAL_FLOAT : ("0o"|"0O") (<OCT_DIGIT>)+ "." (<OCT_DIGIT>)* (<EXPONENT>)? (<OCT_DIGIT>)+ >
+| < BINARY_FLOAT : ("0b"|"0B") (<BIN_DIGIT>)+ "." (<BIN_DIGIT>)* (<EXPONENT>)? (<BIN_DIGIT>)+ >
+| < #EXPONENT: ("p"|"P") (["+","-"])? >}
+
+TOKEN :
+{
+  < OTHER : ~[] >
+}
+
+// TODO : token states for instruction types, braces, bases, and extensions
+
+/**
+ * Function Declarations
+ */
+
+// TODO : make grammar for tokens
+void Analyze() : 
+{}
+{
+  (    R_Imm()
+  )*
+  <EOF>
+}
+
+void R_Type() : 
+{}
+{
+  <ALPHA> <REGISTER> (<COMMA>)? <REGISTER> (<COMMA>)? <REGISTER>
+}
+
+void R_Imm() : 
+{}
+{
+  <ALPHA> <REGISTER> (<COMMA>)? <REGISTER> (<COMMA>)? <NUMERIC>
+}

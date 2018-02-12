@@ -1,47 +1,45 @@
 package method;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class FileIO
 {	
-	public static ArrayList<String> LoadFile(String path)
+	public static ArrayList<String> LoadFile(String fileName)
 	{
 		ArrayList<String> fileContents = new ArrayList<String>();
 		
 		try
 		{
-			File file = new File(path);
-			FileReader fileReader = new FileReader(file);
+			FileReader fileReader = new FileReader(fileName);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			//StringBuffer stringBuffer = new StringBuffer();
-			String line;
-			while ((line = bufferedReader.readLine()) != null)
+			
+			String line = null;
+			while((line = bufferedReader.readLine()) != null)
 			{
-				//stringBuffer.append(line);
-				//stringBuffer.append("\n");
+				//System.out.println(line);
 				fileContents.add(line);
 			}
-			fileReader.close();
-			//System.out.println("Contents of file:");
-			//System.out.println(stringBuffer.toString());
+			
+			bufferedReader.close();
 		}
-		catch (IOException e)
+		catch(FileNotFoundException ex)
 		{
-			e.printStackTrace();
+			System.out.println("Unable to open file '" + fileName + "'");
 		}
-		
+		catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}
 		return fileContents;
 	}
 	
-	// main for debugging
+	// Debuggingv: main()
 	public static void main(String[] args)
 	{
-		String path = "C:\\Users\\Skyler Malinowski\\Documents\\GitHub\\RISCV-IDE-SIM\\src\\assembler\\test.asm";
+		String path = "C:\\Users\\Skyler Malinowski\\Documents\\GitHub\\RISCV-IDE-SIM\\src\\method\\test.asm";
 		ArrayList<String> program = LoadFile(path);
+		
 		for (String line : program)
 			System.out.println(line);
 	}

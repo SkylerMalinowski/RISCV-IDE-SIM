@@ -1,4 +1,4 @@
-package base;
+package riscv.base;
 
 /* 
  * RV64I :: 64-Bit Integrated Base Instruction Set
