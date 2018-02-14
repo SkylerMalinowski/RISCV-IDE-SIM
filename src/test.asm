@@ -1,5 +1,8 @@
 # Basic Error Checking Section
-addi x9, x4, 0x4DB3F
-subi x2, x1, 0b11101100001
-add x8, x0, x9
-sub x4, x3, x10
+
+loop:
+	add x1, x2, x3         # r-type
+	subi x4, x5, 0xAF4B77  # i-type
+	sw x6, 4(x7)           # s-type
+	bne x8, x9, loop       # b-type
+	lui x10, 0b1000111010  # u-type

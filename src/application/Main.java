@@ -27,10 +27,11 @@ public class Main extends Application
 		{
 			e.printStackTrace();
 		}
-		
-		
 	}
-	public static void main(String[] args) {
+	
+	// Run Application
+	public static void main(String[] args)
+	{
 		launch(args);
 	}
 }
