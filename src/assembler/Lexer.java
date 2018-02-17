@@ -1,12 +1,45 @@
 package assembler;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 // Take plain text file and create tokens
 public class Lexer
 {
+	private Class base;
+	private List extensions;
+	
+	/**
+	 * Constructor saves current state of base and extensions
+	 * @param base
+	 * @param extensions
+	 */
+	public Lexer(Class base, List extensions)
+	{
+		setBase(base);
+		setExtensions(extensions);
+	}
+	
+	/**
+	 * Setter method for 'this.base'
+	 * @param base
+	 */
+	public void setBase(Class base)
+	{
+		this.base = base;
+	}
+	
+	/**
+	 * Setter method for 'this.base'
+	 * @param extensions
+	 */
+	public void setExtensions(List extenions)
+	{
+		this.extensions = extensions;
+	}
+	
 	// Token IDs
 	public static enum TokenType
 	{
@@ -17,7 +50,7 @@ public class Lexer
 		DIRECTIVE("[.][A-Z|a-z|0-9]+"),
 		COMMENT("#+[A-Z|a-z|0-9| |`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\\\|;|:|'|\"|<|>|,|.|/|?]+"),
 		ALPHA("-?[_|.|A-Z|a-z]+"),
-		NUMERIC("0o-?[.|0-7]+|0(x|X)-?[.|A-F|a-f|0-9]+|-?[.|0-9]+"),  // Octal 0, Hex 0x, Deci nothing
+		NUMERIC("0o-?[.|0-7]+|0(x|X)-?[.|A-F|a-f|0-9]+|-?[.|0-9]+"),  // Octal 0o, Hex 0x, Deci nothing
 		SYMBOL("[`|~|!|@|$|%|^|&|*|(|)|-|_|=|+|[|]|{|}|\\|;|:|'|\"|<|>|.|/|?]"),
 		WHITESPACE("[ |\t|\f|\r|\n]+");
 		
@@ -44,7 +77,7 @@ public class Lexer
 		@Override
 		public String toString()
 		{
-			return String.format("(%s %s)", type.name(), data);
+			return String.format("<%s %s>", type.name(), data);
 		}
 	}
 

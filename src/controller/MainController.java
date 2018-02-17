@@ -1,13 +1,13 @@
 package controller;
 
-import assembler.Assembler;
-
-import java.util.ArrayList;
+/**
+ * Controls main application screen
+ * 
+ * @author Skyler Malinowski
+ * @version February 2018
+ */
 
 public class MainController
 {
-	// Record Base and then Extension(s) by name
-	public ArrayList<String> Resources;
-	
 	
 }

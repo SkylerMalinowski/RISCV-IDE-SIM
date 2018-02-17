@@ -15,6 +15,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Controls splash screen
+ * 
+ * @author Alejandro Agular
+ * @author Skyler Malinowski
+ * @version February 2018
+ */
+
 public class SplashController implements Initializable{
 
 	@FXML

@@ -1,18 +1,17 @@
-package assembler;
+package simulator;
 
-import riscv.Program;
 import riscv.RISCV;
 
 import java.util.List;
 
 /**
- * Deals with interfacing Program with Lexer and Parser
+ * Deals with translating the Program into actions
  * 
  * @author Skyler Malinowski
  * @version February 2018
  */
 
-public class Assembler
+public class Simulator
 {
 	private Class base;
 	private List extensions;
@@ -21,25 +20,10 @@ public class Assembler
 	 * Constructor saves state of RISCV in terms of current base and extensions
 	 * @param riscv
 	 */
-	public Assembler(RISCV riscv)
+	public Simulator(RISCV riscv)
 	{
 		setBase(riscv.getBase());
 		setExtensions(riscv.getExtensions());
-	}
-	
-	/**
-	 * Method assembles the given program
-	 * @param program
-	 */
-	public void assemble(Program program)
-	{
-		Lexer lexer = new Lexer(getBase(),getExtensions());
-		//lexer(program);
-		
-		Parser parser = new Parser(getBase(),getExtensions());
-		//parser(program);
-
-		program.printErrorList();
 	}
 	
 	/**
@@ -76,15 +60,5 @@ public class Assembler
 	public void setExtensions(List extenions)
 	{
 		this.extensions = extensions;
-	}
-	
-	// Debugging
-	public static void main(String[] args)
-	{
-		String filePath = "C:\\Users\\Skyler Malinowski\\Documents\\GitHub\\RISCV-IDE-SIM\\src\\test.asm";
-		RISCV riscv = new RISCV();
-		Program program = new Program(filePath);
-		Assembler assembler = new Assembler(riscv);
-		assembler.assemble(program);
 	}
 }
