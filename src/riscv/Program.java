@@ -1,4 +1,27 @@
+/**
+ * Copyright (C) 2018,  @authors
+ * @author Skyler Malinowski  @email skyler.malinowski@gmail.com
+ * @author Arjun Ohri         @email aorhi@att.net
+ * @author Alejandro Aguilar  @email alejandro.aguilar1195@gmail.com
+ * @author Raj Balaji         @email nintedraj@gmail.com
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * GNU General Public License v3  
+ * @link https://www.gnu.org/licenses/gpl.html
+ */
+
 package riscv;
+
+import assembler.Token;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,7 +41,7 @@ public class Program
 {
 	private File file;
 	private ArrayList<String> source;
-	private ArrayList tokenList;
+	private ArrayList<ArrayList<Token>> tokenList;
 	private ArrayList<ErrorMessage> errorList;
 
 	/**
@@ -28,7 +51,7 @@ public class Program
 	public Program(String filePath)
 	{
 		source = new ArrayList<String>();
-		tokenList = new ArrayList();
+		tokenList = new ArrayList<ArrayList<Token>>();
 		errorList = new ArrayList<ErrorMessage>();
 		
 		setFile(filePath);
@@ -95,7 +118,7 @@ public class Program
 	 * Method gets 'this.tokenList'
 	 * @return this.tokenList
 	 */
-	public ArrayList getTokenList()
+	public ArrayList<ArrayList<Token>> getTokenList()
 	{
 		return this.tokenList;
 	}
@@ -104,9 +127,9 @@ public class Program
 	 * Method sets 'this.tokenList'
 	 * @param tokenList
 	 */
-	public void setTokenList(ArrayList tokenList)
+	public void appendTokenList(ArrayList<Token> tokenList)
 	{
-		this.tokenList = tokenList;
+		this.tokenList.add(tokenList);
 	}
 	
 	/**
@@ -130,6 +153,7 @@ public class Program
 	}
 	
 	// Debugging
+	@SuppressWarnings("unused")
 	public static void main(String[] args)
 	{
 		String filePath = "C:\\Users\\Skyler Malinowski\\Documents\\GitHub\\RISCV-IDE-SIM\\src\\test.asm";

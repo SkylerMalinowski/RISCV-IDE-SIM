@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018,  @authors
  * @author Skyler Malinowski  @email skyler.malinowski@gmail.com
- * @author Arjun Ohri         @email aohri@att.net
+ * @author Arjun Ohri         @email aorhi@att.net
  * @author Alejandro Aguilar  @email alejandro.aguilar1195@gmail.com
  * @author Raj Balaji         @email nintedraj@gmail.com
  * 
@@ -19,13 +19,22 @@
  * @link https://www.gnu.org/licenses/gpl.html
  */
 
-package riscv.extension;
+package assembler;
 
-/*
- * Q :: Quad-Precision Floating-Point
- * Standard, Version: 2.0
- */
-public class Q
+enum TokenType
 {
+	// Regex Notation
+	WHITESPACE("\\s+"),
+	COMMENT("#(.*)+"),
+	NUMBER("([\\d]+[\\.]?[\\d]+) | (0[x|X][\\da-fA-F]+[\\.]?[\\da-fA-F]+)"),
+	REGISTER("([xXfFvV][\\d]+)|(zero)"),
+	SYMBOL("[,]"),
+	LITERAL("[\\w\\d\\._]+");
 	
+	public final String pattern;
+	
+	private TokenType(String pattern)
+	{
+		this.pattern = pattern;
+	}
 }

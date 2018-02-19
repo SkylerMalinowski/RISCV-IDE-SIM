@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018,  @authors
  * @author Skyler Malinowski  @email skyler.malinowski@gmail.com
- * @author Arjun Ohri         @email aohri@att.net
+ * @author Arjun Ohri         @email aorhi@att.net
  * @author Alejandro Aguilar  @email alejandro.aguilar1195@gmail.com
  * @author Raj Balaji         @email nintedraj@gmail.com
  * 
@@ -19,13 +19,28 @@
  * @link https://www.gnu.org/licenses/gpl.html
  */
 
-package riscv.extension;
+package assembler;
 
-/*
- * Q :: Quad-Precision Floating-Point
- * Standard, Version: 2.0
- */
-public class Q
+public class Token
 {
-	
+	private TokenType type;
+	private String data;
+	private int line;
+	private int index_start;
+	private int index_end;
+
+	public Token(TokenType type, String data, int line, int index_start, int index_end)
+	{
+		this.type = type;
+		this.data = data;
+		this.line = line;
+		this.index_start = index_start;
+		this.index_end = index_end;
+	}
+
+	@Override
+	public String toString()
+	{
+		return String.format("<%s :: %s>", type.name(), data);
+	}
 }
