@@ -1,17 +1,39 @@
-package base;
+/**
+ * Copyright (C) 2018,  @authors
+ * @author Skyler Malinowski  @email skyler.malinowski@gmail.com
+ * @author Arjun Ohri         @email aohri@att.net
+ * @author Alejandro Aguilar  @email alejandro.aguilar1195@gmail.com
+ * @author Raj Balaji         @email nintedraj@gmail.com
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * GNU General Public License v3  
+ * @link https://www.gnu.org/licenses/gpl.html
+ */
+
+package riscv.base;
 
 import java.util.HashMap;
 
-// RV32I :: 32-Bit Integrated Base Instruction Set
-// Standard, Version: 2.0
+/*
+ *  RV32I :: 32-Bit Integrated Base Instruction Set
+ *  Standard, Version: 2.0
+ */
 public class RV32I {
-	int xlen = 32;
-	int pc = 0;
-	int reg[] = new int[32];
-	HashMap<String, String> TypeMap = new HashMap<String, String>();
+	public int xlen = 32;
+	public int reg[] = new int[32];
+	public HashMap<String, String> TypeMap = new HashMap<String, String>();
 	
 	// Constructor
-	RV32I()
+	public RV32I()
 	{
 		// R-Type
 		TypeMap.put("ADD", "R-Type");
@@ -64,14 +86,14 @@ public class RV32I {
 		TypeMap.put("JAL", "U-Type");
 		TypeMap.put("AUIPC", "U-Type");
 		
-		/*
-		TypeMap.put("FENCE", "");
-		TypeMap.put("FENCE.I", "");
-		TypeMap.put("ECALL", "");
-		TypeMap.put("EBREAK", "");
-		TypeMap.put("CSRRWI", "");
-		TypeMap.put("CSRRSI", "");
-		TypeMap.put("CSRRCI", "");
-		*/
+		/* Unimplemented Instructions
+		 * TypeMap.put("FENCE", "");
+		 * TypeMap.put("FENCE.I", "");
+		 * TypeMap.put("ECALL", "");
+		 * TypeMap.put("EBREAK", "");
+		 * TypeMap.put("CSRRWI", "");
+		 * TypeMap.put("CSRRSI", "");
+		 * TypeMap.put("CSRRCI", "");
+		 */
 	}
 }

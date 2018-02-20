@@ -19,16 +19,19 @@
  * @link https://www.gnu.org/licenses/gpl.html
  */
 
-package controller;
+package riscv.base;
 
-/**
- * Controls main application screen
- * 
- * @author Skyler Malinowski
- * @version February 2018
+/* 
+ * RV64I :: 64-Bit Integrated Base Instruction Set
+ * Standard, Version: 2.0
  */
-
-public class MainController
-{
+public class RV64I {
+	int xlen = 64;
+	long reg[] = new long[32];
 	
+	// Constructor
+	public RV64I()
+	{
+		
+	}
 }

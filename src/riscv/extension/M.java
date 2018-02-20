@@ -19,16 +19,13 @@
  * @link https://www.gnu.org/licenses/gpl.html
  */
 
-package controller;
+package riscv.extension;
 
-/**
- * Controls main application screen
- * 
- * @author Skyler Malinowski
- * @version February 2018
+/*
+ * M :: Integer Multiplication & Division
+ * Standard, Version: 2.0
  */
-
-public class MainController
+public class M
 {
 	
 }
