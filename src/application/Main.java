@@ -30,7 +30,6 @@ import javafx.scene.Scene;
 
 /**
  * Launches application
- * 
  * @author Skyler Malinowski
  * @author Alejandro Aguilar
  * @version February 2018
