@@ -55,7 +55,7 @@ public class Assembler
 	 */
 	public void assemble(Program program)
 	{
-		Lexer lexer = new Lexer(getBase(),getExtensions());
+		/*
 		lexer.lex(program);
 		
 		for (ArrayList<Token> list : program.getTokenList())
@@ -66,6 +66,7 @@ public class Assembler
 		//Parser parser = new Parser(getBase(),getExtensions());
 
 		program.printErrorList();
+		*/
 	}
 	
 	/**
