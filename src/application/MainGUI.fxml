@@ -56,7 +56,7 @@
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Preferences…" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
+            <MenuItem fx:id="quit_id" mnemonicParsing="false" onAction="#handleQuitAction" text="Quit" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
@@ -86,8 +86,8 @@
             </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="Glossary" />
-                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+            <MenuItem fx:id="glossary_id" mnemonicParsing="false" onAction="#handleGlossary" text="Glossary" />
+                  <MenuItem fx:id="onlineDoc_id" mnemonicParsing="false" onAction="#handleOnlineDoc" text="Online Documentation" />
           </items>
         </Menu>
       </menus>
@@ -106,8 +106,8 @@
                                        <items>
                                           <AnchorPane prefHeight="112.0" prefWidth="608.0">
                                              <children>
-                                                <TextArea layoutX="84.0" layoutY="11.0" prefHeight="52.0" prefWidth="357.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="84.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="11.0" />
-                                                <Button layoutX="14.0" layoutY="24.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="55.0" text="Clear" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="24.0" />
+                                                <Button id="clear_button" fx:id="clear_button" layoutX="14.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="55.0" text="Clear" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="24.0" />
+                                                <TextArea id="console_text" fx:id="console_text" layoutX="108.0" layoutY="14.0" prefHeight="76.0" prefWidth="399.0" text="hello World" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0" />
                                              </children>
                                           </AnchorPane>
                                        </items>

@@ -47,7 +47,6 @@ public class Main extends Application
 			Parent root = FXMLLoader.load(getClass().getResource("Splash.fxml"));
 			
 			Scene scene = new Scene(root);
-			
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -61,5 +60,6 @@ public class Main extends Application
 	public static void main(String[] args)
 	{
 		launch(args);
+		
 	}
 }

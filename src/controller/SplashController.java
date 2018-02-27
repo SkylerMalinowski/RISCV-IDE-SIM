@@ -39,7 +39,7 @@ import javafx.stage.Stage;
 /**
  * Controls splash screen
  * 
- * @author Alejandro Agular
+ * @author Alejandro Aguilar
  * @author Skyler Malinowski
  * @version February 2018
  */
