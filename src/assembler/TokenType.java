@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018,  @authors
  * @author Skyler Malinowski  @email skyler.malinowski@gmail.com
- * @author Arjun Ohri         @email aorhi@att.net
+ * @author Arjun Ohri         @email aohri@att.net
  * @author Alejandro Aguilar  @email alejandro.aguilar1195@gmail.com
  * @author Raj Balaji         @email nintedraj@gmail.com
  * 
@@ -21,16 +21,39 @@
 
 package assembler;
 
-enum TokenType
+/**
+ * Defines lexeme in Regex notation to be used in conjunction with Token
+ * @author Skyler Malinowski
+ * @version February 2018
+ */
+public enum TokenType
 {
-	// Regex Notation
-	WHITESPACE("\\s+"),
-	COMMENT("#(.*)+"),
-	NUMBER("([\\d]+[\\.]?[\\d]+) | (0[x|X][\\da-fA-F]+[\\.]?[\\da-fA-F]+)"),
-	REGISTER("([xXfFvV][\\d]+)|(zero)"),
-	SYMBOL(","),
-	DIRECTIVE("\\.[\\s_]+"),
-	LITERAL("[\\w\\d\\._]+");
+	WHITESPACE("\\s+"),         // Spaces, tabs, and returns to be ignored
+	COMMENT("#(.*)+"),          // User text to be ignored by assembler
+	STRING("\"(.*)+\""),        // A special piece of text
+	DIRECTIVE("\\.[a-zA-Z]+"),  // A type of system instruction
+	NUMBER(
+	        "([-+]?0[xX][0-9a-fA-F]*\\.?[0-9a-fA-F]+)|"  // Hexadecimal
+	        + "([-+]?0[oO][0-7]*\\.?[0-7]+)|"            // Octal
+	        + "([-+]?0[bB][0-1]*\\.?[0-1]+)|"            // Binary
+	        + "([-+]?\\d*\\.?\\d+)"                      // Decimal
+	        ),
+	REGISTER(
+	          "([xX]\\d+)|"                       // Integer
+	        + "(zero)|(ra)|(sp)|(gp)|(tp)|(fp)|"  // Aliases (1/2)
+	        + "([tsa][0-9]+)|"                    // Aliases (2/2)
+	        + "([fF]\\d+)|"                       // Floating
+	        + "(f[tsa][0-9]+)|"                   // Alias
+	        + "(v[0-9]+)"                         // Vector
+	        ),
+	COMMA(","),               // Separator
+	LeftParenthesis("\\("),   // Left Parenthesis
+	RightParenthesis("\\)"),  // Right Parenthesis
+	LABEL("[a-zA-Z]+:"),      // Special type of word
+	LITERAL("[\\w\\._]+"),    // Catch all for words
+	//SYMBOL("\\W"),            // Catch all for symbols
+	UNKNOWN("\\W+"),        // Everything else
+	EOL("\r\n\f");
 	
 	public final String pattern;
 	

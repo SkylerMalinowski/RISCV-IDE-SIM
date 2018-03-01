@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018,  @authors
  * @author Skyler Malinowski  @email skyler.malinowski@gmail.com
- * @author Arjun Ohri         @email aorhi@att.net
+ * @author Arjun Ohri         @email aohri@att.net
  * @author Alejandro Aguilar  @email alejandro.aguilar1195@gmail.com
  * @author Raj Balaji         @email nintedraj@gmail.com
  * 
@@ -21,6 +21,11 @@
  
 package assembler;
 
+/**
+ * Used by Lexer to classify and track text
+ * @author Skyler Malinowski
+ * @version February 2018
+ */
 public class Token
 {
 	private TokenType type;
@@ -38,6 +43,51 @@ public class Token
 		this.index_end = index_end;
 	}
 
+	/**
+	 * Getter method for 'this.type'
+	 * @return String
+	 */
+	public TokenType getType()
+	{
+		return this.type;
+	}
+	/**
+	 * Getter method for 'this.data'
+	 * @return String
+	 */
+	public String getData()
+	{
+		return this.data;
+	}
+
+	/**
+	 * Getter method for 'this.line'
+	 * @return int
+	 */
+	public int getLine()
+	{
+		return this.line;
+	}
+
+	/**
+	 * Getter method for 'this.index_start'
+	 * @return int
+	 */
+	public int getIndexStart()
+	{
+		return this.index_start;
+	}
+
+	/**
+	 * Getter method for 'this.index_end'
+	 * @return int
+	 */
+	public int getIndexEnd()
+	{
+		return this.index_end;
+	}
+
+	
 	@Override
 	public String toString()
 	{

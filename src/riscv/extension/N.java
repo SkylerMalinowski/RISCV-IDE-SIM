@@ -21,9 +21,11 @@
 
 package riscv.extension;
 
-/*
+/**
  * N :: User-Level Interrupts
  * Standard, Version: 1.1
+ * @author Skyler Malinowski
+ * @version February 2018
  */
 public class N
 {

@@ -21,54 +21,38 @@
 
 package assembler;
 
+import riscv.ErrorMessage;
 import riscv.Program;
+import riscv.RISCV;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-
 /**
- * Tokenizes the string input
+ * Tokenizes the program
  * @author Skyler Malinowski
  * @version February 2018
  */
-
 public class Lexer
 {
-	private Class base;
-	private List extensions;
+	private RISCV riscv;
 	
 	/**
 	 * Constructor saves current state of base and extensions
 	 * @param base
 	 * @param extensions
 	 */
-	public Lexer(Class base, List extensions)
+	public Lexer(RISCV riscv)
 	{
-		setBase(base);
-		setExtensions(extensions);
+		this.riscv = riscv;
 	}
 
 	/**
-	 * Setter method for 'this.base'
-	 * @param base
+	 * Converts raw text into tokens
+	 * @param program
 	 */
-	public void setBase(Class base)
-	{
-		this.base = base;
-	}
-		
-	/**
-	 * Setter method for 'this.base'
-	 * @param extensions
-	 */
-	public void setExtensions(List extenions)
-	{
-		this.extensions = extensions;
-	}
-
 	public void lex(Program program)
 	{
 		StringBuffer tokenPatternsBuffer = new StringBuffer();
@@ -76,7 +60,7 @@ public class Lexer
 		for (TokenType tokenType : TokenType.values())
 			tokenPatternsBuffer.append(String.format("|(?<%s>%s)", tokenType.name(), tokenType.pattern));
 		
-		Pattern tokenPatterns = Pattern.compile(new String(tokenPatternsBuffer.substring(1)),Pattern.CASE_INSENSITIVE);
+		Pattern tokenPatterns = Pattern.compile(new String(tokenPatternsBuffer.substring(1)));
 		
 		int i = 1;
 		for (String line : program.getSource())
@@ -87,45 +71,48 @@ public class Lexer
 			while (matcher.find())
 			{
 				if (matcher.group(TokenType.WHITESPACE.name()) != null)
-				{
 					continue;
-				}
+				
 				else if (matcher.group(TokenType.COMMENT.name()) != null)
-				{
 					continue;
-				}
-				else if (matcher.group(TokenType.NUMBER.name()) != null)
-				{
-					tokens.add(new Token(TokenType.NUMBER,matcher.group(TokenType.NUMBER.name()),i,matcher.start(),matcher.end()));
-					continue;
-				}
-				else if (matcher.group(TokenType.REGISTER.name()) != null)
-				{
-					tokens.add(new Token(TokenType.REGISTER,matcher.group(TokenType.REGISTER.name()),i,matcher.start(),matcher.end()));
-					continue;
-				}
-				else if (matcher.group(TokenType.LITERAL.name()) != null)
-				{
-					tokens.add(new Token(TokenType.LITERAL,matcher.group(TokenType.LITERAL.name()),i,matcher.start(),matcher.end()));
-					continue;
-				}
-				else if (matcher.group(TokenType.SYMBOL.name()) != null)
-				{
-					tokens.add(new Token(TokenType.SYMBOL,matcher.group(TokenType.SYMBOL.name()),i,matcher.start(),matcher.end()));
-					continue;
-				}
+				
+				else if (matcher.group(TokenType.STRING.name()) != null)
+					tokens.add(new Token(TokenType.STRING,matcher.group(TokenType.STRING.name()),i,matcher.start(),matcher.end()));
+
 				else if (matcher.group(TokenType.DIRECTIVE.name()) != null)
-				{
 					tokens.add(new Token(TokenType.DIRECTIVE,matcher.group(TokenType.DIRECTIVE.name()),i,matcher.start(),matcher.end()));
-					continue;
-				}
-				else
-				{
-					System.out.println("else");
-				}
+				
+				else if (matcher.group(TokenType.NUMBER.name()) != null)
+					tokens.add(new Token(TokenType.NUMBER,matcher.group(TokenType.NUMBER.name()),i,matcher.start(),matcher.end()));
+				
+				else if (matcher.group(TokenType.REGISTER.name()) != null)
+					tokens.add(new Token(TokenType.REGISTER,matcher.group(TokenType.REGISTER.name()),i,matcher.start(),matcher.end()));
+
+				else if (matcher.group(TokenType.COMMA.name()) != null)
+					tokens.add(new Token(TokenType.COMMA,matcher.group(TokenType.COMMA.name()),i,matcher.start(),matcher.end()));
+
+				else if (matcher.group(TokenType.LeftParenthesis.name()) != null)
+					tokens.add(new Token(TokenType.LeftParenthesis,matcher.group(TokenType.LeftParenthesis.name()),i,matcher.start(),matcher.end()));
+
+				else if (matcher.group(TokenType.RightParenthesis.name()) != null)
+					tokens.add(new Token(TokenType.RightParenthesis,matcher.group(TokenType.RightParenthesis.name()),i,matcher.start(),matcher.end()));
+				
+				else if (matcher.group(TokenType.LABEL.name()) != null)
+					tokens.add(new Token(TokenType.LABEL,matcher.group(TokenType.LABEL.name()),i,matcher.start(),matcher.end()));
+				
+				else if (matcher.group(TokenType.LITERAL.name()) != null)
+					tokens.add(new Token(TokenType.LITERAL,matcher.group(TokenType.LITERAL.name()),i,matcher.start(),matcher.end()));
+				
+				//else if (matcher.group(TokenType.SYMBOL.name()) != null)
+					//tokens.add(new Token(TokenType.SYMBOL,matcher.group(TokenType.SYMBOL.name()),i,matcher.start(),matcher.end()));
+				
+				else if (matcher.group(TokenType.UNKNOWN.name()) != null)
+					program.appendErrorList(new ErrorMessage(ErrorMessage.ERROR,i,matcher.start(),"Unknown Token \"" + matcher.group(TokenType.UNKNOWN.name()) + "\""));
 			}
+			
 			program.appendTokenList(tokens);
 			i+=1;
 		}
 	}
+	
 }

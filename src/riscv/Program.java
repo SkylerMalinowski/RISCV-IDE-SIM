@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018,  @authors
  * @author Skyler Malinowski  @email skyler.malinowski@gmail.com
- * @author Arjun Ohri         @email aorhi@att.net
+ * @author Arjun Ohri         @email aohri@att.net
  * @author Alejandro Aguilar  @email alejandro.aguilar1195@gmail.com
  * @author Raj Balaji         @email nintedraj@gmail.com
  * 
@@ -22,6 +22,7 @@
 package riscv;
 
 import assembler.Token;
+import assembler.TokenType;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,27 +33,27 @@ import java.util.ArrayList;
 
 /**
  * Class to represent a file and its associations for processing
- * 
  * @author Skyler Malinowski
  * @version February 2018
  */
-
 public class Program
 {
 	private File file;
 	private ArrayList<String> source;
 	private ArrayList<ArrayList<Token>> tokenList;
+	private ArrayList<Token> tokenStream;
 	private ArrayList<ErrorMessage> errorList;
 
 	/**
 	 * Constructor initializes all 'Program.class' variables, then sets file and source
-	 * @param 'this.file'
+	 * @param filePath
 	 */
 	public Program(String filePath)
 	{
-		source = new ArrayList<String>();
-		tokenList = new ArrayList<ArrayList<Token>>();
-		errorList = new ArrayList<ErrorMessage>();
+		this.source = new ArrayList<String>();
+		this.tokenList = new ArrayList<ArrayList<Token>>();
+		this.tokenStream = new ArrayList<Token>();
+		this.errorList = new ArrayList<ErrorMessage>();
 		
 		setFile(filePath);
 		setSource(getFile().getAbsolutePath());
@@ -103,10 +104,7 @@ public class Program
 		}
 		catch(FileNotFoundException ex)
 		{
-			ErrorMessage message = new ErrorMessage();
-			message.Message("Unable to open file '" + filePath + "'");
-			//System.out.println(message);
-			this.errorList.add(message);
+			this.errorList.add(new ErrorMessage(ErrorMessage.ERROR,"Unable to open file '" + filePath + "'"));
 		}
 		catch (IOException e)
 		{
@@ -132,14 +130,45 @@ public class Program
 		this.tokenList.add(tokenList);
 	}
 	
+	public ArrayList<Token> getTokenStream()
+	{
+		return this.tokenStream;
+	}
+	
+	public void buildTokenStream()
+	{
+		for (ArrayList<Token> tokenLine : this.getTokenList())
+		{
+			for (Token token : tokenLine)
+			{
+				this.tokenStream.add(token);
+			}
+			this.tokenStream.add(new Token(TokenType.EOL, null, 0, 0, 0));
+		}
+	}
+	
+	/**
+	 * Method gets 'this.errorList'
+	 * @return
+	 */
+	public ArrayList<ErrorMessage> getErrorList()
+	{
+		return this.errorList;
+	}
+	
 	/**
 	 * Method prints 'this.errorList'
 	 */
 	public void printErrorList()
 	{
-		for (ErrorMessage error : this.errorList)
+		if (this.errorList.size() != 0)
 		{
-			System.out.println(error.toString() + "\n");
+			for (ErrorMessage error : this.errorList)
+			{
+				if (error.getIsError())
+					System.out.println(error.toString());
+			}
+			System.out.println();
 		}
 	}
 	
@@ -151,13 +180,4 @@ public class Program
 	{
 		this.errorList.add(error);
 	}
-	
-	// Debugging
-	@SuppressWarnings("unused")
-	public static void main(String[] args)
-	{
-		String filePath = "C:\\Users\\Skyler Malinowski\\Documents\\GitHub\\RISCV-IDE-SIM\\src\\test.asm";
-		Program program = new Program(filePath);
-	}
-
 }

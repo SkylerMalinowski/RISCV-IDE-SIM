@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018,  @authors
  * @author Skyler Malinowski  @email skyler.malinowski@gmail.com
- * @author Arjun Ohri         @email aorhi@att.net
+ * @author Arjun Ohri         @email aohri@att.net
  * @author Alejandro Aguilar  @email alejandro.aguilar1195@gmail.com
  * @author Raj Balaji         @email nintedraj@gmail.com
  * 
@@ -21,39 +21,94 @@
 
 package assembler;
 
-import java.util.List;
+import riscv.ErrorMessage;
+import riscv.Program;
+import riscv.RISCV;
 
+import java.util.ArrayList;
+
+/**
+ * Checks program grammar with given bases and extensions
+ * @author Skyler Malinowski
+ * @version February 2018
+ */
 public class Parser
 {
-	private Class base;
-	private List extensions;
+	RISCV riscv;
   
 	/**
 	 * Constructor saves current state of base and extensions
 	 * @param base
 	 * @param extensions
 	 */
-	public Parser(Class base, List extensions)
+	public Parser(RISCV riscv)
 	{
-		this.base = base;
-		this.extensions = extensions;
+		this.riscv = riscv;
 	}
 	
 	/**
-	 * Setter method for 'this.base'
-	 * @param base
+	 * Grammar checks program after Lexing
+	 * @param program
 	 */
-	public void setBase(Class base)
+	public void parse(Program program)
 	{
-	this.base = base;
+		for (int i = 0; i < program.getTokenStream().size(); ++i)
+		{
+			//System.out.println(program.getTokenStream().get(i).getType());
+			switch (program.getTokenStream().get(i).getType())
+			{
+			case EOL :
+				// Ignore this Token Type
+				break;
+			case DIRECTIVE :
+				i = lookupDirective(program, i);
+				break;
+			case LITERAL :
+				i = lookupLiteral(program,i);
+				break;
+			case LABEL :
+				break;
+			default :
+				program.appendErrorList(new ErrorMessage(ErrorMessage.ERROR, program.getTokenStream().get(i).getLine(), 
+						program.getTokenStream().get(i).getIndexStart(), ""+program.getTokenStream().get(i)));
+				break;
+			}
+		}
 	}
-	  
-	/**
-	 * Setter method for 'this.base'
-	 * @param extensions
-	 */
-	public void setExtensions(List extenions)
+	
+	private int lookupDirective(Program program, int i)
 	{
-		this.extensions = extensions;
+		return i;
+	}
+
+	private int lookupLiteral(Program program, int i)
+	{
+		ArrayList<Token> expectedTokens = riscv.lookupInstruction(program.getTokenStream().get(i));
+		
+		// If instruction does not exist find the next EOL token then progress like normal after error report
+		if (expectedTokens.size() == 0)
+		{
+			program.appendErrorList(new ErrorMessage(ErrorMessage.ERROR,"Instruction does not exist."));
+			while (program.getTokenStream().get(i).getType() != TokenType.EOL)
+				++i;
+		}
+		else
+		{
+			for (; i < program.getTokenStream().size(); ++i)
+			{
+				if (program.getTokenStream().get(i).getType() == expectedTokens.get(0).getType())
+				{
+					expectedTokens.remove(0);
+				}
+				else
+				{
+					System.out.println("Error");
+					
+					while (program.getTokenStream().get(i).getType() != TokenType.EOL)
+						++i;
+				}
+			} 
+		}
+		return i;
 	}
 }

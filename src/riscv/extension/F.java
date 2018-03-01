@@ -21,11 +21,22 @@
 
 package riscv.extension;
 
-/*
+import riscv.InstructionType;
+
+import java.util.HashMap;
+
+/**
  * F :: Single-Precision Floating-Point
  * Standard, Version: 2.0
+ * @author Skyler Malinowski
+ * @version February 2018
  */
 public class F
 {
+public HashMap<String, InstructionType> TypeMap;
 	
+	public F()
+	{
+		TypeMap = new HashMap<String, InstructionType>();
+	}
 }

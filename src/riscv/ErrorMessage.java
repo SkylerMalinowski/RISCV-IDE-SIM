@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018,  @authors
  * @author Skyler Malinowski  @email skyler.malinowski@gmail.com
- * @author Arjun Ohri         @email aorhi@att.net
+ * @author Arjun Ohri         @email aohri@att.net
  * @author Alejandro Aguilar  @email alejandro.aguilar1195@gmail.com
  * @author Raj Balaji         @email nintedraj@gmail.com
  * 
@@ -21,25 +21,53 @@
 
 package riscv;
 
+/**
+ * A class to contain error reporting information
+ * @author Skyler Malinowski
+ * @version February 2018
+ */
 public class ErrorMessage
 {
 	private boolean isError;
-	private int line;
-	private int index;
+	private int line = -1;
+	private int index = -1;
 	private String message;
-	
-	
+
 	public static final boolean ERROR = true;
 	public static final boolean WARNING = false;
+
+	/**
+	 * Constructor to generate an an error report
+	 * @param isError
+	 * @param message
+	 */
+	public ErrorMessage(boolean isError, String message)
+	{
+		this.isError = isError;
+		this.message = message;
+	}
 	
 	/**
 	 * Constructor to generate an an error report
 	 * @param isError
 	 * @param line
-	 * @param position
 	 * @param message
 	 */
-	public void Message(boolean isError, int line, int index, String message)
+	public ErrorMessage(boolean isError, int line, String message)
+	{
+		this.isError = isError;
+		this.line = line;
+		this.message = message;
+	}
+	
+	/**
+	 * Constructor to generate an an error report
+	 * @param isError
+	 * @param line
+	 * @param index
+	 * @param message
+	 */
+	public ErrorMessage(boolean isError, int line, int index, String message)
 	{
 		this.isError = isError;
 		this.line = line;
@@ -47,27 +75,54 @@ public class ErrorMessage
 		this.message = message;
 	}
 	
-	public void Message(String message)
+	@Override
+	public String toString()
 	{
-		this.isError = ERROR;
-		this.message = message;
+		String error;
+		if (this.getIsError())
+			error = "Error";
+		else
+			error = "Warning";
+			
+		if (this.line == -1 && this.index == -1)
+			return error+": "+this.getMessage(); 
+		if (this.line != -1 && this.index == -1)
+			return error+" on line "+this.getLine()+": "+this.getMessage();
+		else
+			return error+" on line "+this.getLine()+" at index "+this.getIndex()+": "+this.getMessage();
 	}
 	
+	/**
+	 * Getter method for 'this.isError'
+	 * @return
+	 */
 	public boolean getIsError()
 	{
 		return this.isError;
 	}
 	
+	/**
+	 * Getter method for 'this.line'
+	 * @return
+	 */
 	public int getLine()
 	{
 		return this.line;
 	}
 	
-	public int getPosition()
+	/**
+	 * Getter method for 'this.index'
+	 * @return
+	 */
+	public int getIndex()
 	{
 		return this.index;
 	}
 	
+	/**
+	 * Getter method for 'this.message'
+	 * @return
+	 */
 	public String getMessage()
 	{
 		return this.message;
