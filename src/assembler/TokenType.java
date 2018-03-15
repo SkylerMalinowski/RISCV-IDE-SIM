@@ -49,10 +49,10 @@ public enum TokenType
 	COMMA(","),               // Separator
 	LeftParenthesis("\\("),   // Left Parenthesis
 	RightParenthesis("\\)"),  // Right Parenthesis
-	LABEL("[a-zA-Z]+:"),      // Special type of word
+	LABEL("[a-zA-Z0-9]+:"),      // Special type of word
 	LITERAL("[\\w\\._]+"),    // Catch all for words
 	//SYMBOL("\\W"),            // Catch all for symbols
-	UNKNOWN("\\W+"),        // Everything else
+	UNKNOWN("\\W+"),          // Everything else
 	EOL("\r\n\f");
 	
 	public final String pattern;

@@ -31,7 +31,7 @@ public class ErrorMessage
 	private boolean isError;
 	private int line = -1;
 	private int index = -1;
-	private String message;
+	private String message = null;
 
 	public static final boolean ERROR = true;
 	public static final boolean WARNING = false;
@@ -79,26 +79,17 @@ public class ErrorMessage
 	public String toString()
 	{
 		String error;
-		if (this.getIsError())
+		if (this.isError == true)
 			error = "Error";
 		else
 			error = "Warning";
-			
+		
 		if (this.line == -1 && this.index == -1)
 			return error+": "+this.getMessage(); 
 		if (this.line != -1 && this.index == -1)
-			return error+" on line "+this.getLine()+": "+this.getMessage();
+			return error+": line "+this.getLine()+": "+this.getMessage();
 		else
-			return error+" on line "+this.getLine()+" at index "+this.getIndex()+": "+this.getMessage();
-	}
-	
-	/**
-	 * Getter method for 'this.isError'
-	 * @return
-	 */
-	public boolean getIsError()
-	{
-		return this.isError;
+			return error+": line "+this.getLine()+" at index "+this.getIndex()+": "+this.getMessage();
 	}
 	
 	/**

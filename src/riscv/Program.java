@@ -42,7 +42,9 @@ public class Program
 	private ArrayList<String> source;
 	private ArrayList<ArrayList<Token>> tokenList;
 	private ArrayList<Token> tokenStream;
+	private ArrayList<Token> labelList;
 	private ArrayList<ErrorMessage> errorList;
+	private ArrayList<ErrorMessage> warningList;
 
 	/**
 	 * Constructor initializes all 'Program.class' variables, then sets file and source
@@ -53,7 +55,9 @@ public class Program
 		this.source = new ArrayList<String>();
 		this.tokenList = new ArrayList<ArrayList<Token>>();
 		this.tokenStream = new ArrayList<Token>();
+		this.labelList = new ArrayList<Token>();
 		this.errorList = new ArrayList<ErrorMessage>();
+		this.warningList = new ArrayList<ErrorMessage>();
 		
 		setFile(filePath);
 		setSource(getFile().getAbsolutePath());
@@ -130,21 +134,62 @@ public class Program
 		this.tokenList.add(tokenList);
 	}
 	
+	/**
+	 * Method gets 'this.tokenStream'
+	 * @return this.tokenStream
+	 */
 	public ArrayList<Token> getTokenStream()
 	{
 		return this.tokenStream;
 	}
 	
+	/**
+	 * Generates tokenStream from stored lines of tokens
+	 */
 	public void buildTokenStream()
 	{
+		int line = 0;
 		for (ArrayList<Token> tokenLine : this.getTokenList())
 		{
 			for (Token token : tokenLine)
 			{
 				this.tokenStream.add(token);
 			}
-			this.tokenStream.add(new Token(TokenType.EOL, null, 0, 0, 0));
+			this.tokenStream.add(new Token(TokenType.EOL, null, line, 0, 0));
+			++line;
 		}
+	}
+	
+	/**
+	 * Method appends 'this.labelList'
+	 */
+	public void appendLabelList(Token token)
+	{
+		this.labelList.add(token);
+	}
+	
+	/**
+	 * Getter method for 'this.labelList'
+	 * @return
+	 */
+	public ArrayList<Token> getLabelList()
+	{
+		return this.labelList;
+	}
+	
+	/**
+	 * Checks if a label has already been used
+	 * @param token
+	 * @return
+	 */
+	public boolean labelUsed(Token token)
+	{
+		for (Token t : this.labelList)
+		{
+			if (token.getData().toUpperCase().equals(t.getData().toUpperCase()))
+				return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -161,15 +206,11 @@ public class Program
 	 */
 	public void printErrorList()
 	{
-		if (this.errorList.size() != 0)
+		for (ErrorMessage error : this.errorList)
 		{
-			for (ErrorMessage error : this.errorList)
-			{
-				if (error.getIsError())
-					System.out.println(error.toString());
-			}
-			System.out.println();
+			System.out.println(error.toString());
 		}
+		System.out.println();
 	}
 	
 	/**
@@ -179,5 +220,35 @@ public class Program
 	public void appendErrorList(ErrorMessage error)
 	{
 		this.errorList.add(error);
+	}
+	
+	/**
+	 * Method gets 'this.errorList'
+	 * @return
+	 */
+	public ArrayList<ErrorMessage> getWarningList()
+	{
+		return this.warningList;
+	}
+	
+	/**
+	 * Method prints 'this.warningList'
+	 */
+	public void printWarningList()
+	{
+		for (ErrorMessage warning : this.warningList)
+		{
+			System.out.println(warning.toString());
+		}
+		System.out.println();
+	}
+	
+	/**
+	 * Method appends 'this.warningList'
+	 * @param errorList
+	 */
+	public void appendWarningList(ErrorMessage warning)
+	{
+		this.warningList.add(warning);
 	}
 }

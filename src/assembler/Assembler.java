@@ -57,11 +57,19 @@ public class Assembler
 		
 		Parser parser = new Parser(this.riscv);
 		parser.parse(program);
-
-		if (program.getErrorList().size() != 0)
+		
+		if (program.getWarningList().size() > 0)
 		{
+			System.out.println("Assembler: completed with these warnings:\n");
+			program.printWarningList();
+		}
+		else
+			System.out.println("Assembler: completed without warnings.\n");
+
+		if (program.getErrorList().size() > 0)
+		{
+			System.out.println("Assembler: completed with these errors:\n");
 			program.printErrorList();
-			System.out.println("\nAssembler: completed with errors.\n");
 		}
 		else
 			System.out.println("Assembler: completed without errors.\n");

@@ -26,11 +26,12 @@ import riscv.Program;
 import riscv.RISCV;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Checks program grammar with given bases and extensions
  * @author Skyler Malinowski
- * @version February 2018
+ * @version March 2018
  */
 public class Parser
 {
@@ -52,63 +53,230 @@ public class Parser
 	 */
 	public void parse(Program program)
 	{
-		for (int i = 0; i < program.getTokenStream().size(); ++i)
+		while (program.getTokenStream().size() > 0)
 		{
-			//System.out.println(program.getTokenStream().get(i).getType());
-			switch (program.getTokenStream().get(i).getType())
+			switch (program.getTokenStream().get(0).getType())
 			{
 			case EOL :
-				// Ignore this Token Type
+				program.getTokenStream().remove(0);
 				break;
 			case DIRECTIVE :
-				i = lookupDirective(program, i);
+				lookupDirective(program);
 				break;
 			case LITERAL :
-				i = lookupLiteral(program,i);
+				lookupLiteral(program);
 				break;
 			case LABEL :
+				lookupLabel(program);
 				break;
 			default :
-				program.appendErrorList(new ErrorMessage(ErrorMessage.ERROR, program.getTokenStream().get(i).getLine(), 
-						program.getTokenStream().get(i).getIndexStart(), ""+program.getTokenStream().get(i)));
+				program.appendErrorList(new ErrorMessage(
+						ErrorMessage.ERROR, 
+						program.getTokenStream().get(0).getLine(), 
+						program.getTokenStream().get(0).getIndexStart(), 
+						"Token '"+program.getTokenStream().get(0)+"' should not be there."
+						));
+				
+				errorRecovery(program);
 				break;
 			}
 		}
 	}
-	
-	private int lookupDirective(Program program, int i)
-	{
-		return i;
-	}
 
-	private int lookupLiteral(Program program, int i)
+	/**
+	 * Verifies if the literal instruction is valid and if the arguments take the correct form
+	 * @param program
+	 */
+	private void lookupLiteral(Program program)
 	{
-		ArrayList<Token> expectedTokens = riscv.lookupInstruction(program.getTokenStream().get(i));
+		ArrayList<Token> expectedTokens = riscv.lookupInstruction(program.getTokenStream().get(0));
 		
-		// If instruction does not exist find the next EOL token then progress like normal after error report
-		if (expectedTokens.size() == 0)
+		if (expectedTokens.size() > 0)
 		{
-			program.appendErrorList(new ErrorMessage(ErrorMessage.ERROR,"Instruction does not exist."));
-			while (program.getTokenStream().get(i).getType() != TokenType.EOL)
-				++i;
-		}
-		else
-		{
-			for (; i < program.getTokenStream().size(); ++i)
+			// Strip off valid token from stream
+			program.getTokenStream().remove(0);
+			
+			while (program.getTokenStream().size() > 0 && expectedTokens.size() > 0)
 			{
-				if (program.getTokenStream().get(i).getType() == expectedTokens.get(0).getType())
+				if (program.getTokenStream().get(0).getType() == expectedTokens.get(0).getType())
 				{
+					// Consume the matching tokens
+					program.getTokenStream().remove(0);
 					expectedTokens.remove(0);
+				}
+				else if (program.getTokenStream().get(0).getType() == TokenType.EOL 
+						&& program.getTokenStream().get(1).getType() == expectedTokens.get(0).getType())
+				{
+					program.appendWarningList(new ErrorMessage(
+							ErrorMessage.WARNING, 
+							program.getTokenStream().get(1).getLine(), 
+							"Instruction is split over multiple lines."
+							));
+					
+					program.getTokenStream().remove(0);
 				}
 				else
 				{
-					System.out.println("Error");
+					program.appendErrorList(new ErrorMessage(
+							ErrorMessage.ERROR, 
+							program.getTokenStream().get(0).getLine(), 
+							"Instruction does take the proper form."
+							));
 					
-					while (program.getTokenStream().get(i).getType() != TokenType.EOL)
-						++i;
+					expectedTokens = new ArrayList<Token>();
+					
+					errorRecovery(program);
 				}
-			} 
+			}
 		}
-		return i;
+		else
+		{
+			program.appendErrorList(new ErrorMessage(
+					ErrorMessage.ERROR, 
+					program.getTokenStream().get(0).getLine(), 
+					"Instruction does not exist."
+					));
+			
+			errorRecovery(program);
+		}
+	}
+	
+	/**
+	 * Verifies if directive is valid and if the arguments take the correct form
+	 * @param program
+	 */
+	private void lookupDirective(Program program)
+	{
+		ArrayList<Token> expectedTokens = riscv.lookupDirective(program.getTokenStream().get(0));
+		
+		if (expectedTokens.size() > 0)
+		{
+			// Strip off valid token from stream
+			program.getTokenStream().remove(0);
+			
+			while (program.getTokenStream().size() > 0 && expectedTokens.size() > 0)
+			{
+				if (expectedTokens.get(0).getData() == null)
+				{
+					if (program.getTokenStream().get(0).getType() == expectedTokens.get(0).getType())
+					{
+						program.getTokenStream().remove(0);
+						expectedTokens = new ArrayList<Token>();
+					}
+					else
+					{
+						program.appendErrorList(new ErrorMessage(
+								ErrorMessage.ERROR, 
+								program.getTokenStream().get(0).getLine(), 
+								"Directive does take the proper form."
+								));
+						
+						expectedTokens = new ArrayList<Token>();
+						
+						errorRecovery(program);
+					}
+				}
+				else
+				{
+					switch (expectedTokens.get(0).getData())
+					{
+					case "?" :  // zero or one
+						if (program.getTokenStream().get(0).getType() == expectedTokens.get(0).getType())
+						{
+							program.getTokenStream().remove(0);
+							expectedTokens = new ArrayList<Token>();
+						}
+						else
+						{
+							expectedTokens = new ArrayList<Token>();
+						}
+						break;
+					
+					case "+" :  // one plus
+						if (program.getTokenStream().get(0).getType() == expectedTokens.get(0).getType())
+						{
+							program.getTokenStream().remove(0);
+							
+							if (program.getTokenStream().get(0).getType() != expectedTokens.get(0).getType())
+								expectedTokens = new ArrayList<Token>();
+						}
+						else
+						{
+							program.appendErrorList(new ErrorMessage(
+									ErrorMessage.ERROR, 
+									program.getTokenStream().get(0).getLine(), 
+									"Directive does take the proper form."
+									));
+							
+							expectedTokens = new ArrayList<Token>();
+						}
+						break;
+					
+					default :
+						break;
+					}
+				}
+			}
+		}
+		else
+		{
+			program.appendErrorList(new ErrorMessage(
+					ErrorMessage.ERROR, 
+					program.getTokenStream().get(0).getLine(), 
+					"Directive does not exist."
+					));
+			
+			errorRecovery(program);
+		}
+	}
+	
+	/**
+	 * Determines if label is valid and has not been used
+	 * @param program
+	 */
+	private void lookupLabel(Program program)
+	{
+		// Check if label name has been used
+		if (program.labelUsed(program.getTokenStream().get(0)))
+		{
+			program.appendErrorList(new ErrorMessage(
+					ErrorMessage.ERROR, 
+					program.getTokenStream().get(0).getLine(), 
+					"Label already used."
+					));
+			
+			errorRecovery(program);
+		}
+		else
+		{
+			program.appendLabelList(program.getTokenStream().get(0));
+			program.getTokenStream().remove(0);
+		}
+		
+		if (Objects.equals(program.getTokenStream().get(0).getData(), ".data")
+				|| Objects.equals(program.getTokenStream().get(0).getData(), ".text"))
+		{
+			program.appendErrorList(new ErrorMessage(
+					ErrorMessage.ERROR, 
+					program.getTokenStream().get(0).getLine(), 
+					"Label cannot precede directive."
+					));
+			
+			errorRecovery(program);
+		}
+	}
+	
+	/**
+	 * Recover from parse error by finding an EOL Token
+	 * @param program
+	 */
+	private void errorRecovery(Program program)
+	{
+		// Consume Tokens until EOL Token is reached
+		while (program.getTokenStream().get(0).getType() != TokenType.EOL)
+			program.getTokenStream().remove(0);
+		
+		// Consume EOL Token
+		program.getTokenStream().remove(0);
 	}
 }

@@ -88,8 +88,8 @@ public class Lexer
 				else if (matcher.group(TokenType.REGISTER.name()) != null)
 					tokens.add(new Token(TokenType.REGISTER,matcher.group(TokenType.REGISTER.name()),i,matcher.start(),matcher.end()));
 
-				else if (matcher.group(TokenType.COMMA.name()) != null)
-					tokens.add(new Token(TokenType.COMMA,matcher.group(TokenType.COMMA.name()),i,matcher.start(),matcher.end()));
+				//else if (matcher.group(TokenType.COMMA.name()) != null)
+					//tokens.add(new Token(TokenType.COMMA,matcher.group(TokenType.COMMA.name()),i,matcher.start(),matcher.end()));
 
 				else if (matcher.group(TokenType.LeftParenthesis.name()) != null)
 					tokens.add(new Token(TokenType.LeftParenthesis,matcher.group(TokenType.LeftParenthesis.name()),i,matcher.start(),matcher.end()));
@@ -98,16 +98,19 @@ public class Lexer
 					tokens.add(new Token(TokenType.RightParenthesis,matcher.group(TokenType.RightParenthesis.name()),i,matcher.start(),matcher.end()));
 				
 				else if (matcher.group(TokenType.LABEL.name()) != null)
-					tokens.add(new Token(TokenType.LABEL,matcher.group(TokenType.LABEL.name()),i,matcher.start(),matcher.end()));
-				
+				{
+					String str = matcher.group(TokenType.LABEL.name());
+					tokens.add(new Token(TokenType.LABEL,str.substring(0, str.length()-1),i,matcher.start(),matcher.end()));
+				}
 				else if (matcher.group(TokenType.LITERAL.name()) != null)
 					tokens.add(new Token(TokenType.LITERAL,matcher.group(TokenType.LITERAL.name()),i,matcher.start(),matcher.end()));
 				
-				//else if (matcher.group(TokenType.SYMBOL.name()) != null)
-					//tokens.add(new Token(TokenType.SYMBOL,matcher.group(TokenType.SYMBOL.name()),i,matcher.start(),matcher.end()));
-				
 				else if (matcher.group(TokenType.UNKNOWN.name()) != null)
-					program.appendErrorList(new ErrorMessage(ErrorMessage.ERROR,i,matcher.start(),"Unknown Token \"" + matcher.group(TokenType.UNKNOWN.name()) + "\""));
+					program.appendErrorList(new ErrorMessage(
+							ErrorMessage.ERROR, 
+							i, 
+							matcher.start(),"Unknown Token \"" + matcher.group(TokenType.UNKNOWN.name()) + "\""
+							));
 			}
 			
 			program.appendTokenList(tokens);

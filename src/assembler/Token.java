@@ -87,7 +87,6 @@ public class Token
 		return this.index_end;
 	}
 
-	
 	@Override
 	public String toString()
 	{

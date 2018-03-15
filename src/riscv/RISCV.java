@@ -25,6 +25,7 @@ import riscv.base.*;
 import riscv.extension.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class RISCV
 		this.instructionMap = new HashMap<String,InstructionType>();
 		this.buildInstructionMap();
 	}
-
+	
 	/**
 	 * Method gets 'this.base'
 	 * @return this.base
@@ -194,18 +195,15 @@ public class RISCV
 		if (this.instructionMap.get(token.getData().toUpperCase()) != null)
 		{
 			expectedTokens.add(new Token(TokenType.REGISTER, null, 0, 0, 0));
-			expectedTokens.add(new Token(TokenType.COMMA, null, 0, 0, 0));
 			
 			switch (this.instructionMap.get(token.getData().toUpperCase()))
 			{
 			case R_Type :
 				expectedTokens.add(new Token(TokenType.REGISTER, null, 0, 0, 0));
-				expectedTokens.add(new Token(TokenType.COMMA, null, 0, 0, 0));
 				expectedTokens.add(new Token(TokenType.REGISTER, null, 0, 0, 0));
 				break;
 			case I_Type :
 				expectedTokens.add(new Token(TokenType.REGISTER, null, 0, 0, 0));
-				expectedTokens.add(new Token(TokenType.COMMA, null, 0, 0, 0));
 				expectedTokens.add(new Token(TokenType.NUMBER, null, 0, 0, 0));
 				break;
 			case S_Type :
@@ -216,14 +214,14 @@ public class RISCV
 				break;
 			case B_Type :
 				expectedTokens.add(new Token(TokenType.REGISTER, null, 0, 0, 0));
-				expectedTokens.add(new Token(TokenType.COMMA, null, 0, 0, 0));
-				expectedTokens.add(new Token(TokenType.LABEL, null, 0, 0, 0));
+				expectedTokens.add(new Token(TokenType.LITERAL, null, 0, 0, 0));
 				break;
 			case U_Type :
 				expectedTokens.add(new Token(TokenType.NUMBER, null, 0, 0, 0));
 				break;
 			default :
 				System.out.println("System Internal Error: Token "+this.instructionMap.get(token.getData().toUpperCase())+" not handled.");
+				System.exit(1);
 				break;
 			}
 		}
@@ -233,7 +231,7 @@ public class RISCV
 		}
 		return expectedTokens;
 	}
-	
+
 	/**
 	 * Used by parser to verify directive and know what tokens are expected next in the token stream
 	 * @param token
@@ -241,24 +239,48 @@ public class RISCV
 	public ArrayList<Token> lookupDirective(Token token)
 	{
 		ArrayList<Token> expected = new ArrayList<Token>();
+		
 		switch (token.getData().toUpperCase())
 		{
-		case ".text" :
-			// expect <NUMERIC> or nothing
+		case ".TEXT" :  // read-only section containing executable code
+			expected.add(new Token(TokenType.NUMBER, "?", 0, 0, 0));
 			break;
-		case ".data" :
-			// expect <NUMERIC> or nothing
+		case ".DATA" :  // read-write section containing global or static variables
+			expected.add(new Token(TokenType.NUMBER, "?", 0, 0, 0));
 			break;
-		case ".string" :
-		case ".asciiz" :
-			// expect: <LITERAL>|<VARIABLE> <STRING>
+		case ".RODATA" :  // read-only section containing constant variables
+			break;
+		case ".BSS" :  // read-write section containing uninitialised data
+			break;
+
+		case ".2BYTE" :
+		case ".4BYTE" :
+		case ".8BYTE" :
+		case ".HALF" :
+		case ".WORD" :
+		case ".DWORD" :
+			expected.add(new Token(TokenType.NUMBER, "+", 0, 0, 0));
+			break;
+
+		case ".ASCIIZ" :
+		case ".STRING" :
+			expected.add(new Token(TokenType.STRING, null, 0, 0, 0));
+			break;
+		case ".EQU" :
+		case ".BYTE" :
+			expected.add(new Token(TokenType.NUMBER, null, 0, 0, 0));
+			break;
 		default :
+			System.out.println("System Internal Error: Directive not handled.");
+			System.exit(1);
 			break;
 		}
+		
 		return expected;
 	}
 	
 	// Debugging
+	/*
 	public static void main(String[] args)
 	{
 		// Dynamic Class and class method call
@@ -275,10 +297,11 @@ public class RISCV
 			e.printStackTrace();
 		}
 		*/
-
+		/*
 		String[] str = {"M","A","F","D"};
 		RISCV riscv = new RISCV("RV64I",str);
 		riscv.lookupInstruction(new Token(null, "ADD", 0, 0, 0));
 		riscv.lookupInstruction(new Token(null, "LD", 0, 0, 0));
 	}
+	*/
 }
