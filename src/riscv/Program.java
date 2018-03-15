@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018,  @authors
  * @author Skyler Malinowski  @email skyler.malinowski@gmail.com
- * @author Arjun Ohri         @email aorhi@att.net
+ * @author Arjun Ohri         @email aohri@att.net
  * @author Alejandro Aguilar  @email alejandro.aguilar1195@gmail.com
  * @author Raj Balaji         @email nintedraj@gmail.com
  * 
@@ -22,6 +22,7 @@
 package riscv;
 
 import assembler.Token;
+import assembler.TokenType;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,27 +33,31 @@ import java.util.ArrayList;
 
 /**
  * Class to represent a file and its associations for processing
- * 
  * @author Skyler Malinowski
  * @version February 2018
  */
-
 public class Program
 {
 	private File file;
 	private ArrayList<String> source;
 	private ArrayList<ArrayList<Token>> tokenList;
+	private ArrayList<Token> tokenStream;
+	private ArrayList<Token> labelList;
 	private ArrayList<ErrorMessage> errorList;
+	private ArrayList<ErrorMessage> warningList;
 
 	/**
 	 * Constructor initializes all 'Program.class' variables, then sets file and source
-	 * @param 'this.file'
+	 * @param filePath
 	 */
 	public Program(String filePath)
 	{
-		source = new ArrayList<String>();
-		tokenList = new ArrayList<ArrayList<Token>>();
-		errorList = new ArrayList<ErrorMessage>();
+		this.source = new ArrayList<String>();
+		this.tokenList = new ArrayList<ArrayList<Token>>();
+		this.tokenStream = new ArrayList<Token>();
+		this.labelList = new ArrayList<Token>();
+		this.errorList = new ArrayList<ErrorMessage>();
+		this.warningList = new ArrayList<ErrorMessage>();
 		
 		setFile(filePath);
 		setSource(getFile().getAbsolutePath());
@@ -103,10 +108,7 @@ public class Program
 		}
 		catch(FileNotFoundException ex)
 		{
-			ErrorMessage message = new ErrorMessage();
-			message.Message("Unable to open file '" + filePath + "'");
-			//System.out.println(message);
-			this.errorList.add(message);
+			this.errorList.add(new ErrorMessage(ErrorMessage.ERROR,"Unable to open file '" + filePath + "'"));
 		}
 		catch (IOException e)
 		{
@@ -133,14 +135,82 @@ public class Program
 	}
 	
 	/**
+	 * Method gets 'this.tokenStream'
+	 * @return this.tokenStream
+	 */
+	public ArrayList<Token> getTokenStream()
+	{
+		return this.tokenStream;
+	}
+	
+	/**
+	 * Generates tokenStream from stored lines of tokens
+	 */
+	public void buildTokenStream()
+	{
+		int line = 0;
+		for (ArrayList<Token> tokenLine : this.getTokenList())
+		{
+			for (Token token : tokenLine)
+			{
+				this.tokenStream.add(token);
+			}
+			this.tokenStream.add(new Token(TokenType.EOL, null, line, 0, 0));
+			++line;
+		}
+	}
+	
+	/**
+	 * Method appends 'this.labelList'
+	 */
+	public void appendLabelList(Token token)
+	{
+		this.labelList.add(token);
+	}
+	
+	/**
+	 * Getter method for 'this.labelList'
+	 * @return
+	 */
+	public ArrayList<Token> getLabelList()
+	{
+		return this.labelList;
+	}
+	
+	/**
+	 * Checks if a label has already been used
+	 * @param token
+	 * @return
+	 */
+	public boolean labelUsed(Token token)
+	{
+		for (Token t : this.labelList)
+		{
+			if (token.getData().toUpperCase().equals(t.getData().toUpperCase()))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Method gets 'this.errorList'
+	 * @return
+	 */
+	public ArrayList<ErrorMessage> getErrorList()
+	{
+		return this.errorList;
+	}
+	
+	/**
 	 * Method prints 'this.errorList'
 	 */
 	public void printErrorList()
 	{
 		for (ErrorMessage error : this.errorList)
 		{
-			System.out.println(error.toString() + "\n");
+			System.out.println(error.toString());
 		}
+		System.out.println();
 	}
 	
 	/**
@@ -152,12 +222,33 @@ public class Program
 		this.errorList.add(error);
 	}
 	
-	// Debugging
-	@SuppressWarnings("unused")
-	public static void main(String[] args)
+	/**
+	 * Method gets 'this.errorList'
+	 * @return
+	 */
+	public ArrayList<ErrorMessage> getWarningList()
 	{
-		String filePath = "C:\\Users\\Skyler Malinowski\\Documents\\GitHub\\RISCV-IDE-SIM\\src\\test.asm";
-		Program program = new Program(filePath);
+		return this.warningList;
 	}
-
+	
+	/**
+	 * Method prints 'this.warningList'
+	 */
+	public void printWarningList()
+	{
+		for (ErrorMessage warning : this.warningList)
+		{
+			System.out.println(warning.toString());
+		}
+		System.out.println();
+	}
+	
+	/**
+	 * Method appends 'this.warningList'
+	 * @param errorList
+	 */
+	public void appendWarningList(ErrorMessage warning)
+	{
+		this.warningList.add(warning);
+	}
 }

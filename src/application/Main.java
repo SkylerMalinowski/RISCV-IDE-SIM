@@ -35,7 +35,6 @@ import javafx.scene.Scene;
  * @author Alejandro Aguilar
  * @version February 2018
  */
-
 public class Main extends Application
 {
 	@Override

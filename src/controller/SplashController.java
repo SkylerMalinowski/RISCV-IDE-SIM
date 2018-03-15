@@ -38,12 +38,10 @@ import javafx.stage.Stage;
 
 /**
  * Controls splash screen
- * 
- * @author Alejandro Aguilar
+ * @author Alejandro Agular
  * @author Skyler Malinowski
  * @version February 2018
  */
-
 public class SplashController implements Initializable{
 
 	@FXML

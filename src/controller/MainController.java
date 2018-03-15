@@ -45,9 +45,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- * Controls main application screen buttons and menu items
- * 
- * @author Alejandro Aguilar
+ * Controls main application screen
  * @author Skyler Malinowski
  * @version February 2018
  */

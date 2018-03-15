@@ -21,9 +21,11 @@
 
 package riscv.extension;
 
-/*
+/**
  * C :: Compressed Instructions
  * Standard, Version: 2.0
+ * @author Skyler Malinowski
+ * @version February 2018
  */
 public class C
 {

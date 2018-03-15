@@ -19,15 +19,18 @@
  * @link https://www.gnu.org/licenses/gpl.html
  */
 
-package riscv.extension;
+package riscv;
 
 /**
- * V :: Vector Operations
- * Standard, Version: 0.2
+ * Valid instruction types to be used by hah map
  * @author Skyler Malinowski
  * @version February 2018
  */
-public class V
+public enum InstructionType
 {
-	
+	R_Type,
+	I_Type,
+	S_Type,
+	B_Type,
+	U_Type;
 }

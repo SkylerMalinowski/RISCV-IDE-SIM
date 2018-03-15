@@ -24,19 +24,14 @@ package assembler;
 import riscv.Program;
 import riscv.RISCV;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Deals with interfacing Program with Lexer and Parser
  * @author Skyler Malinowski
  * @version February 2018
  */
-
 public class Assembler
 {
-	private Class base;
-	private List extensions;
+	private RISCV riscv;
 	
 	/**
 	 * Constructor saves state of RISCV in terms of current base and extensions
@@ -44,8 +39,7 @@ public class Assembler
 	 */
 	public Assembler(RISCV riscv)
 	{
-		setBase(riscv.getBase());
-		setExtensions(riscv.getExtensions());
+		this.riscv = riscv;
 	}
 	
 	/**
@@ -54,62 +48,42 @@ public class Assembler
 	 */
 	public void assemble(Program program)
 	{
-		/*
+		System.out.println("Assembler: assembling "+program.getFile()+"\n");
+		
+		Lexer lexer = new Lexer(this.riscv);
 		lexer.lex(program);
 		
-		for (ArrayList<Token> list : program.getTokenList())
-		{
-			System.out.println(list);
-		}
+		program.buildTokenStream();
 		
-		//Parser parser = new Parser(getBase(),getExtensions());
+		Parser parser = new Parser(this.riscv);
+		parser.parse(program);
+		
+		if (program.getWarningList().size() > 0)
+		{
+			System.out.println("Assembler: completed with these warnings:\n");
+			program.printWarningList();
+		}
+		else
+			System.out.println("Assembler: completed without warnings.\n");
 
-		program.printErrorList();
-		*/
-	}
-	
-	/**
-	 * Getter method for 'this.base'
-	 * @return this.base
-	 */
-	public Class getBase()
-	{
-		return this.base;
-	}
-	
-	/**
-	 * Setter method for 'this.base'
-	 * @param base
-	 */
-	public void setBase(Class base)
-	{
-		this.base = base;
-	}
-	
-	/**
-	 * Getter method for 'this.extetnsions'
-	 * @return this.extensions
-	 */
-	public List getExtensions()
-	{
-		return this.extensions;
-	}
-	
-	/**
-	 * Setter method for 'this.base'
-	 * @param extensions
-	 */
-	public void setExtensions(List extenions)
-	{
-		this.extensions = extensions;
+		if (program.getErrorList().size() > 0)
+		{
+			System.out.println("Assembler: completed with these errors:\n");
+			program.printErrorList();
+		}
+		else
+			System.out.println("Assembler: completed without errors.\n");
 	}
 	
 	// Debugging
 	public static void main(String[] args)
 	{
+		String[] exts = {"M","A","F","D"};
 		String filePath = "C:\\Users\\Skyler Malinowski\\Documents\\GitHub\\RISCV-IDE-SIM\\src\\test.asm";
-		RISCV riscv = new RISCV();
+		
+		RISCV riscv = new RISCV("RV64I",exts);
 		Program program = new Program(filePath);
+		
 		Assembler assembler = new Assembler(riscv);
 		assembler.assemble(program);
 	}
