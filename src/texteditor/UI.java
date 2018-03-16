@@ -72,7 +72,7 @@ public class UI extends JFrame implements ActionListener {
     
     public UI() {
         // Set the initial size of the window
-        setSize(800, 800);
+        setSize(500, 500);
 
         // Set the title of the window
         setTitle("Untitled | " + TextEditor.NAME);

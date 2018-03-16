@@ -35,6 +35,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import texteditor.UI;
 
 /**
  * Controls splash screen
@@ -77,10 +79,12 @@ public class SplashController implements Initializable{
 					catch (IOException ex){
 						Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
 					}
+					
 					Scene scene = new Scene(root);
 					Stage stage = new Stage();
 					stage.setScene(scene);
 					stage.show();
+					//new UI().setVisible(true);
 					rootPane.getScene().getWindow().hide(); // remove splash
 					}
 				});
