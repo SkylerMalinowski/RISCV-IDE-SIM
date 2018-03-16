@@ -33,7 +33,7 @@
    <children>
       <ImageView fitHeight="189.0" fitWidth="596.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@risc-v-logo.png" />
+            <Image url="@../image/risc-v-logo.png" />
          </image></ImageView>
       <Pane prefHeight="200.0" prefWidth="200.0">
          <children>

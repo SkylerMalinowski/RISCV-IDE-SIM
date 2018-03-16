@@ -21,9 +21,11 @@
 
 package riscv.extension;
 
-/*
+/**
  * V :: Vector Operations
  * Standard, Version: 0.2
+ * @author Skyler Malinowski
+ * @version February 2018
  */
 public class V
 {

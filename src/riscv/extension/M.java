@@ -21,11 +21,22 @@
 
 package riscv.extension;
 
-/*
+import riscv.InstructionType;
+
+import java.util.HashMap;
+
+/**
  * M :: Integer Multiplication & Division
  * Standard, Version: 2.0
+ * @author Skyler Malinowski
+ * @version February 2018
  */
 public class M
 {
+	public HashMap<String, InstructionType> TypeMap;
 	
+	public M()
+	{
+		TypeMap = new HashMap<String, InstructionType>();
+	}
 }

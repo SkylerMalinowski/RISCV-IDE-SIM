@@ -43,7 +43,7 @@
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="File">
+        <Menu fx:id="newFile" mnemonicParsing="false" onAction="#handleNewFile" text="File">
           <items>
             <MenuItem mnemonicParsing="false" text="New" />
             <MenuItem mnemonicParsing="false" text="Open…" />
@@ -76,7 +76,7 @@
             <Menu mnemonicParsing="false" text="Run" />
             <Menu mnemonicParsing="false" text="Settings">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem fx:id="ModuleExtButton" mnemonicParsing="false" onAction="#handleModuleExtension" text="Module Extenions" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Tools">
@@ -94,24 +94,25 @@
     </MenuBar>
       <StackPane prefHeight="572.0" prefWidth="445.0" VBox.vgrow="ALWAYS">
          <children>
-            <SplitPane dividerPositions="0.5824053452115813" prefHeight="552.0" prefWidth="908.0">
+            <SplitPane dividerPositions="0.5" prefHeight="552.0" prefWidth="908.0">
               <items>
                   <TabPane prefHeight="571.0" prefWidth="447.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                       <Tab text="Editor">
                         <content>
-                          <AnchorPane>
+                          <AnchorPane id="editorPane" prefHeight="387.0" prefWidth="401.0">
                                  <children>
-                                    <SplitPane layoutY="462.0" orientation="VERTICAL" prefHeight="102.0" prefWidth="610.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-10.0">
-                                       <items>
-                                          <AnchorPane prefHeight="112.0" prefWidth="608.0">
-                                             <children>
-                                                <Button id="clear_button" fx:id="clear_button" layoutX="14.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="55.0" text="Clear" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="24.0" />
-                                                <TextArea id="console_text" fx:id="console_text" layoutX="108.0" layoutY="14.0" prefHeight="76.0" prefWidth="399.0" text="hello World" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0" />
-                                             </children>
-                                          </AnchorPane>
-                                       </items>
-                                    </SplitPane>
+                                    <AnchorPane layoutY="439.0" prefHeight="98.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="439.0">
+                                       <children>
+                                          <TextArea id="console_text" fx:id="console_text" prefHeight="69.0" prefWidth="341.0" text="hello World" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="92.0" AnchorPane.rightAnchor="12.0" />
+                                          <Button id="clear_button" fx:id="clear_button" layoutX="21.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="55.0" text="Clear" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="21.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="433.0" prefWidth="445.0" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <VBox fx:id="editorPane" prefHeight="433.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
                                  </children>
                               </AnchorPane>
                         </content>

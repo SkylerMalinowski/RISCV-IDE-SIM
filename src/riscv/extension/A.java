@@ -21,11 +21,22 @@
 
 package riscv.extension;
 
-/*
+import riscv.InstructionType;
+
+import java.util.HashMap;
+
+/**
  * A :: Atomic Instructions
  * Standard, Version: 2.0
+ * @author Skyler Malinowski
+ * @version February 2018
  */
 public class A
 {
+	public HashMap<String, InstructionType> TypeMap;
 	
+	public A()
+	{
+		TypeMap = new HashMap<String, InstructionType>();
+	}
 }

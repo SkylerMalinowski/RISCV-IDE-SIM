@@ -35,7 +35,6 @@ import javafx.scene.Scene;
  * @author Alejandro Aguilar
  * @version February 2018
  */
-
 public class Main extends Application
 {
 	@Override
@@ -55,11 +54,13 @@ public class Main extends Application
 		{
 			e.printStackTrace();
 		}
+		
+
+
 	}
 	
 	public static void main(String[] args)
 	{
 		launch(args);
-		new UI().setVisible(true);
 	}
 }

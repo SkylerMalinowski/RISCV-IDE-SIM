@@ -21,9 +21,11 @@
 
 package riscv.extension;
 
-/*
+/**
  * Q :: Quad-Precision Floating-Point
  * Standard, Version: 2.0
+ * @author Skyler Malinowski
+ * @version February 2018
  */
 public class Q
 {
