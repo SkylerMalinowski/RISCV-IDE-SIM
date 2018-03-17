@@ -24,11 +24,13 @@ package controller;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -74,6 +76,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import texteditor.*;
@@ -107,10 +110,17 @@ public class MainController implements Initializable{
 	private MenuItem onlineDoc_id;
 	
 	@FXML
-	private VBox editorPane;
+	private MenuItem OpenButton;
 	
 	@FXML
 	private MenuItem ModuleExtButton;
+	
+	@FXML
+	private VBox editorPane;
+	
+	
+    private Desktop desktop = Desktop.getDesktop();
+
 	
 
 	
@@ -178,8 +188,16 @@ public class MainController implements Initializable{
 	@FXML
 	private void handleNewFile() throws Exception {
 		new TextEditor().start();
+
 	}
 
+	EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
+	    @Override
+	    public void handle(ActionEvent event) {
+			new TextEditor().start();
+	        event.consume();
+	    }
+	};
 
 	
 	public void initialize(URL url, ResourceBundle rb) {
@@ -188,13 +206,30 @@ public class MainController implements Initializable{
 		new TextEditor().start();
 		
 	}
-//@Override
+	
+	
+	@FXML
+    public void handleOpenFile(){
+    	Stage stage = new Stage();
+    	final FileChooser fileChooser = new FileChooser();
+
+    	OpenButton.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    public void handle(final ActionEvent e) {
+                        File file = fileChooser.showOpenDialog(stage);
+                        if (file != null) {
+                            openFile(file);
+                        }
+                    }
+                });
+    }
 	
 class TextEditor extends Thread{	
 	
 ///public void start(Stage primaryStage) throws Exception {
 	// TODO Auto-generated method stub
-
+	
+    
 
 	@Override
 	public void run()
@@ -209,13 +244,13 @@ class TextEditor extends Thread{
 					// Loading Main GUI
 					Parent root2 = null;
 					try {
-						UI ui = new UI();
+						//UI ui = new UI();
 						//ui.setVisible(true);
 						VBox pane = FXMLLoader.load(getClass().getResource("../application/TextEditor.fxml"));
 						editorPane.getChildren().setAll(pane);
 
 					}catch (IOException ex){
-						Logger.getLogger(OnlineDocController.class.getName()).log(Level.SEVERE, null, ex);	
+						Logger.getLogger(TextController.class.getName()).log(Level.SEVERE, null, ex);	
 					}
 				
 
@@ -230,6 +265,18 @@ class TextEditor extends Thread{
 	}
 	
 	
+}
+
+
+private void openFile(File file) {
+    try {
+        desktop.open(file);
+    } catch (IOException ex) {
+        Logger.getLogger(
+            MainController.class.getName()).log(
+                Level.SEVERE, null, ex
+            );
+    }
 }
 
 
