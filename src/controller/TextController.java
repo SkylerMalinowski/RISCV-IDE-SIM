@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Application;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 //
 //import java.awt.Color;
@@ -35,7 +37,7 @@ import javafx.scene.layout.VBox;
 //
 //
 //
-public class TextController extends VBox {
+public class TextController extends Application {
 	
 	
 	@FXML
@@ -54,6 +56,11 @@ public class TextController extends VBox {
 //                    }
 //                });
     }
+@Override
+public void start(Stage primaryStage) throws Exception {
+	// TODO Auto-generated method stub
+	
+}
 	
 	 
 	
@@ -143,18 +150,18 @@ public class TextController extends VBox {
 //		return textArea;
 //	}
 
-    public String getText() {
-        return textProperty().get();
-    }
-
-    public void setText(String value) {
-        textProperty().set(value);
-    }
-
-    public StringProperty textProperty() {
-        return textArea.textProperty();
-    }
-
+//    public String getText() {
+//        return textProperty().get();
+//    }
+//
+//    public void setText(String value) {
+//        textProperty().set(value);
+//    }
+//
+//    public StringProperty textProperty() {
+//        return textArea.textProperty();
+//    }
+//
 
 //	public void setTextArea(TextArea textArea) {
 //		this.textArea = textArea;

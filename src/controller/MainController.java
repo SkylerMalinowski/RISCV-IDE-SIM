@@ -30,10 +30,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,6 +63,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Element;
 
+import com.sun.xml.internal.ws.org.objectweb.asm.Label;
+
 import controller.SplashController.SplashScreen;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -72,9 +78,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -196,20 +206,28 @@ public class MainController extends Application{
 
 	@FXML
 	private void handleNewFile() throws Exception {
-		Stage stage = new Stage();
-		start(stage);
+		if(textArea.getText() != null) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Warning");
+			alert.setHeaderText("There is some text in editor");
+			alert.setContentText("Would you like to save?");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+			    // ... user chose OK
+				handleSaveFile();
+				textArea.clear();
+			} else {
+			    // ... user chose CANCEL or closed the dialog
+				
+			}
+		
+			
+		}
 
 	}
 
 
-	
-//	public void initialize(URL url, ResourceBundle rb) {
-//		// TODO Auto-generated method stub
-//		// Generating new Slash Screen thread
-//		new TextEditor().start();
-//		
-//	}
-	
 	
 	@FXML
     public void handleOpenFile(){
@@ -226,72 +244,47 @@ public class MainController extends Application{
 ////                    }
 ////                });
 		
-		OpenButton.setOnAction((ActionEvent event)-> {
+		//OpenButton.setOnAction((ActionEvent event)-> {
 			Stage stage = new Stage();
 	      	FileChooser fileChooser = new FileChooser();
                         File file = fileChooser.showOpenDialog(stage);
                         if (file != null) {
-                            openFile(file);
+                            textArea.setText(readFile(file));
                         }
-                });
+              //  });
     }
 	
 	
 	
 	@FXML
     public void handleSaveFile(){
-    	Stage stage = new Stage();
-		SaveFile.setOnAction(new EventHandler<ActionEvent>() {
-	        public void handle(ActionEvent e){
-	            FileChooser fileChooser = new FileChooser();
-	            fileChooser.setTitle("Save File");
-	            File file = fileChooser.showSaveDialog(stage);
-	            if (file != null) {
-	            		//txt.setTextArea(textArea);
-	            		SaveFile(textArea.getText(), file);
-	            }
-	        }
-	    });
+//    	Stage stage = new Stage();
+//		SaveFile.setOnAction(new EventHandler<ActionEvent>() {
+//	        public void handle(ActionEvent e){
+//	            FileChooser fileChooser = new FileChooser();
+//	            fileChooser.setTitle("Save File");
+//	            File file = fileChooser.showSaveDialog(stage);
+//	            if (file != null) {
+//	            		//txt.setTextArea(textArea);
+//	            		SaveFile(textArea.getText(), file);
+//	            }
+//	        }
+//	    });
     	
-//    	SaveFile.setOnAction((ActionEvent event) -> {
-//    		   // 	Stage stage = new Stage();
-////    		        FXMLLoader loader = new FXMLLoader(getClass().getResource("TextController.fxml"));
-////    				;
-////    				TextController controller = new TextController();
-////    				//controller.setTextArea(controller.getTextArea());
-////    				//TextArea txt = controller.getTextArea();
-////    				
-////    				VBox pane = new VBox();
-////    				pane.getChildren().add(controller);
-//    				 FileChooser fileChooser = new FileChooser();
-//    				    //Show save file dialog
-//    				    File file = fileChooser.showSaveDialog(stage);
-//    				    if(file != null){
-//    				        SaveFile(textArea.getText(), file);
-//    				    }
-//    				
-//
-//    		       
-//    		    });
+   		   	Stage stage = new Stage();
+    				 FileChooser fileChooser = new FileChooser();
+    				    //Show save file dialog
+    				    File file = fileChooser.showSaveDialog(stage);
+    				    if(file != null){
+    				        SaveFile(textArea.getText(), file);
+    				    }   		       
 	}
 	
-		private void SaveFile(String content, File file){
-			try {
-		            FileWriter fileWriter = null; 
-		            fileWriter = new FileWriter(file);
-		            fileWriter.write(content);
-		            fileWriter.close();
-		        } catch (IOException ex) {
-		            Logger.getLogger(TextController.class.getName()).log(Level.SEVERE, null, ex);
-		        }
-		         
-		    }
+
 	
 //class TextEditor extends Thread{	
-	
-public void start(Stage primaryStage) throws Exception {
+public void start(Stage primaryStage){
 	// TODO Auto-generated method stub
-	
     
 //
 //	@Override
@@ -328,26 +321,29 @@ public void start(Stage primaryStage) throws Exception {
 		
 		
 //		SaveFile.setOnAction((ActionEvent event) -> {
-//	   // 	Stage stage = new Stage();
-////	        FXMLLoader loader = new FXMLLoader(getClass().getResource("TextController.fxml"));
-////			;
-////			TextController controller = new TextController();
-////			//controller.setTextArea(controller.getTextArea());
-////			//TextArea txt = controller.getTextArea();
-////			
-////			VBox pane = new VBox();
-////			pane.getChildren().add(controller);
+//	    	Stage stage = new Stage();
+//////	        FXMLLoader loader = new FXMLLoader(getClass().getResource("TextController.fxml"));
+//////			;
+//////			TextController controller = new TextController();
+//////			//controller.setTextArea(controller.getTextArea());
+//////			//TextArea txt = controller.getTextArea();
+//////			
+//////			VBox pane = new VBox();
+//////			pane.getChildren().add(controller);
 //			 FileChooser fileChooser = new FileChooser();
-//			    //Show save file dialog
+////			    //Show save file dialog
 //			    File file = fileChooser.showSaveDialog(primaryStage);
 //			    if(file != null){
 //			        SaveFile(textArea.getText(), file);
 //			    }
-//			
-//
-//	       
+////			
+////
+////	       
 //	    });
-		primaryStage.show();
+//		
+//		primaryStage.show();
+	
+ 
 		
 	 	
 	 	
@@ -355,6 +351,11 @@ public void start(Stage primaryStage) throws Exception {
 }
 
 
+
+public static void main(String[] args) {
+    launch(args);
+    
+	}	
 private void openFile(File file) {
     try {
         desktop.open(file);
@@ -368,13 +369,45 @@ private void openFile(File file) {
 
 
 
+private void SaveFile(String content, File file){
+	try {
+            FileWriter fileWriter = null; 
+            fileWriter = new FileWriter(file);
+            fileWriter.write(content);
+            fileWriter.close();
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+    }
 
-	
+private String readFile(File file){
+    StringBuilder stringBuffer = new StringBuilder();
+    BufferedReader bufferedReader = null;
+     
+    try {
+
+        bufferedReader = new BufferedReader(new FileReader(file));
+         
+        String text;
+        while ((text = bufferedReader.readLine()) != null) {
+            stringBuffer.append(text + "\n" );
+        }
+
+    } catch (FileNotFoundException ex) {
+        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+    } finally {
+        try {
+            bufferedReader.close();
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } 
+     
+    return stringBuffer.toString();
+}
 
 
-public static void main(String[] args) {
-    launch(args);
-//    
-	}
-//	
 }
