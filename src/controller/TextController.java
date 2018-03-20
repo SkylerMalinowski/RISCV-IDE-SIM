@@ -1,13 +1,15 @@
 package controller;
 
-import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 
 //
 //import java.awt.Color;
@@ -33,7 +35,7 @@ import javafx.stage.Stage;
 //
 //
 //
-public class TextController {
+public class TextController extends VBox {
 	
 	
 	@FXML
@@ -42,17 +44,18 @@ public class TextController {
 	@FXML
     public void handleOpenFile(){
 
-    	OpenButton.setOnAction(
-                new EventHandler<ActionEvent>() {
-                    public void handle(final ActionEvent e) {
-                        File file = fileChooser.showOpenDialog(stage);
-                        if (file != null) {
-                            openFile(file);
-                        }
-                    }
-                });
+//    	OpenButton.setOnAction(
+//                new EventHandler<ActionEvent>() {
+//                    public void handle(final ActionEvent e) {
+//                        File file = fileChooser.showOpenDialog(stage);
+//                        if (file != null) {
+//                            openFile(file);
+//                        }
+//                    }
+//                });
     }
 	
+	 
 	
 //	
 //	
@@ -131,9 +134,36 @@ public class TextController {
 //
 //
 	// Make the TextArea available to the autocomplete handler
-    public TextArea getEditor() {
-        return textArea;
+  
+//	
+//	
+
+
+//	public TextArea getTextArea() {
+//		return textArea;
+//	}
+
+    public String getText() {
+        return textProperty().get();
     }
-//	
-//	
+
+    public void setText(String value) {
+        textProperty().set(value);
+    }
+
+    public StringProperty textProperty() {
+        return textArea.textProperty();
+    }
+
+
+//	public void setTextArea(TextArea textArea) {
+//		this.textArea = textArea;
+//	}
+
+
+//	@Override
+//	public void initialize(URL location, ResourceBundle resources) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 }

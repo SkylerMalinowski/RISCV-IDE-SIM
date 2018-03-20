@@ -15,7 +15,7 @@ public class TextEditor extends JTextPane {
      * @param args
      */
     public static void main(String[] args) {
-        new UI().setVisible(true);
+       // new UI().setVisible(true);
     }
 
 }

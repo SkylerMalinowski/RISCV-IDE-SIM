@@ -31,6 +31,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -50,7 +51,7 @@
             <Menu mnemonicParsing="false" text="Open Recent" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem fx:id="SaveFile" mnemonicParsing="false" onAction="#handleSaveFile" text="Save" />
             <MenuItem mnemonicParsing="false" text="Save As…" />
             <MenuItem mnemonicParsing="false" text="Revert" />
             <SeparatorMenuItem mnemonicParsing="false" />
@@ -112,7 +113,11 @@
                                           </AnchorPane>
                                        </items>
                                     </SplitPane>
-                                    <VBox fx:id="editorPane" prefHeight="434.0" prefWidth="519.0" AnchorPane.bottomAnchor="103.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <VBox fx:id="editorPane" prefHeight="434.0" prefWidth="519.0" AnchorPane.bottomAnchor="103.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <TextArea fx:id="textArea" prefHeight="407.0" prefWidth="519.0" VBox.vgrow="ALWAYS" />
+                                          <TextField VBox.vgrow="ALWAYS" />
+                                       </children></VBox>
                                  </children>
                               </AnchorPane>
                         </content>

@@ -12,7 +12,7 @@ public class About {
     private String contentText;
     private final JLabel text;
 
-    public About(UI ui) {
+    public About() {
         panel = new JPanel(new FlowLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
         frame = new JFrame();
@@ -27,7 +27,7 @@ public class About {
 
         frame.setVisible(true);
         frame.setSize(500,400);
-        frame.setLocationRelativeTo(ui);
+      //  frame.setLocationRelativeTo();
         text = new JLabel();
     }
     

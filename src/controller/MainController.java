@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2018,  @authors
  * @author Skyler Malinowski  @email skyler.malinowski@gmail.com
  * @author Arjun Ohri         @email aohri@att.net
@@ -31,6 +31,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -61,6 +62,7 @@ import javax.swing.text.Element;
 import controller.SplashController.SplashScreen;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -80,22 +82,27 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import texteditor.*;
+import controller.TextController;
 
 /**
  * Controls main application screen
+ * @author Alejandro Aguilar
  * @author Skyler Malinowski
  * @version February 2018
  */
 
 
 /* Allows to clear text on console */
-public class MainController implements Initializable{
+public class MainController extends Application{
 //public class MainController extends Application {
 	@FXML
 	private Button clear_button; // ID of button
 	
 	@FXML
 	private TextArea console_text; // ID of console text area
+	
+	@FXML
+	private TextArea textArea; // ID of console text area
 
 	@FXML
 	private MenuItem glossary_id;
@@ -116,8 +123,10 @@ public class MainController implements Initializable{
 	private MenuItem ModuleExtButton;
 	
 	@FXML
-	private VBox editorPane;
+	private MenuItem SaveFile;
 	
+	@FXML
+	private VBox editorPane;
 	
     private Desktop desktop = Desktop.getDesktop();
 
@@ -187,84 +196,162 @@ public class MainController implements Initializable{
 
 	@FXML
 	private void handleNewFile() throws Exception {
-		new TextEditor().start();
+		Stage stage = new Stage();
+		start(stage);
 
 	}
 
-	EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
-	    @Override
-	    public void handle(ActionEvent event) {
-			new TextEditor().start();
-	        event.consume();
-	    }
-	};
 
 	
-	public void initialize(URL url, ResourceBundle rb) {
-		// TODO Auto-generated method stub
-		// Generating new Slash Screen thread
-		new TextEditor().start();
-		
-	}
+//	public void initialize(URL url, ResourceBundle rb) {
+//		// TODO Auto-generated method stub
+//		// Generating new Slash Screen thread
+//		new TextEditor().start();
+//		
+//	}
 	
 	
 	@FXML
     public void handleOpenFile(){
-    	Stage stage = new Stage();
-    	final FileChooser fileChooser = new FileChooser();
-
-    	OpenButton.setOnAction(
-                new EventHandler<ActionEvent>() {
-                    public void handle(final ActionEvent e) {
+//    	Stage stage = new Stage();
+////    	final FileChooser fileChooser = new FileChooser();
+////
+////    	OpenButton.setOnAction(
+////                new EventHandler<ActionEvent>() {
+////                    public void handle(ActionEvent e) {
+////                        File file = fileChooser.showOpenDialog(stage);
+////                        if (file != null) {
+////                            openFile(file);
+////                        }
+////                    }
+////                });
+		
+		OpenButton.setOnAction((ActionEvent event)-> {
+			Stage stage = new Stage();
+	      	FileChooser fileChooser = new FileChooser();
                         File file = fileChooser.showOpenDialog(stage);
                         if (file != null) {
                             openFile(file);
                         }
-                    }
                 });
     }
 	
-class TextEditor extends Thread{	
 	
-///public void start(Stage primaryStage) throws Exception {
+	
+	@FXML
+    public void handleSaveFile(){
+    	Stage stage = new Stage();
+		SaveFile.setOnAction(new EventHandler<ActionEvent>() {
+	        public void handle(ActionEvent e){
+	            FileChooser fileChooser = new FileChooser();
+	            fileChooser.setTitle("Save File");
+	            File file = fileChooser.showSaveDialog(stage);
+	            if (file != null) {
+	            		//txt.setTextArea(textArea);
+	            		SaveFile(textArea.getText(), file);
+	            }
+	        }
+	    });
+    	
+//    	SaveFile.setOnAction((ActionEvent event) -> {
+//    		   // 	Stage stage = new Stage();
+////    		        FXMLLoader loader = new FXMLLoader(getClass().getResource("TextController.fxml"));
+////    				;
+////    				TextController controller = new TextController();
+////    				//controller.setTextArea(controller.getTextArea());
+////    				//TextArea txt = controller.getTextArea();
+////    				
+////    				VBox pane = new VBox();
+////    				pane.getChildren().add(controller);
+//    				 FileChooser fileChooser = new FileChooser();
+//    				    //Show save file dialog
+//    				    File file = fileChooser.showSaveDialog(stage);
+//    				    if(file != null){
+//    				        SaveFile(textArea.getText(), file);
+//    				    }
+//    				
+//
+//    		       
+//    		    });
+	}
+	
+		private void SaveFile(String content, File file){
+			try {
+		            FileWriter fileWriter = null; 
+		            fileWriter = new FileWriter(file);
+		            fileWriter.write(content);
+		            fileWriter.close();
+		        } catch (IOException ex) {
+		            Logger.getLogger(TextController.class.getName()).log(Level.SEVERE, null, ex);
+		        }
+		         
+		    }
+	
+//class TextEditor extends Thread{	
+	
+public void start(Stage primaryStage) throws Exception {
 	// TODO Auto-generated method stub
 	
     
-
-	@Override
-	public void run()
-	{
-		try
-		{
-			Thread.sleep(1); // let it render 
-			
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					// Loading Main GUI
-					Parent root2 = null;
-					try {
-						//UI ui = new UI();
-						//ui.setVisible(true);
-						VBox pane = FXMLLoader.load(getClass().getResource("../application/TextEditor.fxml"));
-						editorPane.getChildren().setAll(pane);
-
-					}catch (IOException ex){
-						Logger.getLogger(TextController.class.getName()).log(Level.SEVERE, null, ex);	
-					}
-				
-
-				}
-			});
-		}
-		catch (InterruptedException ex)
-		{
-			Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
-		}
+//
+//	@Override
+//	public void run()
+//	{
+//		try
+//		{
+//			Thread.sleep(1); // let it render 
+//			
+//			Platform.runLater(new Runnable() {
+//				@Override
+//				public void run() {
+//					// Loading Main GUI
+//					Parent root2 = null;
+//					try {
+//						//UI ui = new UI();
+//						//ui.setVisible(true);
+//						VBox pane = FXMLLoader.load(getClass().getResource("../application/TextEditor.fxml"));
+//						editorPane.getChildren().setAll(pane);
+//
+//					}catch (IOException ex){
+//						Logger.getLogger(TextController.class.getName()).log(Level.SEVERE, null, ex);	
+//					}
+//				
+//
+//				}
+//			});
+//		}
+//		catch (InterruptedException ex)
+//		{
+//			Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
+//		}
+//		
 		
-	}
-	
-	
+		
+//		SaveFile.setOnAction((ActionEvent event) -> {
+//	   // 	Stage stage = new Stage();
+////	        FXMLLoader loader = new FXMLLoader(getClass().getResource("TextController.fxml"));
+////			;
+////			TextController controller = new TextController();
+////			//controller.setTextArea(controller.getTextArea());
+////			//TextArea txt = controller.getTextArea();
+////			
+////			VBox pane = new VBox();
+////			pane.getChildren().add(controller);
+//			 FileChooser fileChooser = new FileChooser();
+//			    //Show save file dialog
+//			    File file = fileChooser.showSaveDialog(primaryStage);
+//			    if(file != null){
+//			        SaveFile(textArea.getText(), file);
+//			    }
+//			
+//
+//	       
+//	    });
+		primaryStage.show();
+		
+	 	
+	 	
+	//}
 }
 
 
@@ -281,13 +368,13 @@ private void openFile(File file) {
 
 
 
-}
+
 	
 
 
-//public static void main(String[] args) {
-//    launch(args);
+public static void main(String[] args) {
+    launch(args);
 //    
-//	}
+	}
 //	
-//}
+}
