@@ -43,6 +43,9 @@ public class Program
 	private ArrayList<ArrayList<Token>> tokenList;
 	private ArrayList<Token> tokenStream;
 	private ArrayList<Token> labelList;
+	private ArrayList<ArrayList<Token>> textList;
+	private ArrayList<ArrayList<Token>> dataList;
+	
 	private ArrayList<ErrorMessage> errorList;
 	private ArrayList<ErrorMessage> warningList;
 
@@ -56,6 +59,8 @@ public class Program
 		this.tokenList = new ArrayList<ArrayList<Token>>();
 		this.tokenStream = new ArrayList<Token>();
 		this.labelList = new ArrayList<Token>();
+		this.textList = new ArrayList<ArrayList<Token>>();
+		this.dataList = new ArrayList<ArrayList<Token>>();
 		this.errorList = new ArrayList<ErrorMessage>();
 		this.warningList = new ArrayList<ErrorMessage>();
 		
@@ -250,5 +255,110 @@ public class Program
 	public void appendWarningList(ErrorMessage warning)
 	{
 		this.warningList.add(warning);
+	}
+	
+	/**
+	 * From tokens, generates only the text section
+	 */
+	public void buildText()
+	{
+		boolean found = false;
+		
+		for (ArrayList<Token> tokens : this.getTokenList())
+		{
+			try
+			{
+				if (tokens.get(0).getData().equalsIgnoreCase(".TEXT"))
+				{
+					found = true;
+					this.appendTextList(tokens);
+				}
+				else if (tokens.get(0).getData().equalsIgnoreCase(".DATA"))
+				{
+					found = false;
+				}
+				
+				if (found)
+				{
+					this.appendTextList(tokens);
+				}
+			} 
+			catch (Exception ex)
+			{
+				// Do nothing
+			}
+		}
+		
+		if (this.getTextList().size() == 0)
+		{
+			this.textList = this.getTokenList();
+		}
+	}
+	
+	/**
+	 * Getter method for 'this.textList'
+	 * @return
+	 */
+	public ArrayList<ArrayList<Token>> getTextList()
+	{
+		return this.textList;
+	}
+	
+	/**
+	 * Method appends 'this.textList'
+	 */
+	public void appendTextList(ArrayList<Token> tokens)
+	{
+		this.textList.add(tokens);
+	}
+	
+	/**
+	 * From tokens, generates only the data section
+	 */
+	public void buildData()
+	{
+		boolean found = false;
+		
+		for (ArrayList<Token> tokens : this.getTokenList())
+		{
+			try
+			{
+				if (tokens.get(0).getData().equalsIgnoreCase(".DATA"))
+				{
+					found = true;
+					this.appendTextList(tokens);
+				}
+				else if (tokens.get(0).getData().equalsIgnoreCase(".TEXT"))
+				{
+					found = false;
+				}
+				
+				if (found)
+				{
+					this.appendDataList(tokens);
+				}
+			} 
+			catch (Exception ex)
+			{
+				// Do nothing
+			}
+		}
+	}
+	
+	/**
+	 * Getter method for 'this.dataList'
+	 * @return
+	 */
+	public ArrayList<ArrayList<Token>> getDataList()
+	{
+		return this.dataList;
+	}
+	
+	/**
+	 * Method appends 'this.textList'
+	 */
+	public void appendDataList(ArrayList<Token> tokens)
+	{
+		this.dataList.add(tokens);
 	}
 }
