@@ -21,6 +21,7 @@
 
 package riscv.base;
 
+import riscv.Program;
 import riscv.InstructionType;
 
 import java.util.HashMap;
@@ -29,14 +30,15 @@ import java.util.HashMap;
  * RV32I :: 32-Bit Integrated Base Instruction Set
  * Standard, Version: 2.0
  * @author Skyler Malinowski
- * @version February 2018
+ * @version March 2018
  */
 public class RV32I {
 	public final int xlen = 32;
-	public int reg[] = new int[32];
 	public HashMap<String, InstructionType> TypeMap = new HashMap<String, InstructionType>();
 	
-	// Constructor
+	/**
+	 * Constructor
+	 */
 	public RV32I()
 	{
 		TypeMap.put("LUI", InstructionType.U_Type);
@@ -93,5 +95,29 @@ public class RV32I {
 		 * TypeMap.put("CSRRSI", InstructionType.);
 		 * TypeMap.put("CSRRCI", InstructionType.);
 		 */
+	}
+	
+	/**
+	 * Carries out base specific instruction operations after warning checking
+	 * @param program
+	 * @param instruction
+	 * @param arg0
+	 * @param arg1
+	 * @param arg2
+	 * @return
+	 */
+	public boolean instructionCall(Program program, String instruction, String arg0, String arg1, String arg2)
+	{
+		switch (instruction.toUpperCase())
+		{
+		case "ADD" :
+			// If (arguments have valid bit length)
+			// - Alter register or memory value
+			// Else
+			// - Append warning to program class instance
+			return true;
+		default :
+			return false;
+		}
 	}
 }

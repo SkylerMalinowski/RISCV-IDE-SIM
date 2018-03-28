@@ -27,7 +27,7 @@ import riscv.RISCV;
 /**
  * Deals with interfacing Program with Lexer and Parser
  * @author Skyler Malinowski
- * @version February 2018
+ * @version March 2018
  */
 public class Assembler
 {
@@ -67,15 +67,21 @@ public class Assembler
 			program.printWarningList();
 		}
 		else
+		{
 			System.out.println("Assembler: completed without warnings.\n");
+		}
 
 		if (program.getErrorList().size() > 0)
 		{
 			System.out.println("Assembler: completed with these errors:\n");
+			program.setAssembled(false);
 			program.printErrorList();
 		}
 		else
+		{
 			System.out.println("Assembler: completed without errors.\n");
+			program.setAssembled(true);
+		}
 	}
 	
 	// Debugging

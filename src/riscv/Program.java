@@ -32,13 +32,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Class to represent a file and its associations for processing
+ * Class to represent a file and its associated intermediates for processing
  * @author Skyler Malinowski
  * @version February 2018
  */
 public class Program
 {
 	private File file;
+	
 	private ArrayList<String> source;
 	private ArrayList<ArrayList<Token>> tokenList;
 	private ArrayList<Token> tokenStream;
@@ -46,6 +47,7 @@ public class Program
 	private ArrayList<ArrayList<Token>> textList;
 	private ArrayList<ArrayList<Token>> dataList;
 	
+	private boolean assembled;
 	private ArrayList<ErrorMessage> errorList;
 	private ArrayList<ErrorMessage> warningList;
 
@@ -61,9 +63,11 @@ public class Program
 		this.labelList = new ArrayList<Token>();
 		this.textList = new ArrayList<ArrayList<Token>>();
 		this.dataList = new ArrayList<ArrayList<Token>>();
+		
+		this.assembled = false;
 		this.errorList = new ArrayList<ErrorMessage>();
 		this.warningList = new ArrayList<ErrorMessage>();
-		
+
 		setFile(filePath);
 		setSource(getFile().getAbsolutePath());
 	}
@@ -118,6 +122,7 @@ public class Program
 		catch (IOException e)
 		{
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 	
@@ -195,6 +200,22 @@ public class Program
 				return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Getter method for 'this.assembled'
+	 */
+	public boolean getAssebled()
+	{
+		return this.assembled;
+	}
+	
+	/**
+	 * Setter method for 'this.assembled'
+	 */
+	public void setAssembled(boolean done)
+	{
+		this.assembled = done;
 	}
 	
 	/**
