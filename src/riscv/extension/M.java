@@ -22,6 +22,7 @@
 package riscv.extension;
 
 import riscv.InstructionType;
+import riscv.Program;
 
 import java.util.HashMap;
 
@@ -35,8 +36,37 @@ public class M
 {
 	public HashMap<String, InstructionType> TypeMap;
 	
+	/**
+	 * Constructor
+	 */
 	public M()
 	{
 		TypeMap = new HashMap<String, InstructionType>();
+		
+		// Append HashMap with instructions as specified in RISC-V handbook
+	}
+	
+	/**
+	 * Carries out extension specific instruction operations after warning checking
+	 * @param program
+	 * @param instruction
+	 * @param arg0
+	 * @param arg1
+	 * @param arg2
+	 * @return
+	 */
+	public boolean instructionCall(Program program, String instruction, String arg0, String arg1, String arg2)
+	{
+		switch (instruction.toUpperCase())
+		{
+		case "ADD" :
+			// If (arguments have valid bit length)
+			// - Alter register or memory value
+			// Else
+			// - Append warning to program class instance
+			return true;
+		default :
+			return false;
+		}
 	}
 }

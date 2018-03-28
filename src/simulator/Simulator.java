@@ -21,6 +21,10 @@
 
 package simulator;
 
+import riscv.Program;
+
+import java.util.ArrayList;
+
 /**
  * Class to handle simulation of assembly code.
  * @author Skyler Malinowski
@@ -28,21 +32,46 @@ package simulator;
  */
 public class Simulator
 {
-	// LinkedList<> to store changes to registers and memory between steps
+	ArrayList<StateNode> LL;  // Stores hardware state after instruction
+	int PC;  // Pointer to LL elements
 	
 	/**
-	 * PC += 4 and then handles the instruction
+	 * Constructor
 	 */
-	public void step()
+	public Simulator()
 	{
-		;
+		LL = new ArrayList<StateNode>();
+		LL.add(new StateNode(null, null));
+		PC = 0;
 	}
 	
 	/**
-	 * Undo the forward step
+	 * Handles the next instruction
+	 * @param program
 	 */
-	public void backstep()
+	public void step(Program program)
 	{
-		;
+		// PC + 4
+		// Make Base or Extension function call
+		// If (end of the LinkedList)
+		// - Append LinkedList with node containing changed register location and value
+		// Else
+		// - Move forward a node in LinkedList
+		// - Restore value
+		// If (no more instructions)
+		// - Deactivate step option
+	}
+	
+	/**
+	 * Undo forward step
+	 * @param program
+	 */
+	public void backstep(Program program)
+	{
+		// PC - 4
+		// Move back one node in LinkedList
+		// Restore value
+		// If (at LinkedList head)
+		// - Deactivate backstep option
 	}
 }

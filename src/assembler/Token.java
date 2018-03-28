@@ -43,6 +43,12 @@ public class Token
 		this.index_end = index_end;
 	}
 
+	@Override
+	public String toString()
+	{
+		return String.format("<%s :: %s>", type.name(), data);
+	}
+
 	/**
 	 * Getter method for 'this.type'
 	 * @return String
@@ -85,11 +91,5 @@ public class Token
 	public int getIndexEnd()
 	{
 		return this.index_end;
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.format("<%s :: %s>", type.name(), data);
 	}
 }
