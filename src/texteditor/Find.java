@@ -66,7 +66,7 @@ public class Find extends JFrame implements ActionListener {
         cancel.addActionListener(this);
 
 
-        // Set the width and height of the window
+        // Set the width and height of the pane
         int width = 360;
         int height = 160;
 
