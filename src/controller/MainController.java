@@ -44,12 +44,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-<<<<<<< Updated upstream
 import java.util.ArrayList;
-=======
 import java.util.Arrays;
 import java.util.List;
->>>>>>> Stashed changes
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -112,14 +109,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-<<<<<<< Updated upstream
-=======
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import texteditor.*;
 import controller.TextController;
 import controller.SplashController;
->>>>>>> Stashed changes
 
 /**
  * Controls main application screen
@@ -127,22 +121,15 @@ import controller.SplashController;
  * @author Skyler Malinowski
  * @version April 2018
  */
-<<<<<<< Updated upstream
-public class MainController extends Application
-{
-	private Desktop desktop = Desktop.getDesktop();
-	private String base = "RV32I";
-	private ArrayList<String> exts;
-	private RISCV riscv = new RISCV(this.base);
-	private Simulator simulator;
-	private Program program;
+
+
 	
-=======
+	
 
 
 /* Code contains references to buttons and what occurs when pressed*/
-public class MainController extends Application{
->>>>>>> Stashed changes
+public class MainController extends Application
+{
 	@FXML
 	private Button clear_button; // ID of button
 	
@@ -181,20 +168,21 @@ public class MainController extends Application{
 	
 	@FXML
 	private VBox editorPane;
-	
-<<<<<<< Updated upstream
-=======
+
 	@FXML
 	private VBox Main;
 	
+ 
+
     private Desktop desktop = Desktop.getDesktop();
-    private final static String [] arrayData = {"RV32I", "RV64I"};
-    private static List<String> dialogData;
-
+	private String base = "RV32I";
+	private ArrayList<String> exts;
+	private RISCV riscv = new RISCV(this.base);
+	private Simulator simulator;
+	private Program program;
 	
 
 	
->>>>>>> Stashed changes
 	@FXML
 	private void handleButtonAction(ActionEvent e) {
 		console_text.clear();
@@ -348,10 +336,8 @@ public class MainController extends Application{
 	
 
 	
-<<<<<<< Updated upstream
-	//class TextEditor extends Thread{	
-	public void start(Stage primaryStage){
-=======
+
+
 	 private Keywords kw = new Keywords();
    private HighlightText languageHighlighter = new HighlightText(Color.WHITE);
    //AutoComplete autocomplete;
@@ -471,7 +457,6 @@ public void start(Stage primaryStage){
 //			Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
 //		}
 //		
->>>>>>> Stashed changes
 		
 	//	@Override
 	//	public void run()
@@ -529,7 +514,6 @@ public void start(Stage primaryStage){
 	//		
 	//		primaryStage.show();
 		
-<<<<<<< Updated upstream
 	 
 			
 		 	
@@ -537,59 +521,6 @@ public void start(Stage primaryStage){
 		//}
 	}
 	
-	
-	private void openFile(File file) {
-	    try {
-	        desktop.open(file);
-	    } catch (IOException ex) {
-	        Logger.getLogger(
-	            MainController.class.getName()).log(
-	                Level.SEVERE, null, ex
-	            );
-	    }
-	}
-	
-	
-	
-	private void SaveFile(String content, File file){
-		try {
-	            FileWriter fileWriter = null; 
-	            fileWriter = new FileWriter(file);
-	            fileWriter.write(content);
-	            fileWriter.close();
-	        } catch (IOException ex) {
-	            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-	        }
-	         
-	    }
-	
-	private String readFile(File file){
-	    StringBuilder stringBuffer = new StringBuilder();
-	    BufferedReader bufferedReader = null;
-	     
-	    try {
-	
-	        bufferedReader = new BufferedReader(new FileReader(file));
-	         
-	        String text;
-	        while ((text = bufferedReader.readLine()) != null) {
-	            stringBuffer.append(text + "\n" );
-	        }
-	
-	    } catch (FileNotFoundException ex) {
-	        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-	    } catch (IOException ex) {
-	        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-	    } finally {
-	        try {
-	            bufferedReader.close();
-	        } catch (IOException ex) {
-	            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-	        }
-	    } 
-	     
-	    return stringBuffer.toString();
-	}
 	
 	/**
 	 * Setter method for 'this.base'
@@ -637,34 +568,28 @@ public void start(Stage primaryStage){
 			{
 				System.out.println("Assembler: completed without warnings.\n");
 			}
-=======
-//		SaveFile.setOnAction((ActionEvent event) -> {
-//	    	Stage stage = new Stage();
-//////	        FXMLLoader loader = new FXMLLoader(getClass().getResource("TextController.fxml"));
-//////			;
-//////			TextController controller = new TextController();
-//////			//controller.setTextArea(controller.getTextArea());
-//////			//TextArea txt = controller.getTextArea();
-//////			
-//////			VBox pane = new VBox();
-//////			pane.getChildren().add(controller);
-//			 FileChooser fileChooser = new FileChooser();
-////			    //Show save file dialog
-//			    File file = fileChooser.showSaveDialog(primaryStage);
-//			    if(file != null){
-//			        SaveFile(textArea.getText(), file);
-//			    }
-////			
-////
-////	       
-//	    });
-//		
+			if (this.program.getErrorList().size() > 0)
+			{
+				System.out.println("Assembler: completed with these errors:\n");
+				this.program.setAssembled(false);
+				this.program.printErrorList();
+			}
+			else
+			{
+				System.out.println("Assembler: completed without errors.\n");
+				this.program.setAssembled(true);
+			}
+		}
+		
+		if (this.program.getAssebled() == true)
+		{
+			this.simulator = new Simulator(this.riscv, this.program);
+		}
+	}
 	
       
     
 
-	
-}
 
 
 
@@ -718,28 +643,9 @@ private String readFile(File file){
      
     return stringBuffer.toString();
 }
->>>>>>> Stashed changes
 
-			if (this.program.getErrorList().size() > 0)
-			{
-				System.out.println("Assembler: completed with these errors:\n");
-				this.program.setAssembled(false);
-				this.program.printErrorList();
-			}
-			else
-			{
-				System.out.println("Assembler: completed without errors.\n");
-				this.program.setAssembled(true);
-			}
-		}
-		
-		if (this.program.getAssebled() == true)
-		{
-			this.simulator = new Simulator(this.riscv, this.program);
-		}
-	}
+			
 
-<<<<<<< Updated upstream
 	/**
 	 * Simulates the next instruction
 	 */
@@ -804,19 +710,11 @@ private String readFile(File file){
 		}
 	}
 	
+
 	
-	/*  Is this even used? If not, delete this.
-	public static void main(String[] args)
-	{
-		launch(args);
-	}
-	*/
-	
-=======
 public static void main(String[] args) {
 launch(args);
 
 	}
 
->>>>>>> Stashed changes
 }
