@@ -60,40 +60,5 @@ public class Assembler
 		
 		program.buildText();
 		program.buildData();
-		
-		if (program.getWarningList().size() > 0)
-		{
-			System.out.println("Assembler: completed with these warnings:\n");
-			program.printWarningList();
-		}
-		else
-		{
-			System.out.println("Assembler: completed without warnings.\n");
-		}
-
-		if (program.getErrorList().size() > 0)
-		{
-			System.out.println("Assembler: completed with these errors:\n");
-			program.setAssembled(false);
-			program.printErrorList();
-		}
-		else
-		{
-			System.out.println("Assembler: completed without errors.\n");
-			program.setAssembled(true);
-		}
-	}
-	
-	// Debugging
-	public static void main(String[] args)
-	{
-		String[] exts = {"M","A","F","D"};
-		String filePath = "C:\\Users\\Skyler Malinowski\\Documents\\GitHub\\RISCV-IDE-SIM\\src\\test.asm";
-		
-		RISCV riscv = new RISCV("RV64I",exts);
-		Program program = new Program(filePath);
-		
-		Assembler assembler = new Assembler(riscv);
-		assembler.assemble(program);
 	}
 }

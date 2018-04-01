@@ -34,11 +34,11 @@ import java.util.ArrayList;
 /**
  * Class to represent a file and its associated intermediates for processing
  * @author Skyler Malinowski
- * @version February 2018
+ * @version March 2018
  */
 public class Program
 {
-	private File file;
+	private File file = null;
 	
 	private ArrayList<String> source;
 	private ArrayList<ArrayList<Token>> tokenList;
@@ -55,8 +55,10 @@ public class Program
 	 * Constructor initializes all 'Program.class' variables, then sets file and source
 	 * @param filePath
 	 */
-	public Program(String filePath)
+	public Program(File file)
 	{
+		this.file = file;
+		
 		this.source = new ArrayList<String>();
 		this.tokenList = new ArrayList<ArrayList<Token>>();
 		this.tokenStream = new ArrayList<Token>();
@@ -68,7 +70,6 @@ public class Program
 		this.errorList = new ArrayList<ErrorMessage>();
 		this.warningList = new ArrayList<ErrorMessage>();
 
-		setFile(filePath);
 		setSource(getFile().getAbsolutePath());
 	}
 	
@@ -79,15 +80,6 @@ public class Program
 	public File getFile()
 	{
 		return this.file;
-	}
-	
-	/**
-	 * Method sets 'this.file'
-	 * @param filename
-	 */
-	public void setFile(String filePath)
-	{
-		this.file = new File(filePath);
 	}
 	
 	/**

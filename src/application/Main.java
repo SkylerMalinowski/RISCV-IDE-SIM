@@ -37,10 +37,12 @@ import javafx.scene.Scene;
  */
 public class Main extends Application
 {
+	/**
+	 * Starts Splash screen first, then it will load Main GUI
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
-		// Start Splash screen first, it will load Main GUI
 		try
 		{
 			Parent root = FXMLLoader.load(getClass().getResource("Splash.fxml"));
@@ -54,11 +56,12 @@ public class Main extends Application
 		{
 			e.printStackTrace();
 		}
-		
-
-
 	}
 	
+	/**
+	 * Application driver function main
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		launch(args);

@@ -45,11 +45,11 @@ public class RISCV
 	private HashMap<String,InstructionType> instructionMap;
 	
 	/**
-	 * Constructor records users settings
+	 * Constructor
 	 * @param base
 	 * @param exts
 	 */
-	public RISCV(String base, String[] exts)
+	public RISCV(String base, ArrayList<String> exts)
 	{
 		this.setBase(base);
 		this.setExtensions(exts);
@@ -58,6 +58,18 @@ public class RISCV
 		this.buildInstructionMap();
 	}
 	
+	/**
+	 * Constructor
+	 * @param base
+	 */
+	public RISCV(String base)
+	{
+		this.setBase(base);
+		
+		this.instructionMap = new HashMap<String,InstructionType>();
+		this.buildInstructionMap();
+	}
+
 	/**
 	 * Method gets 'this.base'
 	 * @return this.base
@@ -75,7 +87,7 @@ public class RISCV
 	{
 		try
 		{
-			switch (base)
+			switch (base.toUpperCase())
 			{
 			case "RV32I" :
 				this.base = RV32I.class;
@@ -85,6 +97,7 @@ public class RISCV
 				break;
 			default :
 				System.out.println("Internal Error: base not recognized or found.\n");
+				System.exit(1);
 				break;
 			}
 		}
@@ -107,7 +120,7 @@ public class RISCV
 	 * Method sets 'this.extensions' dynamically with class information
 	 * @param exts
 	 */
-	private void setExtensions(String[] exts)
+	private void setExtensions(ArrayList<String> exts)
 	{
 		this.extensions = new ArrayList<Class>();
 		
@@ -115,7 +128,7 @@ public class RISCV
 		{
 			for (String ext : exts)
 			{
-				switch (ext)
+				switch (ext.toUpperCase())
 				{
 				case "M" :
 					this.extensions.add(M.class);
@@ -248,11 +261,13 @@ public class RISCV
 		case ".DATA" :  // read-write section containing global or static variables
 			expected.add(new Token(TokenType.NUMBER, "?", 0, 0, 0));
 			break;
+		/*
 		case ".RODATA" :  // read-only section containing constant variables
 			break;
 		case ".BSS" :  // read-write section containing uninitialised data
 			break;
-
+		*/
+			
 		case ".2BYTE" :
 		case ".4BYTE" :
 		case ".8BYTE" :

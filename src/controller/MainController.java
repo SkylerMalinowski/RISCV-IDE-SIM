@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2018,  @authors
  * @author Skyler Malinowski  @email skyler.malinowski@gmail.com
  * @author Arjun Ohri         @email aohri@att.net
@@ -21,6 +21,13 @@
 
 package controller;
 
+import riscv.RISCV;
+import simulator.Simulator;
+import riscv.Program;
+import assembler.Assembler;
+import texteditor.*;
+import controller.SplashController.SplashScreen;
+import controller.TextController;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -37,6 +44,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -63,9 +71,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Element;
 
-import com.sun.xml.internal.ws.org.objectweb.asm.Label;
+//import com.sun.xml.internal.ws.org.objectweb.asm.Label;
 
-import controller.SplashController.SplashScreen;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -91,20 +98,22 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import texteditor.*;
-import controller.TextController;
 
 /**
  * Controls main application screen
  * @author Alejandro Aguilar
  * @author Skyler Malinowski
- * @version February 2018
+ * @version April 2018
  */
-
-
-/* Allows to clear text on console */
-public class MainController extends Application{
-//public class MainController extends Application {
+public class MainController extends Application
+{
+	private Desktop desktop = Desktop.getDesktop();
+	private String base = "RV32I";
+	private ArrayList<String> exts;
+	private RISCV riscv = new RISCV(this.base);
+	private Simulator simulator;
+	private Program program;
+	
 	@FXML
 	private Button clear_button; // ID of button
 	
@@ -138,11 +147,6 @@ public class MainController extends Application{
 	@FXML
 	private VBox editorPane;
 	
-    private Desktop desktop = Desktop.getDesktop();
-
-	
-
-	
 	@FXML
 	private void handleButtonAction(ActionEvent e) {
 		console_text.clear();
@@ -154,39 +158,45 @@ public class MainController extends Application{
 		System.exit(0);
 	}
 
-	
-
-	
 	@FXML
-	private void handleGlossary() throws Exception {
+	private void handleGlossary() throws Exception
+	{
 		Parent root = null;
-		try {
+		
+		try
+		{
 			root = FXMLLoader.load(getClass().getResource("../application/Glossary.fxml"));
-		}catch (IOException ex){
+		}
+		catch (IOException ex)
+		{
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);	
 		}
 				
-				Scene scene = new Scene(root);
-				Stage stage = new Stage();
-				stage.setScene(scene);
-				stage.show();
+		Scene scene = new Scene(root);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	@FXML
-	private void handleOnlineDoc() throws Exception {
-		
+	private void handleOnlineDoc() throws Exception
+	{
 		Parent root = null;
-		try {
+		
+		try
+		{
 			root = FXMLLoader.load(getClass().getResource("../application/OnlineDoc.fxml"));
-		}catch (IOException ex){
+		}
+		catch (IOException ex)
+		{
 			Logger.getLogger(OnlineDocController.class.getName()).log(Level.SEVERE, null, ex);	
 		}
-				
-				Scene scene = new Scene(root);
-				Stage stage = new Stage();
-				stage.setScene(scene);
-				stage.show();
-}
+		
+		Scene scene = new Scene(root);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.show();
+	}
 	
 	@FXML
 	private void handleModuleExtension() throws Exception {
@@ -226,11 +236,10 @@ public class MainController extends Application{
 		}
 
 	}
-
-
 	
 	@FXML
-    public void handleOpenFile(){
+    public void handleOpenFile()
+	{
 //    	Stage stage = new Stage();
 ////    	final FileChooser fileChooser = new FileChooser();
 ////
@@ -248,6 +257,8 @@ public class MainController extends Application{
 			Stage stage = new Stage();
 	      	FileChooser fileChooser = new FileChooser();
                         File file = fileChooser.showOpenDialog(stage);
+                        this.program = new Program(file);
+                        
                         if (file != null) {
                             textArea.setText(readFile(file));
                         }
@@ -275,6 +286,8 @@ public class MainController extends Application{
     				 FileChooser fileChooser = new FileChooser();
     				    //Show save file dialog
     				    File file = fileChooser.showSaveDialog(stage);
+    				    this.program = new Program(file);
+    				    
     				    if(file != null){
     				        SaveFile(textArea.getText(), file);
     				    }   		       
@@ -282,132 +295,262 @@ public class MainController extends Application{
 	
 
 	
-//class TextEditor extends Thread{	
-public void start(Stage primaryStage){
-	// TODO Auto-generated method stub
-    
-//
-//	@Override
-//	public void run()
-//	{
-//		try
-//		{
-//			Thread.sleep(1); // let it render 
-//			
-//			Platform.runLater(new Runnable() {
-//				@Override
-//				public void run() {
-//					// Loading Main GUI
-//					Parent root2 = null;
-//					try {
-//						//UI ui = new UI();
-//						//ui.setVisible(true);
-//						VBox pane = FXMLLoader.load(getClass().getResource("../application/TextEditor.fxml"));
-//						editorPane.getChildren().setAll(pane);
-//
-//					}catch (IOException ex){
-//						Logger.getLogger(TextController.class.getName()).log(Level.SEVERE, null, ex);	
-//					}
-//				
-//
-//				}
-//			});
-//		}
-//		catch (InterruptedException ex)
-//		{
-//			Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
-//		}
-//		
+	//class TextEditor extends Thread{	
+	public void start(Stage primaryStage){
 		
+	//	@Override
+	//	public void run()
+	//	{
+	//		try
+	//		{
+	//			Thread.sleep(1); // let it render 
+	//			
+	//			Platform.runLater(new Runnable() {
+	//				@Override
+	//				public void run() {
+	//					// Loading Main GUI
+	//					Parent root2 = null;
+	//					try {
+	//						//UI ui = new UI();
+	//						//ui.setVisible(true);
+	//						VBox pane = FXMLLoader.load(getClass().getResource("../application/TextEditor.fxml"));
+	//						editorPane.getChildren().setAll(pane);
+	//
+	//					}catch (IOException ex){
+	//						Logger.getLogger(TextController.class.getName()).log(Level.SEVERE, null, ex);	
+	//					}
+	//				
+	//
+	//				}
+	//			});
+	//		}
+	//		catch (InterruptedException ex)
+	//		{
+	//			Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
+	//		}
+	//		
+			
+			
+	//		SaveFile.setOnAction((ActionEvent event) -> {
+	//	    	Stage stage = new Stage();
+	//////	        FXMLLoader loader = new FXMLLoader(getClass().getResource("TextController.fxml"));
+	//////			;
+	//////			TextController controller = new TextController();
+	//////			//controller.setTextArea(controller.getTextArea());
+	//////			//TextArea txt = controller.getTextArea();
+	//////			
+	//////			VBox pane = new VBox();
+	//////			pane.getChildren().add(controller);
+	//			 FileChooser fileChooser = new FileChooser();
+	////			    //Show save file dialog
+	//			    File file = fileChooser.showSaveDialog(primaryStage);
+	//			    if(file != null){
+	//			        SaveFile(textArea.getText(), file);
+	//			    }
+	////			
+	////
+	////	       
+	//	    });
+	//		
+	//		primaryStage.show();
 		
-//		SaveFile.setOnAction((ActionEvent event) -> {
-//	    	Stage stage = new Stage();
-//////	        FXMLLoader loader = new FXMLLoader(getClass().getResource("TextController.fxml"));
-//////			;
-//////			TextController controller = new TextController();
-//////			//controller.setTextArea(controller.getTextArea());
-//////			//TextArea txt = controller.getTextArea();
-//////			
-//////			VBox pane = new VBox();
-//////			pane.getChildren().add(controller);
-//			 FileChooser fileChooser = new FileChooser();
-////			    //Show save file dialog
-//			    File file = fileChooser.showSaveDialog(primaryStage);
-//			    if(file != null){
-//			        SaveFile(textArea.getText(), file);
-//			    }
-////			
-////
-////	       
-//	    });
-//		
-//		primaryStage.show();
+	 
+			
+		 	
+		 	
+		//}
+	}
 	
- 
+	
+	private void openFile(File file) {
+	    try {
+	        desktop.open(file);
+	    } catch (IOException ex) {
+	        Logger.getLogger(
+	            MainController.class.getName()).log(
+	                Level.SEVERE, null, ex
+	            );
+	    }
+	}
+	
+	
+	
+	private void SaveFile(String content, File file){
+		try {
+	            FileWriter fileWriter = null; 
+	            fileWriter = new FileWriter(file);
+	            fileWriter.write(content);
+	            fileWriter.close();
+	        } catch (IOException ex) {
+	            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+	        }
+	         
+	    }
+	
+	private String readFile(File file){
+	    StringBuilder stringBuffer = new StringBuilder();
+	    BufferedReader bufferedReader = null;
+	     
+	    try {
+	
+	        bufferedReader = new BufferedReader(new FileReader(file));
+	         
+	        String text;
+	        while ((text = bufferedReader.readLine()) != null) {
+	            stringBuffer.append(text + "\n" );
+	        }
+	
+	    } catch (FileNotFoundException ex) {
+	        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+	    } catch (IOException ex) {
+	        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+	    } finally {
+	        try {
+	            bufferedReader.close();
+	        } catch (IOException ex) {
+	            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+	        }
+	    } 
+	     
+	    return stringBuffer.toString();
+	}
+	
+	/**
+	 * Setter method for 'this.base'
+	 * @param base
+	 */
+	@FXML
+	private void setBase(String base)
+	{
+		this.base = base;
+	}
+	
+	/**
+	 * Setter method for RISCV class
+	 * @param base
+	 * @param ext
+	 */
+	@FXML
+	private void setHardware()
+	{
+		this.riscv = new RISCV(this.base,this.exts);
+	}
+	
+	/**
+	 * Passes current hardware settings and active program to the assembler
+	 */
+	@FXML
+	private void assembleProgram()
+	{
+		Assembler assembler = new Assembler(this.riscv);
 		
-	 	
-	 	
-	//}
-}
+		if (this.program.getFile() == null)
+		{
+			// TODO :: Error message "No file specified to be assembled"
+		}
+		else
+		{
+			assembler.assemble(this.program);
+			
+			if (this.program.getWarningList().size() > 0)
+			{
+				System.out.println("Assembler: completed with these warnings:\n");
+				this.program.printWarningList();
+			}
+			else
+			{
+				System.out.println("Assembler: completed without warnings.\n");
+			}
 
+			if (this.program.getErrorList().size() > 0)
+			{
+				System.out.println("Assembler: completed with these errors:\n");
+				this.program.setAssembled(false);
+				this.program.printErrorList();
+			}
+			else
+			{
+				System.out.println("Assembler: completed without errors.\n");
+				this.program.setAssembled(true);
+			}
+		}
+		
+		if (this.program.getAssebled() == true)
+		{
+			this.simulator = new Simulator(this.riscv, this.program);
+		}
+	}
 
-
-public static void main(String[] args) {
-    launch(args);
-    
-	}	
-private void openFile(File file) {
-    try {
-        desktop.open(file);
-    } catch (IOException ex) {
-        Logger.getLogger(
-            MainController.class.getName()).log(
-                Level.SEVERE, null, ex
-            );
-    }
-}
-
-
-
-private void SaveFile(String content, File file){
-	try {
-            FileWriter fileWriter = null; 
-            fileWriter = new FileWriter(file);
-            fileWriter.write(content);
-            fileWriter.close();
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         
-    }
-
-private String readFile(File file){
-    StringBuilder stringBuffer = new StringBuilder();
-    BufferedReader bufferedReader = null;
-     
-    try {
-
-        bufferedReader = new BufferedReader(new FileReader(file));
-         
-        String text;
-        while ((text = bufferedReader.readLine()) != null) {
-            stringBuffer.append(text + "\n" );
-        }
-
-    } catch (FileNotFoundException ex) {
-        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
-        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-        try {
-            bufferedReader.close();
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    } 
-     
-    return stringBuffer.toString();
-}
-
-
+	/**
+	 * Simulates the next instruction
+	 */
+	@FXML
+	private void simulatorForwardStep()
+	{
+		if (program.getAssebled() == true)
+		{
+			this.simulator.step();
+		}
+		else
+		{
+			// TODO :: Error message "Cannot simulate program before it is assembled"
+		}
+	}
+	
+	/**
+	 * Simulates the program in its entirety
+	 */
+	@FXML
+	private void simulatorRun()
+	{
+		if (program.getAssebled() == true)
+		{
+			this.simulator.run();
+		}
+		else
+		{
+			// TODO :: Error message "Cannot simulate program before it is assembled"
+		}
+	}
+	
+	/**
+	 * Simulates the previous instruction
+	 */
+	@FXML
+	private void simulatorBackStep()
+	{
+		if (program.getAssebled() == true)
+		{
+			this.simulator.backstep();
+		}
+		else
+		{
+			// TODO :: Error message "Cannot simulate program before it is assembled"
+		}
+	}
+	
+	/**
+	 * Resets simulator to its initial state
+	 */
+	@FXML
+	private void simulatorReset()
+	{
+		if (program.getAssebled() == true)
+		{
+			this.simulator.reset();
+		}
+		else
+		{
+			// TODO :: Error message "Cannot simulate program before it is assembled"
+		}
+	}
+	
+	
+	/*  Is this even used? If not, delete this.
+	public static void main(String[] args)
+	{
+		launch(args);
+	}
+	*/
+	
 }

@@ -21,6 +21,7 @@
 
 package simulator;
 
+import riscv.RISCV;
 import riscv.Program;
 
 import java.util.ArrayList;
@@ -32,14 +33,18 @@ import java.util.ArrayList;
  */
 public class Simulator
 {
-	ArrayList<StateNode> LL;  // Stores hardware state after instruction
-	int PC;  // Pointer to LL elements
+	private RISCV riscv;
+	private Program program;
+	private ArrayList<StateNode> LL;  // Stores hardware state after instruction
+	private int PC;  // Pointer to LL elements
 	
 	/**
 	 * Constructor
 	 */
-	public Simulator()
+	public Simulator(RISCV riscv, Program program)
 	{
+		this.riscv = riscv;
+		this.program = program;
 		LL = new ArrayList<StateNode>();
 		LL.add(new StateNode(null, null));
 		PC = 0;
@@ -49,9 +54,9 @@ public class Simulator
 	 * Handles the next instruction
 	 * @param program
 	 */
-	public void step(Program program)
+	public void step()
 	{
-		// PC + 4
+		this.PC++;
 		// Make Base or Extension function call
 		// If (end of the LinkedList)
 		// - Append LinkedList with node containing changed register location and value
@@ -62,16 +67,37 @@ public class Simulator
 		// - Deactivate step option
 	}
 	
+	public void run()
+	{
+		/*
+		while (this.PC <= program.getText().size())
+		{
+			this.step(this.program);
+		}
+		*/
+	}
+	
 	/**
 	 * Undo forward step
 	 * @param program
 	 */
-	public void backstep(Program program)
+	public void backstep()
 	{
-		// PC - 4
+		this.PC--;
 		// Move back one node in LinkedList
 		// Restore value
 		// If (at LinkedList head)
 		// - Deactivate backstep option
+	}
+	
+	
+	public void reset()
+	{
+		/*
+		while (this.LL.get(this.PC) != null)
+		{
+			this.backstep(this.program);
+		}
+		*/
 	}
 }
