@@ -31,7 +31,7 @@ public class StateNode
 	 * @param location
 	 * @param value
 	 */
-	StateNode(String location, String value)
+	public StateNode(String location, String value)
 	{
 		this.location = location;
 		this.value = value;

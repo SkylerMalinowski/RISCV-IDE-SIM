@@ -70,7 +70,7 @@ public class Program
 		this.errorList = new ArrayList<ErrorMessage>();
 		this.warningList = new ArrayList<ErrorMessage>();
 
-		setSource(getFile().getAbsolutePath());
+		setSource();
 	}
 	
 	/**
@@ -95,9 +95,9 @@ public class Program
 	 * Method sets 'this.source' with raw text from file
 	 * @param filename
 	 */
-	public void setSource(String filePath)
+	public void setSource()
 	{
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+		try (BufferedReader br = new BufferedReader(new FileReader(this.file)))
 		{
 			String currentLine = null;
 
@@ -109,7 +109,7 @@ public class Program
 		}
 		catch(FileNotFoundException ex)
 		{
-			this.errorList.add(new ErrorMessage(ErrorMessage.ERROR,"Unable to open file '" + filePath + "'"));
+			this.errorList.add(new ErrorMessage(ErrorMessage.ERROR,"Unable to open file '" + this.file.getAbsolutePath() + "'"));
 		}
 		catch (IOException e)
 		{
@@ -284,7 +284,6 @@ public class Program
 				if (tokens.get(0).getData().equalsIgnoreCase(".TEXT"))
 				{
 					found = true;
-					this.appendTextList(tokens);
 				}
 				else if (tokens.get(0).getData().equalsIgnoreCase(".DATA"))
 				{
@@ -339,7 +338,6 @@ public class Program
 				if (tokens.get(0).getData().equalsIgnoreCase(".DATA"))
 				{
 					found = true;
-					this.appendTextList(tokens);
 				}
 				else if (tokens.get(0).getData().equalsIgnoreCase(".TEXT"))
 				{

@@ -23,6 +23,7 @@ package riscv.extension;
 
 import riscv.InstructionType;
 import riscv.Program;
+import simulator.StateNode;
 
 import java.util.HashMap;
 
@@ -55,7 +56,7 @@ public class M
 	 * @param arg2
 	 * @return
 	 */
-	public boolean instructionCall(Program program, String instruction, String arg0, String arg1, String arg2)
+	public StateNode instructionCall(Program program, String instruction, String arg0, String arg1, String arg2)
 	{
 		switch (instruction.toUpperCase())
 		{
@@ -64,9 +65,11 @@ public class M
 			// - Alter register or memory value
 			// Else
 			// - Append warning to program class instance
-			return true;
+			// Return location and value of where the instruction affected
+			// - Register-Value; Memory-Value; PC-Value
+			return new StateNode("*Location*","*Value*");
 		default :
-			return false;
+			return null;
 		}
 	}
 }

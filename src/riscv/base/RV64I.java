@@ -23,6 +23,7 @@ package riscv.base;
 
 import riscv.Program;
 import riscv.InstructionType;
+import simulator.StateNode;
 
 /**
  * RV64I :: 64-Bit Integrated Base Instruction Set
@@ -71,7 +72,7 @@ public class RV64I extends RV32I {
 	 * @param arg2
 	 * @return
 	 */
-	public boolean instructionCall(Program program, String instruction, String arg0, String arg1, String arg2)
+	public StateNode instructionCall(Program program, String instruction, String arg0, String arg1, String arg2)
 	{
 		switch (instruction.toUpperCase())
 		{
@@ -80,9 +81,11 @@ public class RV64I extends RV32I {
 			// - Alter register or memory value
 			// Else
 			// - Append warning to program class instance
-			return true;
+			// Return location and value of where the instruction affected
+			// - Register-Value; Memory-Value; PC-Value
+			return new StateNode("*Location*","*Value*");
 		default :
-			return false;
+			return null;
 		}
 	}
 }

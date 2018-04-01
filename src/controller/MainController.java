@@ -780,7 +780,7 @@ private String readFile(File file){
 	{
 		if (program.getAssebled() == true)
 		{
-			this.simulator.backstep();
+			this.simulator.backStep();
 		}
 		else
 		{

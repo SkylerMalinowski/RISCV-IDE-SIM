@@ -41,7 +41,7 @@ import assembler.TokenType;
 public class RISCV
 {
 	private Class base;
-	private List<Class> extensions;
+	private ArrayList<Class> extensions;
 	private HashMap<String,InstructionType> instructionMap;
 	
 	/**
@@ -173,27 +173,30 @@ public class RISCV
 			System.out.println("Not a recognized base");
 		}
 		
-		for (Object ext : this.extensions)
+		if (this.extensions != null)
 		{
-			if (ext == riscv.extension.A.class)
+			for (Object ext : this.extensions)
 			{
-				this.instructionMap.putAll(new M().TypeMap);
-			}
-			else if (ext == riscv.extension.D.class)
-			{
-				this.instructionMap.putAll(new M().TypeMap);
-			}
-			else if (ext == riscv.extension.F.class)
-			{
-				this.instructionMap.putAll(new M().TypeMap);
-			}
-			else if (ext == riscv.extension.M.class)
-			{
-				this.instructionMap.putAll(new M().TypeMap);
-			}
-			else
-			{
-				System.out.println("Other extension");
+				if (ext == riscv.extension.A.class)
+				{
+					this.instructionMap.putAll(new M().TypeMap);
+				}
+				else if (ext == riscv.extension.D.class)
+				{
+					this.instructionMap.putAll(new M().TypeMap);
+				}
+				else if (ext == riscv.extension.F.class)
+				{
+					this.instructionMap.putAll(new M().TypeMap);
+				}
+				else if (ext == riscv.extension.M.class)
+				{
+					this.instructionMap.putAll(new M().TypeMap);
+				}
+				else
+				{
+					System.out.println("Other extension");
+				}
 			}
 		}
 	}
@@ -294,31 +297,13 @@ public class RISCV
 		return expected;
 	}
 	
-	
-	
-	// Debugging
-	/*
-	public static void main(String[] args)
+	/**
+	 * Determines the InstructionType of the given token
+	 * @param token
+	 * @return
+	 */
+	public InstructionType typeLookup(Token token)
 	{
-		// Dynamic Class and class method call
-		/*
-		try
-		{
-			Class baseClass = RV32I.class;
-			RV32I rv32i = (RV32I) baseClass.getConstructor().newInstance();
-			//rv32i.main();
-		}
-		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e)
-		{
-			e.printStackTrace();
-		}
-		*/
-		/*
-		String[] str = {"M","A","F","D"};
-		RISCV riscv = new RISCV("RV64I",str);
-		riscv.lookupInstruction(new Token(null, "ADD", 0, 0, 0));
-		riscv.lookupInstruction(new Token(null, "LD", 0, 0, 0));
+		return this.instructionMap.get(token.getData().toUpperCase());
 	}
-	*/
 }
