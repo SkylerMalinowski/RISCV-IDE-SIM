@@ -77,18 +77,18 @@
         </Menu>
             <Menu mnemonicParsing="false" text="Run">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Assemble" />
-                  <MenuItem mnemonicParsing="false" text="Run">
+                  <MenuItem mnemonicParsing="false" onAction="#assembleProgram" text="Assemble" />
+                  <MenuItem mnemonicParsing="false" onAction="#simulatorRun" text="Run">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic>
                   </MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Forward" />
-                  <MenuItem mnemonicParsing="false" text="Backward" />
+                  <MenuItem mnemonicParsing="false" onAction="#simulatorForwardStep" text="Forward" />
+                  <MenuItem mnemonicParsing="false" onAction="#simulatorBackStep" text="Backward" />
                </items></Menu>
             <Menu mnemonicParsing="false" text="Settings">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem fx:id="hardware" mnemonicParsing="false" onAction="#handleModuleExtension" text="Hardware Settings" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Tools">

@@ -161,7 +161,7 @@ public class MainController extends Application
 	private MenuItem OpenButton;
 	
 	@FXML
-	private MenuItem ModuleExtButton;
+	private MenuItem hardware;
 	
 	@FXML
 	private MenuItem SaveFile;
@@ -178,18 +178,30 @@ public class MainController extends Application
 	private String base = "RV32I";
 	private ArrayList<String> exts;
 	private RISCV riscv = new RISCV(this.base);
-	private Simulator simulator;
+	private Simulator simulator = new Simulator(null, null);
 	private Program program;
 	
 
 	
+	public void setText(String text) 
+	{
+		this.console_text.setText(System.out.toString());
+	}
+	
+	public void getText() 
+	{
+		this.console_text.getText();
+	}
+	
 	@FXML
-	private void handleButtonAction(ActionEvent e) {
+	private void handleButtonAction(ActionEvent e) 
+	{
 		console_text.clear();
 	}
 	
 	@FXML
-	private void handleQuitAction() {
+	private void handleQuitAction() 
+	{
 		Platform.exit();
 		System.exit(0);
 	}
@@ -235,7 +247,8 @@ public class MainController extends Application
 	}
 	
 	@FXML
-	private void handleModuleExtension() throws Exception {
+	private void handleModuleExtension() throws Exception 
+	{
 		Parent root = null;
 		try {
 			root = FXMLLoader.load(getClass().getResource("../application/ModuleExtension.fxml"));
@@ -251,26 +264,26 @@ public class MainController extends Application
 	
 
 	@FXML
-	private void handleNewFile() throws Exception {
+	private void handleNewFile() throws Exception 
+	{
 		if(textArea.getText().length() == 0) {
 			textArea.clear();
 		}else if(textArea.getText() != null) {
-//			int size = textArea.getText().length();
-//			String s = String.valueOf(size);
-//			textArea.setText(s);
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Warning");
 			alert.setHeaderText("There is some text in editor");
 			alert.setContentText("Would you like to save?");
-
+			
+			ButtonType buttonTypeone = new ButtonType("Yes");
+			ButtonType buttonTypetwo = new ButtonType("No");
+			alert.getButtonTypes().setAll(buttonTypeone,buttonTypetwo);
 			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK){
+			if (result.get() == buttonTypeone){
 			    // ... user chose OK
 				handleSaveFile();
 				textArea.clear();
-			} else {
-			    // ... user chose CANCEL or closed the dialog
-				
+			} else if(result.get() == buttonTypetwo){
+				textArea.clear();
 			}
 		
 			
@@ -309,7 +322,8 @@ public class MainController extends Application
 	
 	
 	@FXML
-    public void handleSaveFile(){
+    public void handleSaveFile()
+	{
 //    	Stage stage = new Stage();
 //		SaveFile.setOnAction(new EventHandler<ActionEvent>() {
 //	        public void handle(ActionEvent e){
@@ -338,8 +352,8 @@ public class MainController extends Application
 	
 
 
-	 private Keywords kw = new Keywords();
-   private HighlightText languageHighlighter = new HighlightText(Color.WHITE);
+	private Keywords kw = new Keywords();
+	private HighlightText languageHighlighter = new HighlightText(Color.WHITE);
    //AutoComplete autocomplete;
 //   private boolean hasListener = false;
 //   private boolean edit = false;
@@ -550,10 +564,20 @@ public void start(Stage primaryStage){
 	private void assembleProgram()
 	{
 		Assembler assembler = new Assembler(this.riscv);
-		
-		if (this.program.getFile() == null)
+		if (this.program == null)
 		{
 			// TODO :: Error message "No file specified to be assembled"
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning");
+			alert.setHeaderText("Error!");
+			alert.setContentText("No file specified to be assembled.");
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				alert.close();
+			}
+			
+			
 		}
 		else
 		{
@@ -567,6 +591,7 @@ public void start(Stage primaryStage){
 			else
 			{
 				System.out.println("Assembler: completed without warnings.\n");
+				console_text.setText("Assembler: completed without warnings.\n");
 			}
 			if (this.program.getErrorList().size() > 0)
 			{
@@ -577,6 +602,7 @@ public void start(Stage primaryStage){
 			else
 			{
 				System.out.println("Assembler: completed without errors.\n");
+				console_text.appendText("Assembler: completed without errors.\n");
 				this.program.setAssembled(true);
 			}
 		}
@@ -594,7 +620,8 @@ public void start(Stage primaryStage){
 
 
 	
-private void openFile(File file) {
+private void openFile(File file) 
+{
 	try {
 		desktop.open(file);
 	} catch (IOException ex) {
@@ -607,7 +634,8 @@ private void openFile(File file) {
 
 
 
-private void SaveFile(String content, File file){
+private void SaveFile(String content, File file)
+{
 	try {
 		FileWriter fileWriter = null; 
         fileWriter = new FileWriter(file);
@@ -616,9 +644,10 @@ private void SaveFile(String content, File file){
 	} catch (IOException ex) {
 		Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		} 
-	}
+}
 
-private String readFile(File file){
+private String readFile(File file)
+{
 	StringBuilder stringBuffer = new StringBuilder();
     BufferedReader bufferedReader = null; 
     try {
@@ -652,13 +681,24 @@ private String readFile(File file){
 	@FXML
 	private void simulatorForwardStep()
 	{
+		if(this.program == null)
+		{
+			// TODO :: Error message "Cannot simulate program before it is assembled"
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning");
+			alert.setHeaderText("Error!");
+			alert.setContentText("Cannot simulate program before it is assembled.");
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				alert.close();
+			}
+			
+		}
+		
 		if (program.getAssebled() == true)
 		{
 			this.simulator.step();
-		}
-		else
-		{
-			// TODO :: Error message "Cannot simulate program before it is assembled"
 		}
 	}
 	
@@ -668,13 +708,23 @@ private String readFile(File file){
 	@FXML
 	private void simulatorRun()
 	{
+		if(this.program == null)
+		{
+			// TODO :: Error message "Cannot simulate program before it is assembled"
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning");
+			alert.setHeaderText("Error!");
+			alert.setContentText("Cannot simulate program before it is assembled.");
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				alert.close();
+			}
+		}
+		
 		if (program.getAssebled() == true)
 		{
 			this.simulator.run();
-		}
-		else
-		{
-			// TODO :: Error message "Cannot simulate program before it is assembled"
 		}
 	}
 	
@@ -684,13 +734,23 @@ private String readFile(File file){
 	@FXML
 	private void simulatorBackStep()
 	{
+		if(this.program == null)
+		{
+			// TODO :: Error message "Cannot simulate program before it is assembled"
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning");
+			alert.setHeaderText("Error!");
+			alert.setContentText("Cannot simulate program before it is assembled.");
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				alert.close();
+			}
+		}
+		
 		if (program.getAssebled() == true)
 		{
 			this.simulator.backStep();
-		}
-		else
-		{
-			// TODO :: Error message "Cannot simulate program before it is assembled"
 		}
 	}
 	
@@ -700,13 +760,24 @@ private String readFile(File file){
 	@FXML
 	private void simulatorReset()
 	{
+		
+		if(this.program == null)
+		{
+			// TODO :: Error message "Cannot simulate program before it is assembled"
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning");
+			alert.setHeaderText("Error!");
+			alert.setContentText("Cannot simulate program before it is assembled.");
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				alert.close();
+			}
+		}
+		
 		if (program.getAssebled() == true)
 		{
 			this.simulator.reset();
-		}
-		else
-		{
-			// TODO :: Error message "Cannot simulate program before it is assembled"
 		}
 	}
 	

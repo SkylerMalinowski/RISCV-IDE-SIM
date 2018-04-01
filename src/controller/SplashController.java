@@ -119,7 +119,7 @@ public class SplashController implements Initializable{
 				     if (result.isPresent()) {
 				    	 	selected = result.get();
 				    	 	Hardware_Extension.add(selected);
-				    	 	if(selected == "RV32I") {
+				    	 	if(selected.equals("RV32I")) {
 				    	 		dialogExtension = Arrays.asList(arrayExtension);
 							ChoiceDialog dialog_extension = new ChoiceDialog(dialogExtension.get(0), dialogExtension);
 							dialog_extension.setHeaderText("Select your Extension choice");
@@ -144,19 +144,24 @@ public class SplashController implements Initializable{
 							     String selectedExtension = "cancelled.";
 							     if (resultExtension.isPresent()) {
 							    	 	selectedExtension = resultExtension.get();
-							    	 	System.out.println("it worked");
 							    	 	Hardware_Extension.add(selectedExtension);
 					    	 			}
 						         System.out.println(selectedExtension);
 
 				    	 	}
-				    	 	if(selected.equals("")) {
-				    	 		dialog.close();
-				    	 		// assume 32 base
-				    	 	}
+				    	 	
 				         System.out.println(selected);
 				         System.out.println("Arraylist contains " + Hardware_Extension.get(0) + "," + Hardware_Extension.get(1));
 				    }
+				  	 	
+				     if(result.isPresent() == false) {
+			    	 		dialog.close();
+			    	 		// assume 32 base
+			    	 		Hardware_Extension.add(0, "RV32I");
+			    	 		Hardware_Extension.add(1, null);
+			    	 	}
+			         System.out.println("Arraylist contains " + Hardware_Extension.get(0) + "," + Hardware_Extension.get(1));
+			    
 				     
 				     
 					

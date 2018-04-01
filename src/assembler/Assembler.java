@@ -24,6 +24,7 @@ package assembler;
 import riscv.Program;
 import riscv.RISCV;
 
+
 /**
  * Deals with interfacing Program with Lexer and Parser
  * @author Skyler Malinowski
@@ -49,6 +50,7 @@ public class Assembler
 	public void assemble(Program program)
 	{
 		System.out.println("Assembler: assembling "+program.getFile()+"\n");
+
 		
 		Lexer lexer = new Lexer(this.riscv);
 		lexer.lex(program);
