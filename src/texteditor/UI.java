@@ -1,11 +1,10 @@
 //package texteditor;
-//
 //import javax.swing.*;
 //import javax.swing.event.CaretEvent;
 //import javax.swing.event.CaretListener;
 //import javax.swing.event.DocumentEvent;
 //import javax.swing.event.DocumentListener;
-//
+////
 //import java.awt.*;
 //import java.awt.event.*;
 //import java.io.BufferedWriter;
@@ -16,11 +15,11 @@
 //import java.util.Scanner;
 //import javax.swing.text.DefaultEditorKit;
 //import javax.swing.text.Element;
-//
+////
 //import com.sun.javafx.scene.text.TextLine;
-//
+////
 //public class UI extends JFrame implements ActionListener {
-//
+////
 //    private static final long serialVersionUID = 1L;
 //    private final JTextArea textArea;
 //    private final JMenuBar menuBar;
@@ -29,7 +28,7 @@
 //            aboutMe, aboutSoftware, wordWrap;
 //    private final JToolBar mainToolbar;
 //    JButton newButton, openButton, saveButton, clearButton, quickButton, aboutMeButton, aboutButton, closeButton;
-//    private final Action selectAllAction; 
+////    private final Action selectAllAction; 
 //    private JTextArea lineNumberBar;
 //    private JScrollPane scrollPane = null;
 //    private JTextField cursorStatusBar;
@@ -516,17 +515,17 @@
 //            textArea.selectAll();
 //        }
 //    }
-//
+////
 //    private void saveFile() {
 //        // Open a file chooser
 //        JFileChooser fileChoose = new JFileChooser();
-//        // Open the file, only this time we call
+////        // Open the file, only this time we call
 //        int option = fileChoose.showSaveDialog(this);
-//
-//        /*
-//             * ShowSaveDialog instead of showOpenDialog if the user clicked OK
-//             * (and not cancel)
-//         */
+////
+////        /*
+////             * ShowSaveDialog instead of showOpenDialog if the user clicked OK
+////             * (and not cancel)
+////         */
 //        if (option == JFileChooser.APPROVE_OPTION) {
 //            try {
 //                File openFile = fileChoose.getSelectedFile();
@@ -535,7 +534,7 @@
 //                BufferedWriter out = new BufferedWriter(new FileWriter(openFile.getPath()));
 //                out.write(textArea.getText());
 //                out.close();
-//
+////
 //                enableAutoComplete(openFile);
 //                edit = false;
 //            } catch (Exception ex) { // again, catch any exceptions and...
@@ -544,5 +543,5 @@
 //            }
 //        }
 //    }
-//
-//}
+////
+////}

@@ -44,12 +44,18 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+<<<<<<< Updated upstream
 import java.util.ArrayList;
+=======
+import java.util.Arrays;
+import java.util.List;
+>>>>>>> Stashed changes
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -82,22 +88,38 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.text.Text;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+<<<<<<< Updated upstream
+=======
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
+import texteditor.*;
+import controller.TextController;
+import controller.SplashController;
+>>>>>>> Stashed changes
 
 /**
  * Controls main application screen
@@ -105,6 +127,7 @@ import javafx.stage.StageStyle;
  * @author Skyler Malinowski
  * @version April 2018
  */
+<<<<<<< Updated upstream
 public class MainController extends Application
 {
 	private Desktop desktop = Desktop.getDesktop();
@@ -114,6 +137,12 @@ public class MainController extends Application
 	private Simulator simulator;
 	private Program program;
 	
+=======
+
+
+/* Code contains references to buttons and what occurs when pressed*/
+public class MainController extends Application{
+>>>>>>> Stashed changes
 	@FXML
 	private Button clear_button; // ID of button
 	
@@ -121,7 +150,13 @@ public class MainController extends Application
 	private TextArea console_text; // ID of console text area
 	
 	@FXML
-	private TextArea textArea; // ID of console text area
+	private TextArea textArea; // ID of editor
+	
+	@FXML
+	private TextArea LineNumberBar;
+	
+	@FXML
+	private TextField CursorStatusBar; // ID of editor status bar
 
 	@FXML
 	private MenuItem glossary_id;
@@ -147,6 +182,19 @@ public class MainController extends Application
 	@FXML
 	private VBox editorPane;
 	
+<<<<<<< Updated upstream
+=======
+	@FXML
+	private VBox Main;
+	
+    private Desktop desktop = Desktop.getDesktop();
+    private final static String [] arrayData = {"RV32I", "RV64I"};
+    private static List<String> dialogData;
+
+	
+
+	
+>>>>>>> Stashed changes
 	@FXML
 	private void handleButtonAction(ActionEvent e) {
 		console_text.clear();
@@ -216,7 +264,12 @@ public class MainController extends Application
 
 	@FXML
 	private void handleNewFile() throws Exception {
-		if(textArea.getText() != null) {
+		if(textArea.getText().length() == 0) {
+			textArea.clear();
+		}else if(textArea.getText() != null) {
+//			int size = textArea.getText().length();
+//			String s = String.valueOf(size);
+//			textArea.setText(s);
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Warning");
 			alert.setHeaderText("There is some text in editor");
@@ -233,7 +286,7 @@ public class MainController extends Application
 			}
 		
 			
-		}
+		} 
 
 	}
 	
@@ -295,8 +348,130 @@ public class MainController extends Application
 	
 
 	
+<<<<<<< Updated upstream
 	//class TextEditor extends Thread{	
 	public void start(Stage primaryStage){
+=======
+	 private Keywords kw = new Keywords();
+   private HighlightText languageHighlighter = new HighlightText(Color.WHITE);
+   //AutoComplete autocomplete;
+//   private boolean hasListener = false;
+//   private boolean edit = false;
+//   
+//   // line number functions
+   private final TextArea getLineNumberBarArea() {
+       return (LineNumberBar);
+   }
+//   
+   private void updatesBar(int rowNum, int colNum) {
+      CursorStatusBar.setText("Line: " + rowNum + " Column: " + colNum);
+   }
+	
+@Override
+public void start(Stage primaryStage){
+	// TODO Auto-generated method stub
+	  // Set line numbers and scroll pane
+  
+//       LineNumberBar = new TextArea("1");
+ //      LineNumberBar.setFont(textArea.getFont());
+      // LineNumberBar.set(Color.LIGHT_GRAY);
+ //      LineNumberBar.setEditable(false);
+//       
+//       scrollPane = new ScrollPane();
+//       scrollPane.getViewport().add(textArea);
+//       scrollPane.setRowHeaderView(lineNumberBar);
+//       scrollPane.setVerticalScrollBarPolicy(ScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+////       scrollPane.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+////               .createCompoundBorder(
+////                       BorderFactory.createLineBorder(new Color(111)),
+//                       BorderFactory.createEmptyBorder(6, 6, 6, 6)),
+//               scrollPane.getBorder()));
+//       textArea.addCaretListener(new CaretListener() {
+//           public void caretUpdate(CaretEvent e) {
+//               JTextArea dArea = (JTextArea) e.getSource();
+//               int rowNum = 1;
+//               int colNum = 1;
+//               try {
+//                   int caretpos = dArea.getCaretPosition();
+//                   rowNum = dArea.getLineOfOffset(caretpos);
+//                   colNum = caretpos - dArea.getLineStartOffset(rowNum);
+//                   rowNum += 1;
+//               } catch (Exception ex) {
+//               }
+//               updatesBar(rowNum, colNum);
+//           }
+//       });
+//       
+//       this.setLayout(new BorderLayout());
+//       this.add(scrollPane, BorderLayout.CENTER);
+//      CursorStatusBar = new TextField();
+////       this.add(cursorStatusBar, BorderLayout.SOUTH);
+//       updatesBar(1, 0);
+//      textArea.getDocument().addDocumentListener(new DocumentListener() {
+////      
+////       // function to get text and indicate side number
+////       public String getText() {
+////           int cursorLocation = textArea.getDocument().getLength();
+////           Element rootElement = textArea.getDocument()
+////                   .getDefaultRootElement();
+////           String sideNumber = "1" + System.getProperty("line.separator");
+////           for (int i = 2; i < rootElement.getElementIndex(cursorLocation) + 2; i++) {
+////               sideNumber += i + System.getProperty("line.separator");
+////           }
+////           return sideNumber;
+////       }
+////
+////       // update functions
+//      public void changedUpdate(DocumentEvent e) {
+//    	  LineNumberBar.setText(getText());
+//      }
+//           edit = false;
+//      }
+////
+//       public void insertUpdate(DocumentEvent e) {
+//           LineNumberBar.setText(getText());
+//          edit = false;
+//       }
+////
+//       public void removeUpdate(DocumentEvent e) {
+//           LineNumberBar.setText(getText());
+//          edit = false;
+//       }
+//   });
+//	
+////
+//	@Override
+//	public void run()
+//	{
+//		try
+//		{
+//			Thread.sleep(1); // let it render 
+//			
+//			Platform.runLater(new Runnable() {
+//				@Override
+//				public void run() {
+//					// Loading Main GUI
+//					Parent root2 = null;
+//					try {
+//						//UI ui = new UI();
+//						//ui.setVisible(true);
+//						VBox pane = FXMLLoader.load(getClass().getResource("../application/TextEditor.fxml"));
+//						editorPane.getChildren().setAll(pane);
+//
+//					}catch (IOException ex){
+//						Logger.getLogger(TextController.class.getName()).log(Level.SEVERE, null, ex);	
+//					}
+//				
+//
+//				}
+//			});
+//		}
+//		catch (InterruptedException ex)
+//		{
+//			Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
+//		}
+//		
+>>>>>>> Stashed changes
 		
 	//	@Override
 	//	public void run()
@@ -354,6 +529,7 @@ public class MainController extends Application
 	//		
 	//		primaryStage.show();
 		
+<<<<<<< Updated upstream
 	 
 			
 		 	
@@ -461,6 +637,88 @@ public class MainController extends Application
 			{
 				System.out.println("Assembler: completed without warnings.\n");
 			}
+=======
+//		SaveFile.setOnAction((ActionEvent event) -> {
+//	    	Stage stage = new Stage();
+//////	        FXMLLoader loader = new FXMLLoader(getClass().getResource("TextController.fxml"));
+//////			;
+//////			TextController controller = new TextController();
+//////			//controller.setTextArea(controller.getTextArea());
+//////			//TextArea txt = controller.getTextArea();
+//////			
+//////			VBox pane = new VBox();
+//////			pane.getChildren().add(controller);
+//			 FileChooser fileChooser = new FileChooser();
+////			    //Show save file dialog
+//			    File file = fileChooser.showSaveDialog(primaryStage);
+//			    if(file != null){
+//			        SaveFile(textArea.getText(), file);
+//			    }
+////			
+////
+////	       
+//	    });
+//		
+	
+      
+    
+
+	
+}
+
+
+
+	
+private void openFile(File file) {
+	try {
+		desktop.open(file);
+	} catch (IOException ex) {
+		Logger.getLogger(
+				MainController.class.getName()).log(
+						Level.SEVERE, null, ex
+						);
+		}
+}
+
+
+
+private void SaveFile(String content, File file){
+	try {
+		FileWriter fileWriter = null; 
+        fileWriter = new FileWriter(file);
+        fileWriter.write(content);
+        fileWriter.close();
+	} catch (IOException ex) {
+		Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+		} 
+	}
+
+private String readFile(File file){
+	StringBuilder stringBuffer = new StringBuilder();
+    BufferedReader bufferedReader = null; 
+    try {
+    		bufferedReader = new BufferedReader(new FileReader(file));
+         
+        String text;
+        while ((text = bufferedReader.readLine()) != null) {
+        		stringBuffer.append(text + "\n" );
+        }
+
+    } catch (FileNotFoundException ex) {
+    		Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+    } finally {
+        try {
+        		bufferedReader.close();
+        } catch (IOException ex) {
+            	Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } 
+     
+    return stringBuffer.toString();
+}
+>>>>>>> Stashed changes
 
 			if (this.program.getErrorList().size() > 0)
 			{
@@ -481,6 +739,7 @@ public class MainController extends Application
 		}
 	}
 
+<<<<<<< Updated upstream
 	/**
 	 * Simulates the next instruction
 	 */
@@ -553,4 +812,11 @@ public class MainController extends Application
 	}
 	*/
 	
+=======
+public static void main(String[] args) {
+launch(args);
+
+	}
+
+>>>>>>> Stashed changes
 }
