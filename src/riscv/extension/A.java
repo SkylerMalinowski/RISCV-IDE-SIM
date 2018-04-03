@@ -24,6 +24,7 @@ package riscv.extension;
 import riscv.InstructionType;
 import riscv.Program;
 import simulator.StateNode;
+import controller.IntRegisters;
 
 import java.util.HashMap;
 
@@ -61,12 +62,17 @@ public class A
 		switch (instruction.toUpperCase())
 		{
 		case "ADD" :
+			
+			
 			// If (arguments have valid bit length)
 			// - Alter register or memory value
 			// Else
 			// - Append warning to program class instance
 			// Return location and value of where the instruction affected
 			// - Register-Value; Memory-Value; PC-Value
+			return new StateNode("*Location*","*Value*");
+		case "SUB" :
+			// same as above
 			return new StateNode("*Location*","*Value*");
 		default :
 			return null;
