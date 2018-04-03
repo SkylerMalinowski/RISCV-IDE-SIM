@@ -39,7 +39,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="Main" prefHeight="616.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<VBox fx:id="Main" prefHeight="617.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -104,7 +104,7 @@
     </MenuBar>
       <StackPane prefHeight="599.0" prefWidth="918.0" VBox.vgrow="ALWAYS">
          <children>
-            <SplitPane dividerPositions="0.5">
+            <SplitPane dividerPositions="0.6">
               <items>
                   <TabPane prefHeight="582.0" prefWidth="526.0" tabClosingPolicy="UNAVAILABLE" SplitPane.resizableWithParent="false">
                     <tabs>
@@ -159,40 +159,36 @@
                       </Tab>
                     </tabs>
                   </TabPane>
-                  <VBox prefHeight="582.0" prefWidth="320.0" SplitPane.resizableWithParent="false">
-                     <children>
-                        <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="444.0" tabClosingPolicy="UNAVAILABLE" translateX="1.0" translateY="1.0" translateZ="1.0">
-                           <tabs>
-                              <Tab text="Ints">
-                                 <content>
-                                    <TableView fx:id="Table1" prefHeight="541.0" prefWidth="419.0">
+                  <TabPane prefHeight="585.0" prefWidth="526.0" tabClosingPolicy="UNAVAILABLE">
+                     <tabs>
+                        <Tab text="Ints">
+                           <content>
+                              <TableView fx:id="Table1" prefHeight="541.0" prefWidth="419.0">
+                                 <columns>
+                                    <TableColumn fx:id="IntNameColumn" minWidth="100.0" prefWidth="100.0" resizable="false" text="REG_NAME" />
+                                    <TableColumn fx:id="IntNumColumn" minWidth="100.0" prefWidth="75.0" text="REG_NUM" />
+                                    <TableColumn fx:id="IntValueColumn" minWidth="100.0" prefWidth="75.0" text="VALUE" />
+                                 </columns>
+                              </TableView>
+                           </content>
+                        </Tab>
+                        <Tab text="Floats">
+                           <content>
+                              <AnchorPane prefHeight="539.0" prefWidth="371.0">
+                                 <children>
+                                    <TableView fx:id="Table2" prefHeight="552.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <columns>
-                                          <TableColumn fx:id="IntNameColumn" minWidth="100.0" prefWidth="100.0" resizable="false" text="REG_NAME" />
-                                          <TableColumn fx:id="IntNumColumn" minWidth="100.0" prefWidth="75.0" text="REG_NUM" />
-                                          <TableColumn fx:id="IntValueColumn" minWidth="100.0" prefWidth="75.0" text="VALUE" />
+                                          <TableColumn fx:id="FloatNameColumn" minWidth="100.0" prefWidth="100.0" resizable="false" text="REG_NAME" />
+                                          <TableColumn fx:id="FloatNumColumn" minWidth="100.0" prefWidth="75.0" text="REG_NUM" />
+                                          <TableColumn fx:id="FloatValueColumn" minWidth="100.0" prefWidth="75.0" text="VALUE" />
                                        </columns>
                                     </TableView>
-                                 </content>
-                              </Tab>
-                              <Tab text="Floats">
-                                 <content>
-                                    <AnchorPane prefHeight="539.0" prefWidth="371.0">
-                                       <children>
-                                          <TableView fx:id="Table2" prefHeight="542.0" prefWidth="376.0">
-                                             <columns>
-                                                <TableColumn fx:id="FloatNameColumn" minWidth="100.0" prefWidth="100.0" resizable="false" text="REG_NAME" />
-                                                <TableColumn fx:id="FloatNumColumn" minWidth="100.0" prefWidth="75.0" text="REG_NUM" />
-                                                <TableColumn fx:id="FloatValueColumn" minWidth="100.0" prefWidth="75.0" text="VALUE" />
-                                             </columns>
-                                          </TableView>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                           </tabs>
-                        </TabPane>
-                     </children>
-                  </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </TabPane>
               </items>
             </SplitPane>
          </children>
