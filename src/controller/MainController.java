@@ -28,6 +28,7 @@ import assembler.Assembler;
 import texteditor.*;
 import controller.SplashController.SplashScreen;
 import controller.TextController;
+import controller.FloatRegisters;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -74,10 +75,15 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Element;
 
+import controller.IntRegisters;
+
 //import com.sun.xml.internal.ws.org.objectweb.asm.Label;
+
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
@@ -90,18 +96,21 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.VBoxBuilder;
+//import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.text.Text;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
@@ -128,7 +137,7 @@ import controller.SplashController;
 
 
 /* Code contains references to buttons and what occurs when pressed*/
-public class MainController extends Application
+public class MainController extends Application implements Initializable
 {
 	@FXML
 	private Button clear_button; // ID of button
@@ -172,7 +181,42 @@ public class MainController extends Application
 	@FXML
 	private VBox Main;
 	
+	
+	
+	
+	
+	
+	
+	
+	@FXML private TableView<IntRegisters> Table1;
+				
+	// Column for Register names
+	@FXML private TableColumn<IntRegisters, String> IntNameColumn = new TableColumn<>("name");
+		
+	// Column for Register Number
+	@FXML private TableColumn<IntRegisters, String> IntNumColumn = new TableColumn<>("num");
+		
+	// Column for Register Values
+	@FXML private TableColumn<IntRegisters, String> IntValueColumn = new TableColumn<>("value");
+	
+
+	
+	
+	
+	@FXML private TableView<FloatRegisters> Table2;
+
+				
+	// Column for Register names
+	@FXML private TableColumn<FloatRegisters, String> FloatNameColumn = new TableColumn<>("FloatName");
+		
+	// Column for Register Number
+	@FXML private TableColumn<FloatRegisters, String> FloatNumColumn = new TableColumn<>("FloatNumber");
+		
+	// Column for Register Values
+	@FXML private TableColumn<FloatRegisters, String> FloatValueColumn = new TableColumn<>("FloatValues");
+	
  
+
 
     private Desktop desktop = Desktop.getDesktop();
 	private String base = "RV32I";
@@ -348,8 +392,102 @@ public class MainController extends Application
     				    }   		       
 	}
 	
-
+	public ObservableList<IntRegisters> InitializeIntRegisters()
+	{
+	// get 32 or 64 option  
+	ObservableList<IntRegisters> IntRegister= FXCollections.observableArrayList();
 	
+	IntRegister.add(new IntRegisters("x9",0,0));
+	IntRegister.add(new IntRegisters("x1",1,0));
+	IntRegister.add(new IntRegisters("x2",2,0));
+	IntRegister.add(new IntRegisters("x3",3,0));
+	IntRegister.add(new IntRegisters("x4",4,0));
+	IntRegister.add(new IntRegisters("x5",5,0));
+	IntRegister.add(new IntRegisters("x6",6,0));
+	IntRegister.add(new IntRegisters("x7",7,0));
+	IntRegister.add(new IntRegisters("x8",8,0));
+	IntRegister.add(new IntRegisters("x9",9,0));
+	IntRegister.add(new IntRegisters("x10",10,0));
+	IntRegister.add(new IntRegisters("x11",11,0));
+	IntRegister.add(new IntRegisters("x12",12,0));
+	IntRegister.add(new IntRegisters("x13",13,0));
+	IntRegister.add(new IntRegisters("x14",14,0));
+	IntRegister.add(new IntRegisters("x15",15,0));
+	IntRegister.add(new IntRegisters("x16",16,0));
+	IntRegister.add(new IntRegisters("x17",17,0));
+	IntRegister.add(new IntRegisters("x18",18,0));
+	IntRegister.add(new IntRegisters("x19",19,0));
+	IntRegister.add(new IntRegisters("x20",20,0));
+	IntRegister.add(new IntRegisters("x21",21,0));
+	IntRegister.add(new IntRegisters("x22",22,0));
+	IntRegister.add(new IntRegisters("x23",23,0));
+	IntRegister.add(new IntRegisters("x24",24,0));
+	IntRegister.add(new IntRegisters("x25",25,0));
+	IntRegister.add(new IntRegisters("x26",26,0));
+	IntRegister.add(new IntRegisters("x27",27,0));
+	IntRegister.add(new IntRegisters("x28",28,0));
+	IntRegister.add(new IntRegisters("x29",29,0));
+	IntRegister.add(new IntRegisters("x30",30,0));
+	IntRegister.add(new IntRegisters("x31",31,0));
+	IntRegister.add(new IntRegisters("pc",0,0));
+	return IntRegister;
+	}
+	
+	public ObservableList<FloatRegisters> InitializeFloatRegisters()
+	{
+		
+		ObservableList<FloatRegisters> FloatRegister= FXCollections.observableArrayList();
+		FloatRegister.add(new FloatRegisters("f0",0,0));
+		FloatRegister.add(new FloatRegisters("f1",0,0));
+		FloatRegister.add(new FloatRegisters("f2",0,0));
+		FloatRegister.add(new FloatRegisters("f3",0,0));
+		FloatRegister.add(new FloatRegisters("f4",0,0));
+		FloatRegister.add(new FloatRegisters("f5",0,0));
+		FloatRegister.add(new FloatRegisters("f6",0,0));
+		FloatRegister.add(new FloatRegisters("f7",0,0));
+		FloatRegister.add(new FloatRegisters("f8",0,0));
+		FloatRegister.add(new FloatRegisters("f9",0,0));
+		FloatRegister.add(new FloatRegisters("f11",0,0));
+		FloatRegister.add(new FloatRegisters("f12",0,0));
+		FloatRegister.add(new FloatRegisters("f13",0,0));
+		FloatRegister.add(new FloatRegisters("f14",0,0));
+		FloatRegister.add(new FloatRegisters("f15",0,0));
+		FloatRegister.add(new FloatRegisters("f16",0,0));
+		FloatRegister.add(new FloatRegisters("f17",0,0));
+		FloatRegister.add(new FloatRegisters("f18",0,0));
+		FloatRegister.add(new FloatRegisters("f19",0,0));
+		FloatRegister.add(new FloatRegisters("f20",0,0));
+		FloatRegister.add(new FloatRegisters("f21",0,0));
+		FloatRegister.add(new FloatRegisters("f22",0,0));
+		FloatRegister.add(new FloatRegisters("f23",0,0));
+		FloatRegister.add(new FloatRegisters("f24",0,0));
+		FloatRegister.add(new FloatRegisters("f25",0,0));
+		FloatRegister.add(new FloatRegisters("f26",0,0));
+		FloatRegister.add(new FloatRegisters("f27",0,0));
+		FloatRegister.add(new FloatRegisters("f28",0,0));
+		FloatRegister.add(new FloatRegisters("f29",0,0));
+		FloatRegister.add(new FloatRegisters("f30",0,0));
+		FloatRegister.add(new FloatRegisters("f31",0,0));
+		return FloatRegister;
+	}
+
+	public void initialize(URL arg0, ResourceBundle arg1) 
+	{
+		
+		IntNameColumn.setCellValueFactory(new PropertyValueFactory<IntRegisters, String>("name"));
+		IntNumColumn.setCellValueFactory(new PropertyValueFactory<>("num"));	
+		IntValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+		Table1.setItems(InitializeIntRegisters());
+		
+		FloatNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+		FloatNumColumn.setCellValueFactory(new PropertyValueFactory<>("num"));	
+		FloatValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+	
+		
+		Table2.setItems(InitializeFloatRegisters());
+	}
+	
+		
 
 
 	private Keywords kw = new Keywords();
