@@ -507,6 +507,8 @@ public class MainController extends Application implements Initializable
 	
 @Override
 public void start(Stage primaryStage){
+	
+	
 	// TODO Auto-generated method stub
 	  // Set line numbers and scroll pane
   
