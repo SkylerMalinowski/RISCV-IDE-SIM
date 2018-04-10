@@ -41,17 +41,17 @@
 
 <VBox fx:id="Main" prefHeight="617.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
             <MenuItem fx:id="newFile" mnemonicParsing="false" onAction="#handleNewFile" text="New" />
             <MenuItem fx:id="OpenButton" mnemonicParsing="false" onAction="#handleOpenFile" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
+            <Menu fx:id="Recent" mnemonicParsing="false" onAction="#handleRecent" text="Open Recent" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Close" />
             <MenuItem fx:id="SaveFile" mnemonicParsing="false" onAction="#handleSaveFile" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" onAction="#handleSaveAsFile" text="Save As…" />
             <MenuItem mnemonicParsing="false" text="Revert" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Preferences…" />

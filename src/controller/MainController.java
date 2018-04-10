@@ -107,6 +107,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -176,6 +178,12 @@ public class MainController extends Application implements Initializable
 	private MenuItem SaveFile;
 	
 	@FXML
+	private Menu Recent;
+	
+	@FXML
+	private MenuBar menuBar;
+	
+	@FXML
 	private VBox editorPane;
 
 	@FXML
@@ -224,6 +232,8 @@ public class MainController extends Application implements Initializable
 	private RISCV riscv = new RISCV(this.base);
 	private Simulator simulator = new Simulator(null, null);
 	private Program program;
+	private int count = 0;
+	private File globalFile;
 	
 
 	
@@ -310,6 +320,7 @@ public class MainController extends Application implements Initializable
 	@FXML
 	private void handleNewFile() throws Exception 
 	{
+		count = 0;
 		if(textArea.getText().length() == 0) {
 			textArea.clear();
 		}else if(textArea.getText() != null) {
@@ -354,33 +365,44 @@ public class MainController extends Application implements Initializable
 		//OpenButton.setOnAction((ActionEvent event)-> {
 			Stage stage = new Stage();
 	      	FileChooser fileChooser = new FileChooser();
-                        File file = fileChooser.showOpenDialog(stage);
-                        this.program = new Program(file);
-                        
-                        if (file != null) {
-                            textArea.setText(readFile(file));
-                        }
-              //  });
+             File file = fileChooser.showOpenDialog(stage);
+             globalFile = file;
+             this.program = new Program(file);           
+             if (file != null) {
+            	 	textArea.setText(readFile(file));
+             	}
+              count++;
+            
     }
 	
 	
 	
 	@FXML
     public void handleSaveFile()
-	{
-//    	Stage stage = new Stage();
-//		SaveFile.setOnAction(new EventHandler<ActionEvent>() {
-//	        public void handle(ActionEvent e){
-//	            FileChooser fileChooser = new FileChooser();
-//	            fileChooser.setTitle("Save File");
-//	            File file = fileChooser.showSaveDialog(stage);
-//	            if (file != null) {
-//	            		//txt.setTextArea(textArea);
-//	            		SaveFile(textArea.getText(), file);
-//	            }
-//	        }
-//	    });
-    	
+	{    
+		if(count == 0)
+		{
+		Stage stage = new Stage();
+    		FileChooser fileChooser = new FileChooser();
+    		//Show save file dialog
+    		File file = fileChooser.showSaveDialog(stage);
+    		globalFile = file;
+    		this.program = new Program(file);
+    			    
+    		if(file != null){
+    			SaveFile(textArea.getText(), file);
+    			}
+    		count++;
+		}else {
+			count++;
+			SaveFile(textArea.getText(), globalFile);
+		}
+    		
+	}
+	
+	@FXML
+    public void handleSaveAsFile()
+	{    	
    		   	Stage stage = new Stage();
     				 FileChooser fileChooser = new FileChooser();
     				    //Show save file dialog
@@ -390,6 +412,29 @@ public class MainController extends Application implements Initializable
     				    if(file != null){
     				        SaveFile(textArea.getText(), file);
     				    }   		       
+	}
+	
+	@FXML
+	private void handleRecent()
+	{
+		//menuBar.getMenus().add(Recent);
+		//ObservableList<String> FileNames = FXCollections.observableArrayList();
+		//FileNames.add(globalFile.getName());
+		MenuItem newItemFile = new MenuItem(globalFile.getName());
+		Recent.getItems().add(newItemFile);
+		newItemFile.setOnAction((ActionEvent event)-> {
+			Stage stage = new Stage();
+	      	FileChooser fileChooser = new FileChooser();
+             File file = fileChooser.showOpenDialog(stage);
+             globalFile = file;
+             this.program = new Program(file);           
+             if (file != null) {
+            	 	textArea.setText(readFile(file));
+             	}
+              count++;
+            
+			});
+		
 	}
 	
 	public ObservableList<IntRegisters> InitializeIntRegisters()
