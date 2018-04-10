@@ -135,22 +135,32 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0">
                                  <children>
-                                    <SplitPane orientation="VERTICAL" prefHeight="181.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <SplitPane orientation="VERTICAL" prefHeight="229.0" prefWidth="523.0" AnchorPane.bottomAnchor="324.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <items>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="71.0" prefWidth="225.0" />
-                                       </items>
-                                    </SplitPane>
-                                    <SplitPane layoutY="181.0" orientation="VERTICAL" prefHeight="186.0" prefWidth="514.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="181.0">
-                                       <items>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="184.0" prefWidth="486.0" SplitPane.resizableWithParent="false">
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="184.0" prefWidth="486.0">
                                              <children>
-                                                <ListView prefHeight="184.0" prefWidth="514.0" />
-                                             </children></AnchorPane>
+                                                <ListView prefHeight="228.0" prefWidth="523.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
                                        </items>
                                     </SplitPane>
-                                    <SplitPane layoutY="367.0" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="367.0">
+                                    <SplitPane layoutX="-3.0" layoutY="228.0" orientation="VERTICAL" prefHeight="209.0" prefWidth="529.0" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="228.0">
                                        <items>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="173.0" prefWidth="598.0" />
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="187.0" prefWidth="489.0">
+                                             <children>
+                                                <ListView prefHeight="210.0" prefWidth="529.0" AnchorPane.bottomAnchor="-3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                       </items>
+                                    </SplitPane>
+                                    <SplitPane layoutY="415.0" orientation="VERTICAL" prefHeight="117.0" prefWidth="523.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <items>
+                                          <AnchorPane prefHeight="105.0" prefWidth="521.0">
+                                             <children>
+                                                <Button id="clear_button" fx:id="clear_button1" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="54.0" prefWidth="58.0" text="Clear" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="449.0" AnchorPane.topAnchor="39.0" />
+                                                <TextArea id="console_text" fx:id="console_text1" layoutX="90.0" layoutY="19.0" prefHeight="75.0" prefWidth="398.0" text="hello World" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="38.0" />
+                                             </children>
+                                          </AnchorPane>
                                        </items>
                                     </SplitPane>
                                  </children>
