@@ -442,6 +442,10 @@ public class MainController extends Application implements Initializable
 	
 	private ObservableList<IntRegisters> IntRegister= FXCollections.observableArrayList();
 	
+	
+	
+	private ObservableList<IntRegisters> IntRegister= FXCollections.observableArrayList();
+	
 	public ObservableList<IntRegisters> InitializeIntRegisters()
 	{
 	// get 32 or 64 option  
