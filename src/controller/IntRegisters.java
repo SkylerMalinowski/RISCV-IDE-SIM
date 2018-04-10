@@ -29,6 +29,11 @@ public class IntRegisters {
 	}
 	
 	public void setValue(int val) {			// set the value of the register
+		if(name=="x0")
+		{
+			//exception
+		}
+		else
 		value = val;
 	}
 

@@ -60,7 +60,7 @@ public class F
 	{
 		switch (instruction.toUpperCase())
 		{
-		case "ADD" :
+		case "FADD" :
 			// If (arguments have valid bit length)
 			// - Alter register or memory value
 			// Else
@@ -68,6 +68,8 @@ public class F
 			// Return location and value of where the instruction affected
 			// - Register-Value; Memory-Value; PC-Value
 			return new StateNode("*Location*","*Value*");
+			
+		case "FSUB":
 		default :
 			return null;
 		}

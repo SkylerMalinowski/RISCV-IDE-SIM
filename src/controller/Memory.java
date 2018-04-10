@@ -3,15 +3,17 @@ package controller;
 public class Memory {
 	
 	
-	public char Block;
+	private String word;
+	private int Address;
 	
-	public char getBlock()
-	{
-		return Block;
-	}
 
-	public void setBlock(char value)
+	public String LoadMemory(int RegisterNumber)
 	{
-		Block = value;
+		return word;
+	}
+	
+	public void StoreMemory(int RegisterNumber, String Data)
+	{
+		word = Data;
 	}
 }
