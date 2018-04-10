@@ -30,7 +30,7 @@ public class SwingFx extends Application {
        
         
 
-        stage.setTitle("Swing in JavaFX");
+        stage.setTitle("RISC-V IDE SIM");
         stage.setScene(new Scene(pane, 800, 800));
         stage.show();
         }

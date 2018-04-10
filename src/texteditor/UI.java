@@ -1,6 +1,7 @@
 package texteditor;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
@@ -19,7 +20,7 @@ import javax.swing.text.Element;
 
 import com.sun.javafx.scene.text.TextLine;
 
-public class UI extends JComponent implements ActionListener {
+public class UI extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private final JTextArea textArea;
@@ -75,13 +76,15 @@ public class UI extends JComponent implements ActionListener {
         setSize(800, 800);
 
         // Set the title of the window
-       // setTitle("Untitled | " + TextEditor.NAME);
-
+        TitledBorder title = BorderFactory.createTitledBorder("Untitled | " + TextEditor.NAME);
+        setBorder(title);
+        
         // Set the default close operation (exit when it gets closed)
        // setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // center the frame on the monitor
       //  setLocationRelativeTo(null);
+       
 
         // Set a default font for the TextArea
         textArea = new JTextArea("", 0, 0);
@@ -201,13 +204,15 @@ public class UI extends JComponent implements ActionListener {
         menuBar.add(menuAbout);
 
         //this.setJMenuBar(menuBar);
-
+        
+        
         // Set Actions:
         selectAllAction = new SelectAllAction("Select All", clearIcon, "Select all text", new Integer(KeyEvent.VK_A),
                 textArea);
         
        //this.setJMenuBar(menuBar);
-
+        //this.add(menuBar, BorderLayout.NORTH);
+       
         // New File
         newFile.addActionListener(this);  // Adding an action listener (so we know when it's been clicked).
         newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK)); // Set a keyboard shortcut
@@ -357,6 +362,7 @@ public class UI extends JComponent implements ActionListener {
         mainToolbar.addSeparator();
   
     }
+    //@Override
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
             if (edit) {
@@ -365,8 +371,10 @@ public class UI extends JComponent implements ActionListener {
                         JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
                 if (n == 0) {// save and exit
                     saveFile();
-                  //  this.dispose();// dispose all resources and close the application
+                    System.exit(0);
+                     //this.dispose();// dispose all resources and close the application
                 } else if (n == 1) {// no save and exit
+                	System.exit(0);
                  //   this.dispose();// dispose all resources and close the application
                 }
             } else {
@@ -421,11 +429,14 @@ public class UI extends JComponent implements ActionListener {
                         JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
                 if (n == 0) {// save and exit
                     saveFile();
+                    System.exit(0);
                    // this.dispose();// dispose all resources and close the application
                 } else if (n == 1) {// no save and exit
+                	System.exit(0);
                   //  this.dispose();// dispose all resources and close the application
                 }
             } else {
+            	System.exit(0);
                // this.dispose();// dispose all resources and close the application
             }
         } // If the source was the "new" file option
@@ -459,7 +470,8 @@ public class UI extends JComponent implements ActionListener {
                 FEdit.clear(textArea); // clear the TextArea before applying the file contents
                 try {
                     File openFile = open.getSelectedFile();
-                  //  setTitle(openFile.getName() + " | " + TextEditor.NAME);
+                    TitledBorder title = BorderFactory.createTitledBorder(openFile.getName() + " | " + TextEditor.NAME);
+                    setBorder(title);
                     Scanner scan = new Scanner(new FileReader(openFile.getPath()));
                     while (scan.hasNext()) {
                         textArea.append(scan.nextLine() + "\n");
@@ -529,8 +541,9 @@ public class UI extends JComponent implements ActionListener {
         if (option == JFileChooser.APPROVE_OPTION) {
             try {
                 File openFile = fileChoose.getSelectedFile();
-              //  setTitle(openFile.getName() + " | " + TextEditor.NAME);
-
+                
+                TitledBorder title = BorderFactory.createTitledBorder(openFile.getName() + " | " + TextEditor.NAME);
+                setBorder(title);
                 BufferedWriter out = new BufferedWriter(new FileWriter(openFile.getPath()));
                 out.write(textArea.getText());
                 out.close();
