@@ -18,7 +18,7 @@ import java.util.Scanner;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Element;
 
-import com.sun.javafx.scene.text.TextLine;
+//import com.sun.javafx.scene.text.TextLine;
 
 public class UI extends JPanel implements ActionListener {
 

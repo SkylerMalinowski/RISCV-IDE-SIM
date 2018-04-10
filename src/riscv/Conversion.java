@@ -4,15 +4,24 @@ public class Conversion {
 
 	public String DecimaltoBinary(String number)
 	{
-		String Binary;
-		int remainder;
-		while(true)
+		String Binary=null;
+		int num = Integer.parseInt(number);
+		while(num!=0)
 		{
-			
+			if(num%2==0)
+			{
+				Binary += "0";
+			}
+			else
+			{
+				Binary += "1";
+			}
+			num = num/2;
 		}
-		return Binary;
+		String binary = new StringBuilder(Binary).reverse().toString();
+		return binary;
 	}
-	
+	/*
 	public String BinarytoDecimal(String number)
 	{
 		String Decimal;
@@ -78,5 +87,5 @@ public class Conversion {
 		String Octal;
 		return Octal;
 	}
-	
+	*/
 }

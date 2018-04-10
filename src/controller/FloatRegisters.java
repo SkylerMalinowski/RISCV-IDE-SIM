@@ -19,7 +19,7 @@ public class FloatRegisters {
 		return name;
 	}
 	
-	public int getNum()					// return the value of the register
+	public int getNum()					// return the number of the register
 	{
 		return num;
 	}

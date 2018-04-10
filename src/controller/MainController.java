@@ -29,6 +29,7 @@ import texteditor.*;
 import controller.SplashController.SplashScreen;
 import controller.TextController;
 import controller.FloatRegisters;
+import controller.Memory;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -437,51 +438,78 @@ public class MainController extends Application implements Initializable
 		
 	}
 	
+	
+	
+	private ObservableList<IntRegisters> IntRegister= FXCollections.observableArrayList();
+	
 	public ObservableList<IntRegisters> InitializeIntRegisters()
 	{
 	// get 32 or 64 option  
-	ObservableList<IntRegisters> IntRegister= FXCollections.observableArrayList();
-	
-	IntRegister.add(new IntRegisters("x9",0,0));
-	IntRegister.add(new IntRegisters("x1",1,0));
-	IntRegister.add(new IntRegisters("x2",2,0));
-	IntRegister.add(new IntRegisters("x3",3,0));
-	IntRegister.add(new IntRegisters("x4",4,0));
-	IntRegister.add(new IntRegisters("x5",5,0));
-	IntRegister.add(new IntRegisters("x6",6,0));
-	IntRegister.add(new IntRegisters("x7",7,0));
-	IntRegister.add(new IntRegisters("x8",8,0));
-	IntRegister.add(new IntRegisters("x9",9,0));
-	IntRegister.add(new IntRegisters("x10",10,0));
-	IntRegister.add(new IntRegisters("x11",11,0));
-	IntRegister.add(new IntRegisters("x12",12,0));
-	IntRegister.add(new IntRegisters("x13",13,0));
-	IntRegister.add(new IntRegisters("x14",14,0));
-	IntRegister.add(new IntRegisters("x15",15,0));
-	IntRegister.add(new IntRegisters("x16",16,0));
-	IntRegister.add(new IntRegisters("x17",17,0));
-	IntRegister.add(new IntRegisters("x18",18,0));
-	IntRegister.add(new IntRegisters("x19",19,0));
-	IntRegister.add(new IntRegisters("x20",20,0));
-	IntRegister.add(new IntRegisters("x21",21,0));
-	IntRegister.add(new IntRegisters("x22",22,0));
-	IntRegister.add(new IntRegisters("x23",23,0));
-	IntRegister.add(new IntRegisters("x24",24,0));
-	IntRegister.add(new IntRegisters("x25",25,0));
-	IntRegister.add(new IntRegisters("x26",26,0));
-	IntRegister.add(new IntRegisters("x27",27,0));
-	IntRegister.add(new IntRegisters("x28",28,0));
-	IntRegister.add(new IntRegisters("x29",29,0));
-	IntRegister.add(new IntRegisters("x30",30,0));
-	IntRegister.add(new IntRegisters("x31",31,0));
-	IntRegister.add(new IntRegisters("pc",0,0));
-	return IntRegister;
+		IntRegister.add(new IntRegisters("x0",0,0));
+		IntRegister.add(new IntRegisters("x1",1,0));
+		IntRegister.add(new IntRegisters("x2",2,0));
+		IntRegister.add(new IntRegisters("x3",3,0));
+		IntRegister.add(new IntRegisters("x4",4,0));
+		IntRegister.add(new IntRegisters("x5",5,0));
+		IntRegister.add(new IntRegisters("x6",6,0));
+		IntRegister.add(new IntRegisters("x7",7,0));
+		IntRegister.add(new IntRegisters("x8",8,0));
+		IntRegister.add(new IntRegisters("x9",9,0));
+		IntRegister.add(new IntRegisters("x10",10,0));
+		IntRegister.add(new IntRegisters("x11",11,0));
+		IntRegister.add(new IntRegisters("x12",12,0));
+		IntRegister.add(new IntRegisters("x13",13,0));
+		IntRegister.add(new IntRegisters("x14",14,0));
+		IntRegister.add(new IntRegisters("x15",15,0));
+		IntRegister.add(new IntRegisters("x16",16,0));
+		IntRegister.add(new IntRegisters("x17",17,0));
+		IntRegister.add(new IntRegisters("x18",18,0));
+		IntRegister.add(new IntRegisters("x19",19,0));
+		IntRegister.add(new IntRegisters("x20",20,0));
+		IntRegister.add(new IntRegisters("x21",21,0));
+		IntRegister.add(new IntRegisters("x22",22,0));
+		IntRegister.add(new IntRegisters("x23",23,0));
+		IntRegister.add(new IntRegisters("x24",24,0));
+		IntRegister.add(new IntRegisters("x25",25,0));
+		IntRegister.add(new IntRegisters("x26",26,0));
+		IntRegister.add(new IntRegisters("x27",27,0));
+		IntRegister.add(new IntRegisters("x28",28,0));
+		IntRegister.add(new IntRegisters("x29",29,0));
+		IntRegister.add(new IntRegisters("x30",30,0));
+		IntRegister.add(new IntRegisters("x31",31,0));
+		IntRegister.add(new IntRegisters("pc",0,0));
+		
+		return IntRegister;
 	}
 	
+	
+	private ObservableList<FloatRegisters> FloatRegister= FXCollections.observableArrayList();
+	
+	private ObservableList<Memory> MemoryBlock= FXCollections.observableArrayList();
+	
+	public ObservableList<Memory> InitializeMemoryBlocks()
+	{
+		for(int i=0;i<1000;i++)
+		{
+			MemoryBlock.add(new Memory(null,i));
+		}
+		return MemoryBlock;
+	}
+	/*
+	public void StoreData(String Data, int Address)
+	{
+		if(Data.length()==1)		// The data to be stored is a single word
+		{
+			MemoryBlock.set(Address, new Memory)
+		}
+	}*/
+	public void StoreData(ArrayList <Integer> num, int Address)
+	{
+			
+	}
 	public ObservableList<FloatRegisters> InitializeFloatRegisters()
 	{
 		
-		ObservableList<FloatRegisters> FloatRegister= FXCollections.observableArrayList();
 		FloatRegister.add(new FloatRegisters("f0",0,0));
 		FloatRegister.add(new FloatRegisters("f1",0,0));
 		FloatRegister.add(new FloatRegisters("f2",0,0));
@@ -513,9 +541,9 @@ public class MainController extends Application implements Initializable
 		FloatRegister.add(new FloatRegisters("f29",0,0));
 		FloatRegister.add(new FloatRegisters("f30",0,0));
 		FloatRegister.add(new FloatRegisters("f31",0,0));
+		
 		return FloatRegister;
 	}
-
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		
@@ -527,13 +555,44 @@ public class MainController extends Application implements Initializable
 		FloatNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 		FloatNumColumn.setCellValueFactory(new PropertyValueFactory<>("num"));	
 		FloatValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
-	
-		
 		Table2.setItems(InitializeFloatRegisters());
+		
+		
+		
+		MemoryBlock = InitializeMemoryBlocks();
+	}
+
+	public void UpdateFloatRegister(int index, int value)
+	{
+		
+		String f = "f";
+		for(int i=0;i<31;i++)
+		{
+			if(index==FloatRegister.get(i).getNum())
+			{
+				f = f + index;
+				FloatRegister.set(index, (new FloatRegisters(f,index,value)));
+				break;
+			}
+		}
 	}
 	
+	public void UpdateIntRegister(int index, int value)
+	{
 		
-
+		String x = "x";
+		for(int i=0;i<31;i++)
+		{
+			if(index==IntRegister.get(i).getNum())
+			{
+				x = x + index;
+				IntRegister.set(index, (new IntRegisters(x,index,value)));
+				break;
+			}
+		}
+	}
+	
+	
 
 	private Keywords kw = new Keywords();
 	private HighlightText languageHighlighter = new HighlightText(Color.WHITE);
