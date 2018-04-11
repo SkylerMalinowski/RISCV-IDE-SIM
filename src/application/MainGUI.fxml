@@ -133,22 +133,22 @@
                       </Tab>
                       <Tab text="Execute">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0">
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="459.0" prefWidth="497.0">
                                  <children>
-                                    <SplitPane orientation="VERTICAL" prefHeight="229.0" prefWidth="523.0" AnchorPane.bottomAnchor="324.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <SplitPane orientation="VERTICAL" prefHeight="220.0" prefWidth="523.0" AnchorPane.bottomAnchor="333.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <items>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="184.0" prefWidth="486.0">
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="205.0" prefWidth="521.0">
                                              <children>
-                                                <ListView prefHeight="228.0" prefWidth="523.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0" />
+                                                <ListView prefHeight="217.0" prefWidth="523.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                           </AnchorPane>
                                        </items>
                                     </SplitPane>
-                                    <SplitPane layoutX="-3.0" layoutY="228.0" orientation="VERTICAL" prefHeight="209.0" prefWidth="529.0" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="228.0">
+                                    <SplitPane layoutX="-3.0" layoutY="220.0" orientation="VERTICAL" prefHeight="217.0" prefWidth="529.0" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="220.0">
                                        <items>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="187.0" prefWidth="489.0">
                                              <children>
-                                                <ListView prefHeight="210.0" prefWidth="529.0" AnchorPane.bottomAnchor="-3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0" />
+                                                <ListView layoutX="2.0" prefHeight="207.0" prefWidth="523.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                           </AnchorPane>
                                        </items>
@@ -158,7 +158,7 @@
                                           <AnchorPane prefHeight="105.0" prefWidth="521.0">
                                              <children>
                                                 <Button id="clear_button" fx:id="clear_button1" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="54.0" prefWidth="58.0" text="Clear" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="449.0" AnchorPane.topAnchor="39.0" />
-                                                <TextArea id="console_text" fx:id="console_text1" layoutX="90.0" layoutY="19.0" prefHeight="75.0" prefWidth="398.0" text="hello World" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="38.0" />
+                                                <TextArea id="console_text" fx:id="console_text1" layoutX="90.0" layoutY="17.0" prefHeight="77.0" prefWidth="398.0" text="hello World" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="17.0" />
                                              </children>
                                           </AnchorPane>
                                        </items>
