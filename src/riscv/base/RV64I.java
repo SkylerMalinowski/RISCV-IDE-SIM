@@ -84,24 +84,6 @@ public class RV64I extends RV32I {
 			// Return location and value of where the instruction affected
 			// - Register-Value; Memory-Value; PC-Value
 			return new StateNode("*Location*","*Value*");
-		case "SUB" :
-			// same as above
-			return new StateNode("*Location*","*Value*");
-		case "ADDI" :
-			// same as above
-			return new StateNode("*Location*","*Value*");
-		case "SW" :
-			// same as above
-			return new StateNode("*Location*","*Value*");
-		case "LW" :
-			// same as above
-			return new StateNode("*Location*","*Value*");
-		case "BNE" :
-			// same as above
-			return new StateNode("*Location*","*Value*");
-		case "LUI" :
-			// same as above
-			return new StateNode("*Location*","*Value*");
 		default :
 			return null;
 		}
