@@ -108,6 +108,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -190,6 +191,9 @@ public class MainController extends Application implements Initializable
 	@FXML
 	private VBox Main;
 	
+	@FXML
+	private ListView parsedText;
+	
 	
 	
 	
@@ -224,8 +228,10 @@ public class MainController extends Application implements Initializable
 	// Column for Register Values
 	@FXML private TableColumn<FloatRegisters, String> FloatValueColumn = new TableColumn<>("FloatValues");
 	
- 
-
+	private ObservableList<IntRegisters> IntRegister = FXCollections.observableArrayList();
+	private ObservableList<FloatRegisters> FloatRegister= FXCollections.observableArrayList();
+	private ObservableList<Memory> MemoryBlock= FXCollections.observableArrayList();
+	//private ObservableList<String> parsedText = FXCollections.observableArrayList();
 
     private Desktop desktop = Desktop.getDesktop();
 	private String base = "RV32I";
@@ -370,9 +376,10 @@ public class MainController extends Application implements Initializable
              File file = fileChooser.showOpenDialog(stage);
              globalFile = file;
              this.program = new Program(file);           
-             if (file != null) {
+             if (file != null) 
+             {
             	 	textArea.setText(readFile(file));
-             	}
+             }
               count++;
             
     }
@@ -441,9 +448,26 @@ public class MainController extends Application implements Initializable
 	
 	
 	
-	private ObservableList<IntRegisters> IntRegister= FXCollections.observableArrayList();
 	
-
+	public void InitializeparsedText()
+	{
+			ArrayList<String> instruct = new ArrayList<String>();
+			String s = program.getTextList().toString();
+			//for(int i = 0; i <= s.length(); i++) 
+			//{
+			///	instruct.add(s.substring(i,10));
+				
+				//parsedText.setItems(FXCollections.observableArrayList());
+		//	}
+			//parsedText.setItems(FXCollections.observableArrayList(s));
+			String n = s.substring(10);
+			String r = s.substring(20);
+			String p = s.substring(30);
+			parsedText.setItems(FXCollections.observableArrayList(s,n,r,p));
+			System.out.println(s);
+		
+		//return parsedText;
+	}
 	
 	public ObservableList<IntRegisters> InitializeIntRegisters()
 	{
@@ -486,9 +510,7 @@ public class MainController extends Application implements Initializable
 	}
 	
 	
-	private ObservableList<FloatRegisters> FloatRegister= FXCollections.observableArrayList();
 	
-	private ObservableList<Memory> MemoryBlock= FXCollections.observableArrayList();
 	
 	public ObservableList<Memory> InitializeMemoryBlocks()
 	{
@@ -857,6 +879,8 @@ public void start(Stage primaryStage){
 		{
 			this.simulator = new Simulator(this.riscv, this.program);
 		}
+		
+		InitializeparsedText();
 	}
 	
       
