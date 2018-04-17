@@ -134,12 +134,6 @@ import controller.SplashController;
  * @author Skyler Malinowski
  * @version April 2018
  */
-
-
-	
-	
-
-
 /* Code contains references to buttons and what occurs when pressed*/
 public class MainController extends Application implements Initializable
 {
