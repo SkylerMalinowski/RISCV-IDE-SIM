@@ -292,12 +292,13 @@ public class MainController extends Application implements Initializable
 		}
 		catch (IOException ex)
 		{
-			Logger.getLogger(OnlineDocController.class.getName()).log(Level.SEVERE, null, ex);	
+			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);	
 		}
 		
 		Scene scene = new Scene(root);
 		Stage stage = new Stage();
-		stage.setScene(scene);
+		OnlineDocController online = new OnlineDocController();
+		online.start(stage);
 		stage.show();
 	}
 	

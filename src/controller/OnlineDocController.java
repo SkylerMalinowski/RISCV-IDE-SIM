@@ -21,37 +21,15 @@
 
 package controller;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
+import javafx.concurrent.Worker.State;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.layout.StackPane;
-import javafx.scene.Parent;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.application.Application;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -65,53 +43,48 @@ import javafx.stage.Stage;
 
 
 
-public class OnlineDocController extends Application {
+public class OnlineDocController extends Application 
+{
+	
+	@FXML
+	private WebView browser;
+	
+	@FXML
+	private ScrollPane scrollPane;
+	
+	private  WebEngine webEngine;
 
-	private Scene scene;
-    @Override public void start(Stage stage) {
-        // create the scene
-        stage.setTitle("RISC V Online Documentation");
-        scene = new Scene(new Browser(),750,500, Color.web("#666970"));
-        stage.setScene(scene);
-        scene.getStylesheets().add("webviewsample/BrowserToolbar.css");        
-        stage.show();
-    }
- 
-    public static void main(String[] args){
+@Override public void start(Stage stage) 
+{
+    	Scene scene = new Scene(new Group());
+
+    	browser = new WebView();
+    	webEngine = browser.getEngine();
+
+    scrollPane = new ScrollPane();
+    	scrollPane.setContent(browser);
+
+    	webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
+    	@Override
+    	public void changed(ObservableValue ov, State oldState, State newState) 
+    	{
+    		if (newState == Worker.State.SUCCEEDED) 
+    		{
+    			stage.setTitle(webEngine.getLocation());
+    	     }
+
+    	}       
+    	});
+    	webEngine.load("https://en.wikipedia.org/wiki/RISC-V");
+
+    	scene.setRoot(scrollPane);
+    	stage.setScene(scene);
+    	stage.show();
+  }
+    public static void main(String[] args)
+    {
         launch(args);
     }
 }
-class Browser extends Region {
- 
-    final WebView browser = new WebView();
-    final WebEngine webEngine = browser.getEngine();
-     
-    public Browser() {
-        //apply the styles
-        getStyleClass().add("browser");
-        // load the web page
-        webEngine.load("https://riscv.org");
-        //add the web view to the scene
-        getChildren().add(browser);
- 
-    }
-    private Node createSpacer() {
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-        return spacer;
-    }
- 
-    @Override protected void layoutChildren() {
-        double w = getWidth();
-        double h = getHeight();
-        layoutInArea(browser,0,0,w,h,0, HPos.CENTER, VPos.CENTER);
-    }
- 
-    @Override protected double computePrefWidth(double height) {
-        return 750;
-    }
- 
-    @Override protected double computePrefHeight(double width) {
-        return 500;
-    }
-}
+
+

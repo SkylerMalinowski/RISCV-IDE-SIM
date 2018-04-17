@@ -49,10 +49,8 @@
             <MenuItem fx:id="OpenButton" mnemonicParsing="false" onAction="#handleOpenFile" text="Open…" />
             <Menu fx:id="Recent" mnemonicParsing="false" onAction="#handleRecent" text="Open Recent" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
             <MenuItem fx:id="SaveFile" mnemonicParsing="false" onAction="#handleSaveFile" text="Save" />
             <MenuItem mnemonicParsing="false" onAction="#handleSaveAsFile" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Preferences…" />
             <SeparatorMenuItem mnemonicParsing="false" />
