@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Memory {
 	
 	
-	private String word;
+	public String word;
 	private int Address;
 	
 	public Memory(String word, int Address)		// Constructor to Initialize the memory 

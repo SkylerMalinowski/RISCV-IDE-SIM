@@ -194,45 +194,34 @@ public class MainController extends Application implements Initializable
 	@FXML
 	private ListView parsedText;
 	
-	
-	
-	
-	
-	
-	
-	
 	@FXML private TableView<IntRegisters> Table1;
 				
-	// Column for Register names
 	@FXML private TableColumn<IntRegisters, String> IntNameColumn = new TableColumn<>("name");
 		
-	// Column for Register Number
 	@FXML private TableColumn<IntRegisters, String> IntNumColumn = new TableColumn<>("num");
 		
-	// Column for Register Values
 	@FXML private TableColumn<IntRegisters, String> IntValueColumn = new TableColumn<>("value");
-	
 
-	
-	
 	
 	@FXML private TableView<FloatRegisters> Table2;
 
-				
-	// Column for Register names
 	@FXML private TableColumn<FloatRegisters, String> FloatNameColumn = new TableColumn<>("FloatName");
 		
-	// Column for Register Number
 	@FXML private TableColumn<FloatRegisters, String> FloatNumColumn = new TableColumn<>("FloatNumber");
 		
-	// Column for Register Values
 	@FXML private TableColumn<FloatRegisters, String> FloatValueColumn = new TableColumn<>("FloatValues");
+	
+	
+	@FXML private TableView<Memory> Table3;
+	
+	@FXML private TableColumn<Memory, String> MemoryValueColumn = new TableColumn<>("word");
 	
 	private ObservableList<IntRegisters> IntRegister = FXCollections.observableArrayList();
 	private ObservableList<FloatRegisters> FloatRegister= FXCollections.observableArrayList();
 	private ObservableList<Memory> MemoryBlock= FXCollections.observableArrayList();
 	//private ObservableList<String> parsedText = FXCollections.observableArrayList();
 
+	
     private Desktop desktop = Desktop.getDesktop();
 	private String base = "RV32I";
 	private ArrayList<String> exts;
@@ -510,8 +499,6 @@ public class MainController extends Application implements Initializable
 	}
 	
 	
-	
-	
 	public ObservableList<Memory> InitializeMemoryBlocks()
 	{
 		for(int i=0;i<1000;i++)
@@ -566,7 +553,6 @@ public class MainController extends Application implements Initializable
 		FloatRegister.add(new FloatRegisters("f29",0,0));
 		FloatRegister.add(new FloatRegisters("f30",0,0));
 		FloatRegister.add(new FloatRegisters("f31",0,0));
-		
 		return FloatRegister;
 	}
 	public void initialize(URL arg0, ResourceBundle arg1) 
@@ -583,9 +569,11 @@ public class MainController extends Application implements Initializable
 		Table2.setItems(InitializeFloatRegisters());
 		
 		
-		
-		MemoryBlock = InitializeMemoryBlocks();
+		MemoryValueColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
+		Table3.setItems(InitializeMemoryBlocks());
 	}
+	
+	
 
 	public void UpdateFloatRegister(int index, int value)
 	{

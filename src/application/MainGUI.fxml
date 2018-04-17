@@ -39,7 +39,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="Main" prefHeight="617.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<VBox fx:id="Main" prefHeight="617.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
   <children>
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
       <menus>
@@ -146,7 +146,11 @@
                                        <items>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="187.0" prefWidth="489.0">
                                              <children>
-                                                <ListView layoutX="2.0" prefHeight="207.0" prefWidth="523.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="0.0" />
+                                                <TableView fx:id="Table3" layoutX="155.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <columns>
+                                                    <TableColumn fx:id="MemoryValueColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="75.0" text="C1" />
+                                                  </columns>
+                                                </TableView>
                                              </children>
                                           </AnchorPane>
                                        </items>
