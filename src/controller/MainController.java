@@ -441,7 +441,7 @@ public class MainController extends Application implements Initializable
 	public void InitializeparsedText()
 	{
 			ArrayList<String> instruct = new ArrayList<String>();
-			String s = program.getTextList().toString();
+			String s = program.getSource().toString();
 			//for(int i = 0; i <= s.length(); i++) 
 			//{
 			///	instruct.add(s.substring(i,10));
@@ -449,10 +449,10 @@ public class MainController extends Application implements Initializable
 				//parsedText.setItems(FXCollections.observableArrayList());
 		//	}
 			//parsedText.setItems(FXCollections.observableArrayList(s));
-			String n = s.substring(10);
-			String r = s.substring(20);
-			String p = s.substring(30);
-			parsedText.setItems(FXCollections.observableArrayList(s,n,r,p));
+			//String n = s.substring(10);
+			//String r = s.substring(20);
+			//String p = s.substring(30);
+			parsedText.setItems(FXCollections.observableArrayList(program.getSource()));
 			System.out.println(s);
 		
 		//return parsedText;
