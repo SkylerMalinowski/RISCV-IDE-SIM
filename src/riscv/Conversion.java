@@ -4,9 +4,18 @@ public class Conversion {
 
 	public String DecimalToBinary(String number)
 	{
+		int padding;
 		String Binary="";
+		String S="";
+		String reverse;
+		boolean negative=false, carry=false;
+		if(number.charAt(0)=='-')
+		{
+			negative = true;
+			number = number.substring(1);
+		}
 		int num = Integer.parseInt(number);
-		while(num!=0)
+		do
 		{
 			if((num%2)==0)
 			{
@@ -18,6 +27,52 @@ public class Conversion {
 			}
 			
 			num = num/2;
+		}while(num!=0);
+		
+		padding = 32-Binary.length();	
+		for(int i=0;i<padding;i++)
+		{
+			Binary = Binary + "0";	
+		}
+		if(negative==true)
+		{
+			System.out.println(reverse = new StringBuilder(Binary).reverse().toString());
+			for(int j=0;j<32;j++)
+			{
+				if(Binary.charAt(j)=='0')		// invert the bits
+				{
+					S = S+ "1";
+				}
+				else if(Binary.charAt(j)=='1')	// invert the bits
+				{
+					S = S+ "0";
+				}
+			}
+			System.out.println(reverse = new StringBuilder(S).reverse().toString());
+			Binary="";
+			carry = true;
+			for(int i=0;i<32;i++)				
+			{		
+				if(S.charAt(i)=='1' && carry ==true)
+				{
+					Binary = Binary +"0";
+					carry = true;			// there is still a carry on bit
+				}
+				else if(S.charAt(i)=='1'&& carry == false)
+				{
+					Binary = Binary +"1";
+					carry = false;
+				}
+				else if(S.charAt(i)=='0'&&carry == true)
+				{
+					Binary = Binary + "1";
+					carry = false;
+				}
+				else if(S.charAt(i)=='0'&& carry == false)
+				{
+					Binary = Binary+"0";	
+				}
+			}
 		}
 		String binary = new StringBuilder(Binary).reverse().toString();
 		return binary;
@@ -84,11 +139,13 @@ public class Conversion {
 		String EightBitWord = new StringBuilder(S).reverse().toString();
 		return EightBitWord;
 	}
-	
+	*/
 	public static void main(String[] args)
 	{
 		Conversion con = new Conversion();
-		System.out.println(con.DecimaltoBinary("511"));
+		System.out.println(con.DecimalToBinary("-3"));
+		
+		//System.out.println(Integer.parseInt("1000",2));
 	}
-	*/
+	
 }
