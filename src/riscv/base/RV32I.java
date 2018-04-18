@@ -21,17 +21,19 @@
 
 package riscv.base;
 
-import riscv.Program;
-import riscv.InstructionType;
+import riscv.*;
+import controller.*;
 import simulator.StateNode;
 
 import java.util.HashMap;
+
+import javafx.collections.ObservableList;
 
 /**
  * RV32I :: 32-Bit Integrated Base Instruction Set
  * Standard, Version: 2.0
  * @author Skyler Malinowski
- * @version March 2018
+ * @version April 2018
  */
 public class RV32I {
 	public final int xlen = 32;
@@ -107,33 +109,62 @@ public class RV32I {
 	 * @param arg2
 	 * @return
 	 */
-	public StateNode instructionCall(Program program, String instruction, String arg0, String arg1, String arg2)
+	public StateNode instructionCall(ObservableList<IntRegisters> intRegister, ObservableList<FloatRegisters> floatRegister, ObservableList<Memory> memoryBlock, 
+			Program program, String instruction, String arg0, String arg1, String arg2)
 	{
+		int value;
 		switch (instruction.toUpperCase())
 		{
+		// arg0 = arg1 + arg2
 		case "ADD" :
-			// If (arguments have valid bit length)
-			// - Alter register or memory value
-			// Else
-			// - Append warning to program class instance
-			// Return location and value of where the instruction affected
-			// - Register-Value; Memory-Value; PC-Value
-			return new StateNode("*Location*","*Value*");
+			value = MemRegController.getIntRegister(intRegister, arg1) + MemRegController.getIntRegister(intRegister, arg2);
+			// Check for overflow
+			if (value % (Math.pow(2,this.xlen-1)-1) != 0)
+			{
+				value = value % (int)(Math.pow(2,this.xlen-1)-1);
+				// TODO :: Display to terminal instead
+				program.appendWarningList(new ErrorMessage(ErrorMessage.WARNING, "Register Overflow"));
+			}
+			MemRegController.setIntRegister(intRegister, arg0, value);
+			return new StateNode(arg0,""+MemRegController.getIntRegister(intRegister, arg0));
+		
+		// arg0 = arg1 + arg2
 		case "ADDI" :
-			// same as above
-			return new StateNode("*Location*","*Value*");
+			value = Integer.parseInt(arg2, 10);
+			// Check if proper width of 5
+			if (value % (Math.pow(2,12-1)-1) != 0)
+			{
+				value = value % (int)(Math.pow(2,12-1)-1);
+				// TODO :: Display to terminal instead
+				program.appendWarningList(new ErrorMessage(ErrorMessage.WARNING, "Instruction Immediate Overflow"));
+			}
+			value += MemRegController.getIntRegister(intRegister, arg1);
+			// Check for overflow
+			if (value % (Math.pow(2,this.xlen-1)-1) != 0)
+			{
+				value = value % (int)(Math.pow(2,this.xlen-1)-1);
+				// TODO :: Display to terminal instead
+				program.appendWarningList(new ErrorMessage(ErrorMessage.WARNING, "Register Overflow"));
+			}
+			MemRegController.setIntRegister(intRegister, arg0, value);
+			return new StateNode(arg0,""+MemRegController.getIntRegister(intRegister, arg0));
+		
 		case "SW" :
 			// same as above
 			return new StateNode("*Location*","*Value*");
+		
 		case "LW" :
 			// same as above
 			return new StateNode("*Location*","*Value*");
+		
 		case "BNE" :
 			// same as above
 			return new StateNode("*Location*","*Value*");
+		
 		case "LUI" :
 			// same as above
 			return new StateNode("*Location*","*Value*");
+		
 		default :
 			return null;
 		}

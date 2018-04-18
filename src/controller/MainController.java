@@ -21,85 +21,29 @@
 
 package controller;
 
-import riscv.RISCV;
-import simulator.Simulator;
-import riscv.Program;
-import assembler.Assembler;
+import riscv.*;
+import simulator.*;
+import assembler.*;
 import texteditor.*;
-import controller.SplashController.SplashScreen;
-import controller.TextController;
-import controller.FloatRegisters;
-import controller.Memory;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Desktop;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.awt.*;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.AbstractButton;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.DefaultEditorKit;
-import javax.swing.text.Element;
-
-import controller.IntRegisters;
-
-//import com.sun.xml.internal.ws.org.objectweb.asm.Label;
-
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-//import javafx.scene.layout.VBoxBuilder;
-import javafx.scene.text.Text;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -107,26 +51,16 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.Window;
-import javafx.stage.WindowEvent;
-import texteditor.*;
-import controller.TextController;
-import controller.SplashController;
 
 /**
  * Controls main application screen
@@ -433,9 +367,13 @@ public class MainController extends Application implements Initializable
 	
 	public void InitializeparsedText()
 	{
-			ArrayList<String> instruct = new ArrayList<String>();
-			String s = program.getSource().toString();
-			//for(int i = 0; i <= s.length(); i++) 
+		// TODO
+		ArrayList<String> instruct = new ArrayList<String>();
+		String s = "";
+		for (ArrayList<Token> t : program.getDataList())
+		{
+			
+		}
 			//{
 			///	instruct.add(s.substring(i,10));
 				
@@ -445,10 +383,9 @@ public class MainController extends Application implements Initializable
 			//String n = s.substring(10);
 			//String r = s.substring(20);
 			//String p = s.substring(30);
-			parsedText.setItems(FXCollections.observableArrayList(program.getSource()));
-			System.out.println(s);
 		
-		//return parsedText;
+		parsedText.setItems(FXCollections.observableArrayList(s));
+		System.out.println(s);
 	}
 	
 	public ObservableList<IntRegisters> InitializeIntRegisters()
@@ -512,6 +449,8 @@ public class MainController extends Application implements Initializable
 	{
 			
 	}
+	
+	
 	public ObservableList<FloatRegisters> InitializeFloatRegisters()
 	{
 		
@@ -548,6 +487,8 @@ public class MainController extends Application implements Initializable
 		FloatRegister.add(new FloatRegisters("f31",0,0));
 		return FloatRegister;
 	}
+	
+	
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		
@@ -565,40 +506,6 @@ public class MainController extends Application implements Initializable
 		MemoryValueColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
 		Table3.setItems(InitializeMemoryBlocks());
 	}
-	
-	
-
-	public void UpdateFloatRegister(int index, int value)
-	{
-		
-		String f = "f";
-		for(int i=0;i<31;i++)
-		{
-			if(index==FloatRegister.get(i).getNum())
-			{
-				f = f + index;
-				FloatRegister.set(index, (new FloatRegisters(f,index,value)));
-				break;
-			}
-		}
-	}
-	
-	public void UpdateIntRegister(int index, int value)
-	{
-		
-		String x = "x";
-		for(int i=0;i<31;i++)
-		{
-			if(index==IntRegister.get(i).getNum())
-			{
-				x = x + index;
-				IntRegister.set(index, (new IntRegisters(x,index,value)));
-				break;
-			}
-		}
-	}
-	
-	
 
 	private Keywords kw = new Keywords();
 	private HighlightText languageHighlighter = new HighlightText(Color.WHITE);
@@ -615,12 +522,11 @@ public class MainController extends Application implements Initializable
       CursorStatusBar.setText("Line: " + rowNum + " Column: " + colNum);
    }
 	
-@Override
-public void start(Stage primaryStage){
-	
-	
-	// TODO Auto-generated method stub
-	  // Set line numbers and scroll pane
+	@Override
+	public void start(Stage primaryStage)
+	{
+		// TODO Auto-generated method stub
+		// Set line numbers and scroll pane
   
 //       LineNumberBar = new TextArea("1");
  //      LineNumberBar.setFont(textArea.getFont());
@@ -815,22 +721,21 @@ public void start(Stage primaryStage){
 		Assembler assembler = new Assembler(this.riscv);
 		if (this.program == null)
 		{
-			// TODO :: Error message "No file specified to be assembled"
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warning");
 			alert.setHeaderText("Error!");
 			alert.setContentText("No file specified to be assembled.");
 			
 			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK){
+			if (result.get() == ButtonType.OK)
+			{
 				alert.close();
 			}
-			
-			
 		}
 		else
 		{
-			assembler.assemble(this.program);
+			if (this.program.getAssebled() == false)
+				assembler.assemble(this.program);
 			
 			if (this.program.getWarningList().size() > 0)
 			{
@@ -864,65 +769,64 @@ public void start(Stage primaryStage){
 		InitializeparsedText();
 	}
 	
-      
-    
-
-
-
+	
+	private void openFile(File file) 
+	{
+		try
+		{
+			desktop.open(file);
+		} 
+		catch (IOException ex) 
+		{
+			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 
 	
-private void openFile(File file) 
-{
-	try {
-		desktop.open(file);
-	} catch (IOException ex) {
-		Logger.getLogger(
-				MainController.class.getName()).log(
-						Level.SEVERE, null, ex
-						);
+	private void SaveFile(String content, File file)
+	{
+		try
+		{
+			FileWriter fileWriter = null; 
+	        fileWriter = new FileWriter(file);
+	        fileWriter.write(content);
+	        fileWriter.close();
+	        
+	        this.program.setAssembled(false);  
 		}
-}
-
-
-
-private void SaveFile(String content, File file)
-{
-	try {
-		FileWriter fileWriter = null; 
-        fileWriter = new FileWriter(file);
-        fileWriter.write(content);
-        fileWriter.close();
-	} catch (IOException ex) {
-		Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+		catch (IOException ex)
+		{
+			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		} 
-}
+	}
 
-private String readFile(File file)
-{
-	StringBuilder stringBuffer = new StringBuilder();
-    BufferedReader bufferedReader = null; 
-    try {
-    		bufferedReader = new BufferedReader(new FileReader(file));
-         
-        String text;
-        while ((text = bufferedReader.readLine()) != null) {
-        		stringBuffer.append(text + "\n" );
-        }
-
-    } catch (FileNotFoundException ex) {
-    		Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
-        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-        try {
-        		bufferedReader.close();
-        } catch (IOException ex) {
-            	Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    } 
-     
-    return stringBuffer.toString();
-}
+	
+	private String readFile(File file)
+	{
+		StringBuilder stringBuffer = new StringBuilder();
+	    BufferedReader bufferedReader = null; 
+	    try {
+	    		bufferedReader = new BufferedReader(new FileReader(file));
+	         
+	        String text;
+	        while ((text = bufferedReader.readLine()) != null) {
+	        		stringBuffer.append(text + "\n" );
+	        }
+	
+	    } catch (FileNotFoundException ex) {
+	    		Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+	    } catch (IOException ex) {
+	        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+	    } finally {
+	        try {
+	        		bufferedReader.close();
+	        } catch (IOException ex) {
+	            	Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+	        }
+	    } 
+	     
+	    return stringBuffer.toString();
+	}
 
 			
 
@@ -940,10 +844,10 @@ private String readFile(File file)
 			alert.setContentText("Cannot simulate program before it is assembled.");
 			
 			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK){
+			if (result.get() == ButtonType.OK)
+			{
 				alert.close();
 			}
-			
 		}
 		
 		if (program.getAssebled() == true)
