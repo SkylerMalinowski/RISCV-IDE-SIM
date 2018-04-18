@@ -134,7 +134,6 @@ import controller.SplashController;
  * @author Skyler Malinowski
  * @version April 2018
  */
-/* Code contains references to buttons and what occurs when pressed*/
 public class MainController extends Application implements Initializable
 {
 	@FXML
@@ -261,7 +260,7 @@ public class MainController extends Application implements Initializable
 		}
 		catch (IOException ex)
 		{
-			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);	
+			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 				
 		Scene scene = new Scene(root);
@@ -935,7 +934,6 @@ private String readFile(File file)
 	{
 		if(this.program == null)
 		{
-			// TODO :: Error message "Cannot simulate program before it is assembled"
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warning");
 			alert.setHeaderText("Error!");
@@ -950,7 +948,7 @@ private String readFile(File file)
 		
 		if (program.getAssebled() == true)
 		{
-			this.simulator.step();
+			this.simulator.step(IntRegister, FloatRegister, MemoryBlock);
 		}
 	}
 	
@@ -962,7 +960,6 @@ private String readFile(File file)
 	{
 		if(this.program == null)
 		{
-			// TODO :: Error message "Cannot simulate program before it is assembled"
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warning");
 			alert.setHeaderText("Error!");
@@ -976,7 +973,7 @@ private String readFile(File file)
 		
 		if (program.getAssebled() == true)
 		{
-			this.simulator.run();
+			this.simulator.run(IntRegister, FloatRegister, MemoryBlock);
 		}
 	}
 	
@@ -988,7 +985,6 @@ private String readFile(File file)
 	{
 		if(this.program == null)
 		{
-			// TODO :: Error message "Cannot simulate program before it is assembled"
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warning");
 			alert.setHeaderText("Error!");
@@ -1002,7 +998,7 @@ private String readFile(File file)
 		
 		if (program.getAssebled() == true)
 		{
-			this.simulator.backStep();
+			this.simulator.backStep(IntRegister, FloatRegister, MemoryBlock);
 		}
 	}
 	
@@ -1015,7 +1011,6 @@ private String readFile(File file)
 		
 		if(this.program == null)
 		{
-			// TODO :: Error message "Cannot simulate program before it is assembled"
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warning");
 			alert.setHeaderText("Error!");
@@ -1029,15 +1024,7 @@ private String readFile(File file)
 		
 		if (program.getAssebled() == true)
 		{
-			this.simulator.reset();
+			this.simulator.reset(IntRegister, FloatRegister, MemoryBlock);
 		}
 	}
-	
-
-	
-public static void main(String[] args) {
-launch(args);
-
-	}
-
 }

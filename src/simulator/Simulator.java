@@ -27,6 +27,10 @@ import riscv.extension.*;
 import assembler.Assembler;
 import assembler.Token;
 import assembler.TokenType;
+import controller.FloatRegisters;
+import controller.IntRegisters;
+import controller.Memory;
+import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -60,9 +64,12 @@ public class Simulator
 	
 	/**
 	 * Handles the next instruction
+	 * @param memoryBlock 
+	 * @param floatRegister 
+	 * @param intRegister 
 	 * @param program
 	 */
-	public void step()
+	public void step(ObservableList<IntRegisters> intRegister, ObservableList<FloatRegisters> floatRegister, ObservableList<Memory> memoryBlock)
 	{
 		this.PC++;
 		
@@ -80,12 +87,12 @@ public class Simulator
 			
 			if (tokens.size() > 0)
 			{
-				dynamicCall(tokens);
+				dynamicCall(intRegister, floatRegister, memoryBlock, tokens);
 				madeCall = true;
 			}
 			else
 			{
-				this.step();
+				this.step(intRegister, floatRegister, memoryBlock);
 			}
 		}
 		
@@ -98,7 +105,7 @@ public class Simulator
 			else
 			{
 				this.i++;
-				this.restore();
+				this.restore(intRegister, floatRegister, memoryBlock);
 			}
 		}
 	}
@@ -106,11 +113,11 @@ public class Simulator
 	/**
 	 * Steps through until program completion
 	 */
-	public void run()
+	public void run(ObservableList<IntRegisters> intRegister, ObservableList<FloatRegisters> floatRegister, ObservableList<Memory> memoryBlock)
 	{
 		while (this.PC < program.getTextList().size())
 		{
-			this.step();
+			this.step(intRegister, floatRegister, memoryBlock);
 		}
 	}
 	
@@ -118,7 +125,7 @@ public class Simulator
 	 * Undo forward step
 	 * @param program
 	 */
-	public void backStep()
+	public void backStep(ObservableList<IntRegisters> intRegister, ObservableList<FloatRegisters> floatRegister, ObservableList<Memory> memoryBlock)
 	{
 		if (this.LL.get(i).getLocation() != null 
 				&& this.LL.get(i).getValue() != null)
@@ -126,7 +133,7 @@ public class Simulator
 			this.i--;
 		}
 		
-		this.restore();
+		this.restore(intRegister, floatRegister, memoryBlock);
 		
 		this.PC--;
 		
@@ -135,19 +142,28 @@ public class Simulator
 	/**
 	 * Returns simulator to initial state
 	 */
-	public void reset()
+	public void reset(ObservableList<IntRegisters> intRegister, ObservableList<FloatRegisters> floatRegister, ObservableList<Memory> memoryBlock)
 	{
 		while (this.LL.get(this.PC) != null)
 		{
-			backStep();
+			backStep(intRegister, floatRegister, memoryBlock);
 		}
+	}
+
+	/**
+	 * Undo instruction
+	 */
+	private void restore(ObservableList<IntRegisters> intRegister, ObservableList<FloatRegisters> floatRegister, ObservableList<Memory> memoryBlock)
+	{
+		// LL.get(i).getLocation()
+		// LL.get(i).getValue()
 	}
 
 	/**
 	 * Dynamically calls function in certain classes during runtime
 	 */
 	@SuppressWarnings("unchecked")
-	private StateNode dynamicCall(ArrayList<Token> tokens)
+	private StateNode dynamicCall(ObservableList<IntRegisters> intRegister, ObservableList<FloatRegisters> floatRegister, ObservableList<Memory> memoryBlock, ArrayList<Token> tokens)
 	{
 		try
 		{
@@ -161,13 +177,21 @@ public class Simulator
 				case I_Type :
 				case S_Type :
 				case B_Type :
-					return rv32i.instructionCall(this.program, 
+					return rv32i.instructionCall(
+							intRegister,
+							floatRegister,
+							memoryBlock,
+							this.program, 
 							tokens.get(0).getData(), 
 							tokens.get(1).getData(), 
 							tokens.get(2).getData(), 
 							tokens.get(3).getData());
 				case U_Type :
-					return rv32i.instructionCall(this.program, 
+					return rv32i.instructionCall(
+							intRegister,
+							floatRegister,
+							memoryBlock,
+							this.program, 
 							tokens.get(0).getData(), 
 							tokens.get(1).getData(), 
 							tokens.get(2).getData(), 
@@ -317,28 +341,5 @@ public class Simulator
 		}
 		
 		return null;
-	}
-	
-	/**
-	 * Undo instruction
-	 */
-	private void restore()
-	{
-		// LL.get(i).getLocation()
-		// LL.get(i).getValue()
-	}
-	
-	public static void main(String[] args)
-	{
-		RISCV r = new RISCV("RV32I");
-		
-		String f = "C:\\Users\\Skyler Malinowski\\Documents\\GitHub\\RISCV-IDE-SIM\\src\\test.asm";
-		Program p = new Program(new File(f));
-		
-		Assembler a = new Assembler(r);
-		a.assemble(p);
-		
-		Simulator s = new Simulator(r, p);
-		s.step();
 	}
 }
