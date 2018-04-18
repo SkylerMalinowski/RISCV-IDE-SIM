@@ -2,24 +2,24 @@ package riscv;
 
 public class Conversion {
 
-	public static String ToBinary(String number, int width)
+	public static String ToBinary(String number, int width, Program program)
 	{
 		// Hexadecimal
 		if (number.split("-")[1].startsWith("0x") || number.split("-")[1].startsWith("0X"))
 		{
-			return DecimalToBinary(""+Integer.parseInt(number.split("0[xX]")[1], 16), width);
+			return DecimalToBinary(""+Integer.parseInt(number.split("0[xX]")[1], 16), width, program);
 		}
 		// Octal
 		else if (number.split("-")[1].startsWith("0o") || number.split("-")[1].startsWith("0O"))
 		{
-			return DecimalToBinary(""+Integer.parseInt(number.split("0[oO]")[1], 8), width);
+			return DecimalToBinary(""+Integer.parseInt(number.split("0[oO]")[1], 8), width, program);
 		}
 		// Binary
 		else if (number.split("-")[1].startsWith("0b") || number.split("-")[1].startsWith("0B"))
 		{
 			if (number.charAt(0) == '-')
 			{
-				return DecimalToBinary("-"+Integer.parseInt(number.split("0[bB]")[1], 2), width);
+				return DecimalToBinary("-"+Integer.parseInt(number.split("0[bB]")[1], 2), width, program);
 			}
 			else
 			{
@@ -29,12 +29,12 @@ public class Conversion {
 		// Decimal
 		else
 		{
-			return DecimalToBinary(""+Integer.parseInt(number, 10), width);
+			return DecimalToBinary(""+Integer.parseInt(number, 10), width, program);
 		}
 	}
 
 	
-	public static String DecimalToBinary(String number, int width)
+	public static String DecimalToBinary(String number, int width, Program program)
 	{
 		int padding;
 		String Binary = "";
@@ -49,11 +49,10 @@ public class Conversion {
 		}
 		
 		// Handles overflow
-		System.out.println(num);
 		if (num % (int) (Math.pow(2, width-1) - 1) != 0)
 		{
 			num = num % (int) (Math.pow(2, width-1) - 1);
-			System.out.println(num);
+			program.appendWarningList(new ErrorMessage(ErrorMessage.WARNING, "Number Overflow"));
 		}
 		
 		do
@@ -117,10 +116,4 @@ public class Conversion {
 		
 		return new StringBuilder(Binary).reverse().toString();
 	}
-	
-	public static void main(String[] args)
-	{
-		System.out.println(ToBinary("-0b011",5));
-	}
-	
 }

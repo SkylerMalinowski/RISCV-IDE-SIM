@@ -39,7 +39,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="Main" prefHeight="617.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<VBox fx:id="Main" prefHeight="617.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
   <children>
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
       <menus>
@@ -115,7 +115,7 @@
                                           <AnchorPane prefHeight="112.0" prefWidth="608.0">
                                              <children>
                                                 <Button id="clear_button" fx:id="clear_button" layoutX="14.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="55.0" text="Clear" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="24.0" />
-                                                <TextArea id="console_text" fx:id="console_text" layoutX="108.0" layoutY="14.0" prefHeight="76.0" prefWidth="399.0" text="hello World" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0" />
+                                                <TextArea id="console_text" fx:id="console_text" layoutX="108.0" layoutY="14.0" prefHeight="76.0" prefWidth="399.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0" />
                                              </children>
                                           </AnchorPane>
                                        </items>
