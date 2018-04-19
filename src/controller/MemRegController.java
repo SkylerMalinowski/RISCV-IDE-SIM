@@ -331,6 +331,18 @@ public class MemRegController
 		return name;
 	}
 	
+	public static int getMemory(Memory memory, String name)
+	{
+
+		return 0;
+	}
+	
+	
+	public static void setMemory(Memory memory, String name, int value)
+	{
+		return;
+	}
+	
 	/*
 	 * Not needed anymore? Then delete this commented stuff
 	 * But add memory getters and setters

@@ -149,18 +149,26 @@ public class RV32I {
 			MemRegController.setIntRegister(intRegister, arg0, value);
 			return new StateNode(arg0,""+MemRegController.getIntRegister(intRegister, arg0));
 		
+		//sw arg0, arg1 ( arg2 )
+		// MEM[arg1+arg2]=arg0;	
 		case "SW" :
 			// same as above
 			return new StateNode("*Location*","*Value*");
 		
+		
+		//lw arg0, arg1 ( arg2 )
+		// arg0=MEM[arg1+arg2];	
 		case "LW" :
 			// same as above
 			return new StateNode("*Location*","*Value*");
 		
+		// if arg0 != arg1
+			// j arg2
 		case "BNE" :
 			// same as above
 			return new StateNode("*Location*","*Value*");
 		
+		// arg0 = (arg1 << 16);
 		case "LUI" :
 			// same as above
 			return new StateNode("*Location*","*Value*");
