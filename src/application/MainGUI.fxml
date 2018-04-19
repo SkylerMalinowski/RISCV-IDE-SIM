@@ -39,7 +39,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="Main" prefHeight="617.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<VBox fx:id="Main" prefHeight="617.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
   <children>
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
       <menus>
@@ -94,7 +94,7 @@
             </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem fx:id="glossary_id" mnemonicParsing="false" onAction="#handleGlossary" text="Glossary" />
+            <MenuItem fx:id="glossary_id" mnemonicParsing="false" onAction="#handleGlossary" text="RISC V Document" />
                   <MenuItem fx:id="onlineDoc_id" mnemonicParsing="false" onAction="#handleOnlineDoc" text="Online Documentation" />
           </items>
         </Menu>

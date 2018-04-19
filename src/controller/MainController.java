@@ -199,7 +199,8 @@ public class MainController extends Application implements Initializable
 				
 		Scene scene = new Scene(root);
 		Stage stage = new Stage();
-		stage.setScene(scene);
+		DocController online = new DocController();
+		online.start(stage);
 		stage.show();
 	}
 
