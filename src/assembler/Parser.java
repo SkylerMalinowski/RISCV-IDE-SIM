@@ -245,6 +245,8 @@ public class Parser
 					"Label already used."
 					));
 			
+			
+			
 			errorRecovery(program);
 		}
 		else
