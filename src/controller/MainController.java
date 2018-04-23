@@ -141,11 +141,13 @@ public class MainController extends Application implements Initializable
 	
 	@FXML private TableView<Memory> Table3;
 	
-	@FXML private TableColumn<Memory, String> MemoryValueColumn = new TableColumn<>("word");
+	@FXML private TableColumn<Memory, String> MemoryValueColumn = new TableColumn<>("value");
+	
+	@FXML private TableColumn<Memory, String> MemoryAddressColumn = new TableColumn<>("address");
 	
 	private ObservableList<IntRegisters> IntRegister = FXCollections.observableArrayList();
 	private ObservableList<FloatRegisters> FloatRegister= FXCollections.observableArrayList();
-	private ObservableList<Memory> MemoryBlock= FXCollections.observableArrayList();
+	public ObservableList<Memory> MemoryBlock = FXCollections.observableArrayList();
 	//private ObservableList<String> parsedText = FXCollections.observableArrayList();
 
 	
@@ -432,10 +434,8 @@ public class MainController extends Application implements Initializable
 	
 	public ObservableList<Memory> InitializeMemoryBlocks()
 	{
-		for(int i=0;i<1000;i++)
-		{
-			MemoryBlock.add(new Memory(null,i));
-		}
+		
+		MemoryBlock.add(new Memory("",0));
 		return MemoryBlock;
 	}
 	/*
@@ -503,9 +503,12 @@ public class MainController extends Application implements Initializable
 		FloatValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 		Table2.setItems(InitializeFloatRegisters());
 		
-		
-		MemoryValueColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
+		MemoryAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+		MemoryValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 		Table3.setItems(InitializeMemoryBlocks());
+		
+		
+		
 	}
 
 	private Keywords kw = new Keywords();
