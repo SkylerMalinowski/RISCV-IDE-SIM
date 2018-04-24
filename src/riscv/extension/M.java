@@ -67,7 +67,8 @@ public class M
 			// - Append warning to program class instance
 			// Return location and value of where the instruction affected
 			// - Register-Value; Memory-Value; PC-Value
-			return new StateNode("*Location*","*Value*");
+			//return new StateNode("LocationType.","*Location*","*Value*");
+		
 		default :
 			return null;
 		}

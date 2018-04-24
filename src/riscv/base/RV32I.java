@@ -155,8 +155,7 @@ public class RV32I {
 		//sw arg0, arg1 ( arg2 )
 		// MEM[arg1+arg2]=arg0;	
 		case "SW" :
-			
-			value = MemRegController.getMemory(memory, arg1) + MemRegController.getMemory(memory, arg2);
+			value = MemRegController.getMemory(memoryBlock, arg1) + MemRegController.getMemory(memoryBlock, arg2);
 			// Check for overflow
 			if (value % (Math.pow(2,this.xlen-1)-1) != 0)
 			{
@@ -164,15 +163,13 @@ public class RV32I {
 				// TODO :: Display to terminal instead
 				program.appendWarningList(new ErrorMessage(ErrorMessage.WARNING, "Register Overflow"));
 			}
-			MemRegController.setMemory(memory, arg0, value);
+			MemRegController.setMemory(memoryBlock, arg0, value);
 			return new StateNode(LocationType.MEMORY,arg0,""+MemRegController.getIntRegister(intRegister, arg0));
-		
 		
 		//lw arg0, arg1 ( arg2 )
 		// arg0=MEM[arg1+arg2];	
 		case "LW" :
-			
-			value = MemRegController.getMemory(memory, arg1) + MemRegController.getMemory(memory, arg2);
+			value = MemRegController.getMemory(memoryBlock, arg1) + MemRegController.getMemory(memoryBlock, arg2);
 			// Check for overflow
 			if (value % (Math.pow(2,this.xlen-1)-1) != 0)
 			{

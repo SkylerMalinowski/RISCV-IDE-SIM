@@ -44,10 +44,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-<<<<<<< HEAD
-=======
-//import javafx.scene.layout.VBoxBuilder;
->>>>>>> 1643c682105cc3dd0fa33c3258a28adb2fb3f842
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
