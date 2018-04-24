@@ -185,7 +185,7 @@
                                           <AnchorPane prefHeight="105.0" prefWidth="521.0">
                                              <children>
                                                 <Button id="clear_button" fx:id="clear_button1" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="54.0" prefWidth="58.0" text="Clear" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="449.0" AnchorPane.topAnchor="39.0" />
-                                                <TextArea id="console_text" fx:id="console_text1" layoutX="90.0" layoutY="17.0" prefHeight="77.0" prefWidth="398.0" text="hello World" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="17.0" />
+                                                <TextArea id="console_text" fx:id="console_text1" layoutX="90.0" layoutY="17.0" prefHeight="77.0" prefWidth="398.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="17.0" />
                                              </children>
                                           </AnchorPane>
                                        </items>

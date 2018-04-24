@@ -35,9 +35,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -47,7 +44,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -87,58 +83,58 @@ public class MainController extends Application implements Initializable
 	private TextArea textArea; // ID of editor
 	
 	@FXML
-	private TextArea LineNumberBar;
+	private TextArea LineNumberBar; 
 	
 	@FXML
 	private TextField CursorStatusBar; // ID of editor status bar
 
 	@FXML
-	private MenuItem glossary_id;
+	private MenuItem glossary_id;	// ID of pdf page
 	
 	@FXML
-	private MenuItem quit_id;
+	private MenuItem quit_id;	// ID of quit item
 	
 	@FXML
-	private MenuItem newFile;
+	private MenuItem newFile;	// ID of new file item
 	
 	@FXML
-	private MenuItem onlineDoc_id;
+	private MenuItem onlineDoc_id; // ID of wiki page
 	
 	@FXML
-	private MenuItem OpenButton;
+	private MenuItem OpenButton;	// ID of open file button
 	
 	@FXML
-	private MenuItem hardware;
+	private MenuItem hardware;	// ID of hardware settings page
 	
 	@FXML
-	private MenuItem SaveFile;
+	private MenuItem SaveFile;	// ID of Save file button
 	
 	@FXML
-	private MenuItem newEditor;
+	private MenuItem newEditor;	// ID of new Editor button
 	
 	@FXML
-	private Menu Recent;
+	private Menu Recent;		// ID of open recent
 	
 	@FXML
-	private MenuBar menuBar;
+	private MenuBar menuBar;		// ID of menuBar
 	
 	@FXML
-	private VBox editorPane;
+	private VBox editorPane;		// ID contains textarea and console		
 
 	@FXML
-	private VBox Main;
+	private VBox Main;	// ID of main Vbox
 	
 	@FXML
 	private ListView parsedText;
 	
 	@FXML
-	private TabPane tabPane;
+	private TabPane tabPane;	// ID of tab Pane
 	
 	@FXML
-	private Tab defaultEditor;
+	private Tab defaultEditor; // ID of default tab
 	
 	@FXML
-	private Tab executeTab;
+	private Tab executeTab;	// ID of execute tab
 	
 	@FXML private TableView<IntRegisters> Table1;
 				
@@ -190,11 +186,19 @@ public class MainController extends Application implements Initializable
 		this.console_text.getText();
 	}
 	
+	/**
+	 *  Clears the Console
+	 */
+	
 	@FXML
 	private void handleButtonAction(ActionEvent e) 
 	{
 		console_text.clear();
 	}
+	
+	/**
+	 * Closes the entire program
+	 */
 	
 	@FXML
 	private void handleQuitAction() 
@@ -294,37 +298,23 @@ public class MainController extends Application implements Initializable
 	@FXML
     public void handleOpenFile()
 	{
-//    	Stage stage = new Stage();
-////    	final FileChooser fileChooser = new FileChooser();
-////
-////    	OpenButton.setOnAction(
-////                new EventHandler<ActionEvent>() {
-////                    public void handle(ActionEvent e) {
-////                        File file = fileChooser.showOpenDialog(stage);
-////                        if (file != null) {
-////                            openFile(file);
-////                        }
-////                    }
-////                });
-		
-		//OpenButton.setOnAction((ActionEvent event)-> {
-			Stage stage = new Stage();
-	      	FileChooser fileChooser = new FileChooser();
-			defaultEditor = tabPane.getSelectionModel().getSelectedItem();
-			if(tabPane.getSelectionModel().getSelectedIndex() == 0)
-			{
-				defaultTextArea = textArea;
-			}else if(tabPane.getSelectionModel().getSelectedIndex() > 0) {
-				defaultTextArea = previousTextArea;
-			}
-             File file = fileChooser.showOpenDialog(stage);
-             globalFile = file;
-             this.program = new Program(file);           
-             if (file != null) 
-             {
-            	 	defaultTextArea.setText(readFile(file));
-             }
-              count++;
+		Stage stage = new Stage();
+		FileChooser fileChooser = new FileChooser();
+		defaultEditor = tabPane.getSelectionModel().getSelectedItem();
+		if(tabPane.getSelectionModel().getSelectedIndex() == 0)
+		{
+			defaultTextArea = textArea;
+				}else if(tabPane.getSelectionModel().getSelectedIndex() > 0) {
+					defaultTextArea = previousTextArea;
+				}
+		File file = fileChooser.showOpenDialog(stage);
+		globalFile = file;
+		this.program = new Program(file);           
+		if (file != null) 
+		{
+			defaultTextArea.setText(readFile(file));
+		}
+		count++;
             
     }
 	
@@ -406,8 +396,12 @@ public class MainController extends Application implements Initializable
 		
 	}
 	
-	/* adding multiple tabs feature, unfortunately only
-	 * supports two tabs open at the moment */
+	/**
+	 * Simulates the next instruction
+	 * adding multiple tabs feature, unfortunately only
+	 * supports two tabs open at the moment 
+	*/
+	
 	@FXML
 	private void handleNewEditor()
 	{
@@ -576,187 +570,11 @@ public class MainController extends Application implements Initializable
 		Table3.setItems(InitializeMemoryBlocks());
 	}
 
-	private Keywords kw = new Keywords();
-	private HighlightText languageHighlighter = new HighlightText(Color.WHITE);
-   //AutoComplete autocomplete;
-//   private boolean hasListener = false;
-//   private boolean edit = false;
-//   
-//   // line number functions
-   private final TextArea getLineNumberBarArea() {
-       return (LineNumberBar);
-   }
-//   
-   private void updatesBar(int rowNum, int colNum) {
-      CursorStatusBar.setText("Line: " + rowNum + " Column: " + colNum);
-   }
-	
+
 	@Override
 	public void start(Stage primaryStage)
 	{
 		// TODO Auto-generated method stub
-		// Set line numbers and scroll pane
-  
-//       LineNumberBar = new defaultTextArea("1");
- //      LineNumberBar.setFont(defaultTextArea.getFont());
-      // LineNumberBar.set(Color.LIGHT_GRAY);
- //      LineNumberBar.setEditable(false);
-//       
-//       scrollPane = new ScrollPane();
-//       scrollPane.getViewport().add(defaultTextArea);
-//       scrollPane.setRowHeaderView(lineNumberBar);
-//       scrollPane.setVerticalScrollBarPolicy(ScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-////       scrollPane.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-////               .createCompoundBorder(
-////                       BorderFactory.createLineBorder(new Color(111)),
-//                       BorderFactory.createEmptyBorder(6, 6, 6, 6)),
-//               scrollPane.getBorder()));
-//       defaultTextArea.addCaretListener(new CaretListener() {
-//           public void caretUpdate(CaretEvent e) {
-//               JdefaultTextArea dArea = (JdefaultTextArea) e.getSource();
-//               int rowNum = 1;
-//               int colNum = 1;
-//               try {
-//                   int caretpos = dArea.getCaretPosition();
-//                   rowNum = dArea.getLineOfOffset(caretpos);
-//                   colNum = caretpos - dArea.getLineStartOffset(rowNum);
-//                   rowNum += 1;
-//               } catch (Exception ex) {
-//               }
-//               updatesBar(rowNum, colNum);
-//           }
-//       });
-//       
-//       this.setLayout(new BorderLayout());
-//       this.add(scrollPane, BorderLayout.CENTER);
-//      CursorStatusBar = new TextField();
-////       this.add(cursorStatusBar, BorderLayout.SOUTH);
-//       updatesBar(1, 0);
-//      defaultTextArea.getDocument().addDocumentListener(new DocumentListener() {
-////      
-////       // function to get text and indicate side number
-////       public String getText() {
-////           int cursorLocation = defaultTextArea.getDocument().getLength();
-////           Element rootElement = defaultTextArea.getDocument()
-////                   .getDefaultRootElement();
-////           String sideNumber = "1" + System.getProperty("line.separator");
-////           for (int i = 2; i < rootElement.getElementIndex(cursorLocation) + 2; i++) {
-////               sideNumber += i + System.getProperty("line.separator");
-////           }
-////           return sideNumber;
-////       }
-////
-////       // update functions
-//      public void changedUpdate(DocumentEvent e) {
-//    	  LineNumberBar.setText(getText());
-//      }
-//           edit = false;
-//      }
-////
-//       public void insertUpdate(DocumentEvent e) {
-//           LineNumberBar.setText(getText());
-//          edit = false;
-//       }
-////
-//       public void removeUpdate(DocumentEvent e) {
-//           LineNumberBar.setText(getText());
-//          edit = false;
-//       }
-//   });
-//	
-////
-//	@Override
-//	public void run()
-//	{
-//		try
-//		{
-//			Thread.sleep(1); // let it render 
-//			
-//			Platform.runLater(new Runnable() {
-//				@Override
-//				public void run() {
-//					// Loading Main GUI
-//					Parent root2 = null;
-//					try {
-//						//UI ui = new UI();
-//						//ui.setVisible(true);
-//						VBox pane = FXMLLoader.load(getClass().getResource("../application/TextEditor.fxml"));
-//						editorPane.getChildren().setAll(pane);
-//
-//					}catch (IOException ex){
-//						Logger.getLogger(TextController.class.getName()).log(Level.SEVERE, null, ex);	
-//					}
-//				
-//
-//				}
-//			});
-//		}
-//		catch (InterruptedException ex)
-//		{
-//			Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
-//		}
-//		
-		
-	//	@Override
-	//	public void run()
-	//	{
-	//		try
-	//		{
-	//			Thread.sleep(1); // let it render 
-	//			
-	//			Platform.runLater(new Runnable() {
-	//				@Override
-	//				public void run() {
-	//					// Loading Main GUI
-	//					Parent root2 = null;
-	//					try {
-	//						//UI ui = new UI();
-	//						//ui.setVisible(true);
-	//						VBox pane = FXMLLoader.load(getClass().getResource("../application/TextEditor.fxml"));
-	//						editorPane.getChildren().setAll(pane);
-	//
-	//					}catch (IOException ex){
-	//						Logger.getLogger(TextController.class.getName()).log(Level.SEVERE, null, ex);	
-	//					}
-	//				
-	//
-	//				}
-	//			});
-	//		}
-	//		catch (InterruptedException ex)
-	//		{
-	//			Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);	
-	//		}
-	//		
-			
-			
-	//		SaveFile.setOnAction((ActionEvent event) -> {
-	//	    	Stage stage = new Stage();
-	//////	        FXMLLoader loader = new FXMLLoader(getClass().getResource("TextController.fxml"));
-	//////			;
-	//////			TextController controller = new TextController();
-	//////			//controller.setdefaultTextArea(controller.getdefaultTextArea());
-	//////			//defaultTextArea txt = controller.getdefaultTextArea();
-	//////			
-	//////			VBox pane = new VBox();
-	//////			pane.getChildren().add(controller);
-	//			 FileChooser fileChooser = new FileChooser();
-	////			    //Show save file dialog
-	//			    File file = fileChooser.showSaveDialog(primaryStage);
-	//			    if(file != null){
-	//			        SaveFile(defaultTextArea.getText(), file);
-	//			    }
-	////			
-	////
-	////	       
-	//	    });
-	//		
-	//		primaryStage.show();
-		
-	
-
-		 	
-		//}
 	}
 	
 	
