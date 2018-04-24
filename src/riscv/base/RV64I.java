@@ -29,7 +29,7 @@ import simulator.StateNode;
  * RV64I :: 64-Bit Integrated Base Instruction Set
  * Standard, Version: 2.0
  * @author Skyler Malinowski
- * @version March 2018
+ * @version April 2018
  */
 public class RV64I extends RV32I {
 	public final int xlen = 64;
@@ -76,14 +76,15 @@ public class RV64I extends RV32I {
 	{
 		switch (instruction.toUpperCase())
 		{
-		case "ADD" :
+		case "" :
 			// If (arguments have valid bit length)
 			// - Alter register or memory value
 			// Else
 			// - Append warning to program class instance
 			// Return location and value of where the instruction affected
 			// - Register-Value; Memory-Value; PC-Value
-			return new StateNode("*Location*","*Value*");
+			//return new StateNode("LocationType.","*Location*","*Value*");
+		
 		default :
 			return null;
 		}
