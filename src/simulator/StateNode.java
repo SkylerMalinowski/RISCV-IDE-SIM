@@ -23,16 +23,19 @@ package simulator;
 
 public class StateNode
 {
+	private LocationType locationType;
 	private String location;
 	private String value;
 	
 	/**
 	 * Constructor
+	 * @param locationType
 	 * @param location
 	 * @param value
 	 */
-	public StateNode(String location, String value)
+	public StateNode(LocationType locationType, String location, String value)
 	{
+		this.locationType = locationType;
 		this.location = location;
 		this.value = value;
 	}
@@ -40,16 +43,31 @@ public class StateNode
 	@Override
 	public String toString()
 	{
-		return String.format("<%s :: %s>", this.location, this.value);
+		return String.format("<%s , %s :: %s>", this.locationType, this.location, this.value);
 	}
 	
-	// Getter method for 'this.location'
+	/**
+	 * Getter method for 'this.locationType'
+	 * @return
+	 */
+	public LocationType getType()
+	{
+		return this.locationType;
+	}
+	
+	/**
+	 * Getter method for 'this.location'
+	 * @return
+	 */
 	public String getLocation()
 	{
 		return this.location;
 	}
 	
-	// Getter method for 'this.value'
+	/**
+	 * Getter method for 'this.value'
+	 * @return
+	 */
 	public String getValue()
 	{
 		return this.value;

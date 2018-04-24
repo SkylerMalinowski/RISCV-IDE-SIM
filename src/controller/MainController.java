@@ -47,7 +47,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.VBoxBuilder;
+//import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -434,34 +434,28 @@ public class MainController extends Application implements Initializable
 	
 	
 	
-	public void InitializeparsedText()
+	public void InitializeParsedText()
 	{
-		// TODO
 		ArrayList<String> instruct = new ArrayList<String>();
-		String s = "";
-		for (ArrayList<Token> t : program.getDataList())
+		String line = "";
+		for (ArrayList<Token> tokenArray : program.getTextList())
 		{
-			
+			for (Token token : tokenArray)
+			{
+				line += token.getData() + " ";
+			}
+			instruct.add(line);
+			line = "";
 		}
-			//{
-			///	instruct.add(s.substring(i,10));
-				
-				//parsedText.setItems(FXCollections.observableArrayList());
-		//	}
-			//parsedText.setItems(FXCollections.observableArrayList(s));
-			//String n = s.substring(10);
-			//String r = s.substring(20);
-			//String p = s.substring(30);
 		
-		parsedText.setItems(FXCollections.observableArrayList(program.getDataList()));
-		System.out.println(s);
+		parsedText.setItems(FXCollections.observableArrayList(instruct));
 		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
 		selectionModel.select(executeTab);
 	}
 	
 	public ObservableList<IntRegisters> InitializeIntRegisters()
 	{
-	// get 32 or 64 option  
+		// get 32 or 64 option  
 		IntRegister.add(new IntRegisters("x0",0,0));
 		IntRegister.add(new IntRegisters("x1",1,0));
 		IntRegister.add(new IntRegisters("x2",2,0));
@@ -838,7 +832,7 @@ public class MainController extends Application implements Initializable
 			this.simulator = new Simulator(this.riscv, this.program);
 		}
 		
-		InitializeparsedText();
+		InitializeParsedText();
 	}
 	
 	

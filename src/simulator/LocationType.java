@@ -19,18 +19,16 @@
  * @link https://www.gnu.org/licenses/gpl.html
  */
 
-package riscv;
+package simulator;
 
 /**
- * Valid instruction types to be used by hash map
+ * Metadata for StateNode
  * @author Skyler Malinowski
- * @version February 2018
+ * @version April 2018
  */
-public enum InstructionType
+public enum LocationType
 {
-	R_Type,
-	I_Type,
-	S_Type,
-	B_Type,
-	U_Type;
+	INT_REG,
+	FLOAT_REG,
+	MEMORY;
 }

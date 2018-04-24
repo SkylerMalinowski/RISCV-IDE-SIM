@@ -331,49 +331,23 @@ public class MemRegController
 		return name;
 	}
 	
-	public static int getMemory(Memory memory, String name)
+	/**
+	 * Getter method for Memory
+	 * @param memoryBlock
+	 * @param name
+	 * @return
+	 */
+	public static int getMemory(ObservableList<Memory> memoryBlock, String name)
 	{
 
 		return 0;
 	}
-	
-	
-	public static void setMemory(Memory memory, String name, int value)
+
+	/**
+	 * Setter method for Memory
+	 */
+	public static void setMemory(ObservableList<Memory> memoryBlock, String name, int value)
 	{
 		return;
 	}
-	
-	/*
-	 * Not needed anymore? Then delete this commented stuff
-	 * But add memory getters and setters
-	 
-	public static void UpdateIntRegister(ObservableList<IntRegisters> intRegister, int index, int value)
-	{
-		String x = "x";
-		for(int i=0; i < 31; i++)
-		{
-			if(index==intRegister.get(i).getNum())
-			{
-				x += index;
-				intRegister.set(index, (new IntRegisters(x,index,value)));
-				break;
-			}
-		}
-	}
-	
-	
-	public static void UpdateFloatRegister(ObservableList<FloatRegisters> floatRegister, int index, int value)
-	{
-		String f = "f";
-		for(int i=0; i < 31; i++)
-		{
-			if(index==floatRegister.get(i).getNum())
-			{
-				f += index;
-				floatRegister.set(index, (new FloatRegisters(f,index,value)));
-				break;
-			}
-		}
-	}
-	*/
 }
