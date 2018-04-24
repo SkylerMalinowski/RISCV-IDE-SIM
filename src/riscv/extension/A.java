@@ -23,6 +23,7 @@ package riscv.extension;
 
 import riscv.InstructionType;
 import riscv.Program;
+import simulator.LocationType;
 import simulator.StateNode;
 import controller.IntRegisters;
 
@@ -61,19 +62,15 @@ public class A
 	{
 		switch (instruction.toUpperCase())
 		{
-		case "ADD" :
-			
-			
+		case "" :
 			// If (arguments have valid bit length)
 			// - Alter register or memory value
 			// Else
 			// - Append warning to program class instance
 			// Return location and value of where the instruction affected
 			// - Register-Value; Memory-Value; PC-Value
-			return new StateNode("*Location*","*Value*");
-		case "SUB" :
-			// same as above
-			return new StateNode("*Location*","*Value*");
+			//return new StateNode("LocationType.","*Location*","*Value*");
+		
 		default :
 			return null;
 		}

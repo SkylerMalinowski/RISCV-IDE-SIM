@@ -23,6 +23,7 @@ package riscv.extension;
 
 import riscv.InstructionType;
 import riscv.Program;
+import simulator.LocationType;
 import simulator.StateNode;
 
 import java.util.HashMap;
@@ -67,9 +68,12 @@ public class F
 			// - Append warning to program class instance
 			// Return location and value of where the instruction affected
 			// - Register-Value; Memory-Value; PC-Value
-			return new StateNode("*Location*","*Value*");
+			return new StateNode(LocationType.FLOAT_REG,"*Location*","*Value*");
 			
 		case "FSUB":
+			// Insert Logic Here
+			return new StateNode(LocationType.FLOAT_REG,"*Location*","*Value*");
+			
 		default :
 			return null;
 		}
