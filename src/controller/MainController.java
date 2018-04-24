@@ -35,6 +35,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -44,6 +47,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -55,6 +59,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -107,6 +114,9 @@ public class MainController extends Application implements Initializable
 	private MenuItem SaveFile;
 	
 	@FXML
+	private MenuItem newEditor;
+	
+	@FXML
 	private Menu Recent;
 	
 	@FXML
@@ -120,6 +130,15 @@ public class MainController extends Application implements Initializable
 	
 	@FXML
 	private ListView parsedText;
+	
+	@FXML
+	private TabPane tabPane;
+	
+	@FXML
+	private Tab defaultEditor;
+	
+	@FXML
+	private Tab executeTab;
 	
 	@FXML private TableView<IntRegisters> Table1;
 				
@@ -157,7 +176,8 @@ public class MainController extends Application implements Initializable
 	private Program program;
 	private int count = 0;
 	private File globalFile;
-	
+	private TextArea defaultTextArea =  new TextArea();
+	private TextArea previousTextArea =  new TextArea();
 
 	
 	public void setText(String text) 
@@ -246,9 +266,9 @@ public class MainController extends Application implements Initializable
 	private void handleNewFile() throws Exception 
 	{
 		count = 0;
-		if(textArea.getText().length() == 0) {
-			textArea.clear();
-		}else if(textArea.getText() != null) {
+		if(defaultTextArea.getText().length() == 0) {
+			defaultTextArea.clear();
+		}else if(defaultTextArea.getText() != null) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Warning");
 			alert.setHeaderText("There is some text in editor");
@@ -261,9 +281,9 @@ public class MainController extends Application implements Initializable
 			if (result.get() == buttonTypeone){
 			    // ... user chose OK
 				handleSaveFile();
-				textArea.clear();
+				defaultTextArea.clear();
 			} else if(result.get() == buttonTypetwo){
-				textArea.clear();
+				defaultTextArea.clear();
 			}
 		
 			
@@ -290,12 +310,19 @@ public class MainController extends Application implements Initializable
 		//OpenButton.setOnAction((ActionEvent event)-> {
 			Stage stage = new Stage();
 	      	FileChooser fileChooser = new FileChooser();
+			defaultEditor = tabPane.getSelectionModel().getSelectedItem();
+			if(tabPane.getSelectionModel().getSelectedIndex() == 0)
+			{
+				defaultTextArea = textArea;
+			}else if(tabPane.getSelectionModel().getSelectedIndex() > 0) {
+				defaultTextArea = previousTextArea;
+			}
              File file = fileChooser.showOpenDialog(stage);
              globalFile = file;
              this.program = new Program(file);           
              if (file != null) 
              {
-            	 	textArea.setText(readFile(file));
+            	 	defaultTextArea.setText(readFile(file));
              }
               count++;
             
@@ -306,6 +333,13 @@ public class MainController extends Application implements Initializable
 	@FXML
     public void handleSaveFile()
 	{    
+		defaultEditor = tabPane.getSelectionModel().getSelectedItem();
+		if(tabPane.getSelectionModel().getSelectedIndex() == 0)
+		{
+			defaultTextArea = textArea;
+		}else if(tabPane.getSelectionModel().getSelectedIndex() > 0) {
+			defaultTextArea = previousTextArea;
+		}
 		if(count == 0)
 		{
 		Stage stage = new Stage();
@@ -316,12 +350,12 @@ public class MainController extends Application implements Initializable
     		this.program = new Program(file);
     			    
     		if(file != null){
-    			SaveFile(textArea.getText(), file);
+    			SaveFile(defaultTextArea.getText(), file);
     			}
     		count++;
 		}else {
 			count++;
-			SaveFile(textArea.getText(), globalFile);
+			SaveFile(defaultTextArea.getText(), globalFile);
 		}
     		
 	}
@@ -329,15 +363,23 @@ public class MainController extends Application implements Initializable
 	@FXML
     public void handleSaveAsFile()
 	{    	
-   		   	Stage stage = new Stage();
-    				 FileChooser fileChooser = new FileChooser();
-    				    //Show save file dialog
-    				    File file = fileChooser.showSaveDialog(stage);
-    				    this.program = new Program(file);
-    				    
-    				    if(file != null){
-    				        SaveFile(textArea.getText(), file);
-    				    }   		       
+		Stage stage = new Stage();
+		FileChooser fileChooser = new FileChooser();
+		defaultEditor = tabPane.getSelectionModel().getSelectedItem();
+		if(tabPane.getSelectionModel().getSelectedIndex() == 0)
+		{
+			defaultTextArea = textArea;
+		}else if(tabPane.getSelectionModel().getSelectedIndex() > 0) {
+			defaultTextArea = previousTextArea;
+		}
+		//Show save file dialog
+		File file = fileChooser.showSaveDialog(stage);
+		this.program = new Program(file);
+		
+		if(file != null)
+		{
+			SaveFile(defaultTextArea.getText(), file);
+		}   		       
 	}
 	
 	@FXML
@@ -349,20 +391,44 @@ public class MainController extends Application implements Initializable
 		MenuItem newItemFile = new MenuItem(globalFile.getName());
 		Recent.getItems().add(newItemFile);
 		newItemFile.setOnAction((ActionEvent event)-> {
-			Stage stage = new Stage();
-	      	FileChooser fileChooser = new FileChooser();
-             File file = fileChooser.showOpenDialog(stage);
-             globalFile = file;
-             this.program = new Program(file);           
-             if (file != null) {
-            	 	textArea.setText(readFile(file));
-             	}
-              count++;
+		Stage stage = new Stage();
+		FileChooser fileChooser = new FileChooser();
+		File file = fileChooser.showOpenDialog(stage);
+		globalFile = file;
+		this.program = new Program(file);           
+		if (file != null)
+			{
+			 	defaultTextArea.setText(readFile(file));
+			}
+		count++;
             
-			});
+		});
 		
 	}
 	
+	/* adding multiple tabs feature, unfortunately only
+	 * supports two tabs open at the moment */
+	@FXML
+	private void handleNewEditor()
+	{
+		Tab newTab = new Tab();
+		tabPane.getTabs().add(newTab);
+	    newTab.setText("New Editor");
+	    TextArea newTextArea = new TextArea();
+		newTab.setContent(newTextArea);
+		defaultEditor = newTab;
+		previousTextArea = newTextArea;
+		defaultTextArea = newTextArea;
+		newEditor.setDisable(true);
+		
+	}
+	
+	@FXML
+	private void handleCloseTab()
+	{
+		tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedIndex());
+		newEditor.setDisable(false);
+	}
 	
 	
 	
@@ -385,8 +451,10 @@ public class MainController extends Application implements Initializable
 			//String r = s.substring(20);
 			//String p = s.substring(30);
 		
-		parsedText.setItems(FXCollections.observableArrayList(s));
+		parsedText.setItems(FXCollections.observableArrayList(program.getDataList()));
 		System.out.println(s);
+		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+		selectionModel.select(executeTab);
 	}
 	
 	public ObservableList<IntRegisters> InitializeIntRegisters()
@@ -529,13 +597,13 @@ public class MainController extends Application implements Initializable
 		// TODO Auto-generated method stub
 		// Set line numbers and scroll pane
   
-//       LineNumberBar = new TextArea("1");
- //      LineNumberBar.setFont(textArea.getFont());
+//       LineNumberBar = new defaultTextArea("1");
+ //      LineNumberBar.setFont(defaultTextArea.getFont());
       // LineNumberBar.set(Color.LIGHT_GRAY);
  //      LineNumberBar.setEditable(false);
 //       
 //       scrollPane = new ScrollPane();
-//       scrollPane.getViewport().add(textArea);
+//       scrollPane.getViewport().add(defaultTextArea);
 //       scrollPane.setRowHeaderView(lineNumberBar);
 //       scrollPane.setVerticalScrollBarPolicy(ScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 ////       scrollPane.setBorder(BorderFactory.createCompoundBorder(BorderFactory
@@ -543,9 +611,9 @@ public class MainController extends Application implements Initializable
 ////                       BorderFactory.createLineBorder(new Color(111)),
 //                       BorderFactory.createEmptyBorder(6, 6, 6, 6)),
 //               scrollPane.getBorder()));
-//       textArea.addCaretListener(new CaretListener() {
+//       defaultTextArea.addCaretListener(new CaretListener() {
 //           public void caretUpdate(CaretEvent e) {
-//               JTextArea dArea = (JTextArea) e.getSource();
+//               JdefaultTextArea dArea = (JdefaultTextArea) e.getSource();
 //               int rowNum = 1;
 //               int colNum = 1;
 //               try {
@@ -564,12 +632,12 @@ public class MainController extends Application implements Initializable
 //      CursorStatusBar = new TextField();
 ////       this.add(cursorStatusBar, BorderLayout.SOUTH);
 //       updatesBar(1, 0);
-//      textArea.getDocument().addDocumentListener(new DocumentListener() {
+//      defaultTextArea.getDocument().addDocumentListener(new DocumentListener() {
 ////      
 ////       // function to get text and indicate side number
 ////       public String getText() {
-////           int cursorLocation = textArea.getDocument().getLength();
-////           Element rootElement = textArea.getDocument()
+////           int cursorLocation = defaultTextArea.getDocument().getLength();
+////           Element rootElement = defaultTextArea.getDocument()
 ////                   .getDefaultRootElement();
 ////           String sideNumber = "1" + System.getProperty("line.separator");
 ////           for (int i = 2; i < rootElement.getElementIndex(cursorLocation) + 2; i++) {
@@ -667,8 +735,8 @@ public class MainController extends Application implements Initializable
 	//////	        FXMLLoader loader = new FXMLLoader(getClass().getResource("TextController.fxml"));
 	//////			;
 	//////			TextController controller = new TextController();
-	//////			//controller.setTextArea(controller.getTextArea());
-	//////			//TextArea txt = controller.getTextArea();
+	//////			//controller.setdefaultTextArea(controller.getdefaultTextArea());
+	//////			//defaultTextArea txt = controller.getdefaultTextArea();
 	//////			
 	//////			VBox pane = new VBox();
 	//////			pane.getChildren().add(controller);
@@ -676,7 +744,7 @@ public class MainController extends Application implements Initializable
 	////			    //Show save file dialog
 	//			    File file = fileChooser.showSaveDialog(primaryStage);
 	//			    if(file != null){
-	//			        SaveFile(textArea.getText(), file);
+	//			        SaveFile(defaultTextArea.getText(), file);
 	//			    }
 	////			
 	////
@@ -791,6 +859,7 @@ public class MainController extends Application implements Initializable
 			FileWriter fileWriter = null; 
 	        fileWriter = new FileWriter(file);
 	        fileWriter.write(content);
+	        defaultEditor.setText(file.getName()); 
 	        fileWriter.close();
 	        
 	        this.program.setAssembled(false);  
@@ -810,6 +879,7 @@ public class MainController extends Application implements Initializable
 	    		bufferedReader = new BufferedReader(new FileReader(file));
 	         
 	        String text;
+	        defaultEditor.setText(file.getName()); 
 	        while ((text = bufferedReader.readLine()) != null) {
 	        		stringBuffer.append(text + "\n" );
 	        }

@@ -34,6 +34,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
@@ -52,7 +53,7 @@
             <MenuItem fx:id="SaveFile" mnemonicParsing="false" onAction="#handleSaveFile" text="Save" />
             <MenuItem mnemonicParsing="false" onAction="#handleSaveAsFile" text="Save As…" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <MenuItem mnemonicParsing="false" onAction="#handleCloseTab" text="Close Tab" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="quit_id" mnemonicParsing="false" onAction="#handleQuitAction" text="Quit" />
           </items>
@@ -73,14 +74,38 @@
         </Menu>
             <Menu mnemonicParsing="false" text="Run">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#assembleProgram" text="Assemble" />
+                  <MenuItem mnemonicParsing="false" onAction="#assembleProgram" text="Assemble">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Image/icons8-maintenance-26.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
                   <MenuItem mnemonicParsing="false" onAction="#simulatorRun" text="Run">
                      <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="20.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Image/icons8-play-26.png" />
+                           </image></ImageView>
                      </graphic>
                   </MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#simulatorForwardStep" text="Forward" />
-                  <MenuItem mnemonicParsing="false" onAction="#simulatorBackStep" text="Backward" />
+                  <MenuItem mnemonicParsing="false" onAction="#simulatorForwardStep" text="Forward">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Image/icons8-right-arrow-26.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#simulatorBackStep" text="Backward">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Image/icons8-long-arrow-left-26.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
                </items></Menu>
             <Menu mnemonicParsing="false" text="Settings">
               <items>
@@ -89,7 +114,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Tools">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem fx:id="newEditor" mnemonicParsing="false" onAction="#handleNewEditor" text="New Editor" />
               </items>
             </Menu>
         <Menu mnemonicParsing="false" text="Help">
@@ -104,9 +129,9 @@
          <children>
             <SplitPane dividerPositions="0.6">
               <items>
-                  <TabPane prefHeight="582.0" prefWidth="526.0" tabClosingPolicy="UNAVAILABLE" SplitPane.resizableWithParent="false">
+                  <TabPane fx:id="tabPane" prefHeight="582.0" prefWidth="526.0" tabClosingPolicy="UNAVAILABLE" SplitPane.resizableWithParent="false">
                     <tabs>
-                      <Tab text="Editor">
+                      <Tab fx:id="defaultEditor" text="Editor">
                         <content>
                           <AnchorPane>
                                  <children>
@@ -129,15 +154,15 @@
                               </AnchorPane>
                         </content>
                       </Tab>
-                      <Tab text="Execute">
+                      <Tab fx:id="executeTab" text="Execute">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="459.0" prefWidth="497.0">
                                  <children>
-                                    <SplitPane orientation="VERTICAL" prefHeight="220.0" prefWidth="523.0" AnchorPane.bottomAnchor="333.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <SplitPane orientation="VERTICAL" prefHeight="249.0" prefWidth="523.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <items>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="205.0" prefWidth="521.0">
+                                          <AnchorPane>
                                              <children>
-                                                <ListView fx:id="parsedText" prefHeight="217.0" prefWidth="523.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0" />
+                                                <ListView fx:id="parsedText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                           </AnchorPane>
                                        </items>
