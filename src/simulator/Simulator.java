@@ -29,6 +29,7 @@ import assembler.Token;
 import assembler.TokenType;
 import controller.FloatRegisters;
 import controller.IntRegisters;
+import controller.MemRegController;
 import controller.Memory;
 import javafx.collections.ObservableList;
 
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 /**
  * Class to handle simulation of assembly code.
  * @author Skyler Malinowski
- * @version March 2018
+ * @version April 2018
  */
 public class Simulator
 {
@@ -57,7 +58,7 @@ public class Simulator
 		this.riscv = riscv;
 		this.program = program;
 		LL = new ArrayList<StateNode>();
-		LL.add(new StateNode(null, null));  // Head node
+		LL.add(new StateNode(null, null, null));  // Head node
 		PC = -1;
 		i = 0;
 	}
@@ -80,15 +81,22 @@ public class Simulator
 		if (this.program.getTextList().get(PC).size() > 0)
 		{
 			tokens = this.program.getTextList().get(PC);
-			while (tokens.size() > 0 && tokens.get(0).getType() != TokenType.LITERAL)
+			
+			// Strips non-instruction tokens
+			while (tokens.size() > 0 
+					&& tokens.get(0).getType() != TokenType.LITERAL)
 			{
 				tokens.remove(0);
 			}
 			
+			// If tokens are left
 			if (tokens.size() > 0)
 			{
-				dynamicCall(intRegister, floatRegister, memoryBlock, tokens);
-				madeCall = true;
+				node = dynamicCall(intRegister, floatRegister, memoryBlock, tokens);
+				if (node != null)
+				{
+					madeCall = true;
+				}
 			}
 			else
 			{
@@ -98,10 +106,12 @@ public class Simulator
 		
 		if (madeCall)
 		{
+			// If at the tail of LL, then append node
 			if (this.LL.size() == i + 1)
 			{
 				this.LL.add(node);
 			}
+			// Else increment LL pinter, i, and restore data from LL
 			else
 			{
 				this.i++;
@@ -112,6 +122,9 @@ public class Simulator
 	
 	/**
 	 * Steps through until program completion
+	 * @param intRegister
+	 * @param floatRegister
+	 * @param memoryBlock
 	 */
 	public void run(ObservableList<IntRegisters> intRegister, ObservableList<FloatRegisters> floatRegister, ObservableList<Memory> memoryBlock)
 	{
@@ -123,7 +136,9 @@ public class Simulator
 	
 	/**
 	 * Undo forward step
-	 * @param program
+	 * @param intRegister
+	 * @param floatRegister
+	 * @param memoryBlock
 	 */
 	public void backStep(ObservableList<IntRegisters> intRegister, ObservableList<FloatRegisters> floatRegister, ObservableList<Memory> memoryBlock)
 	{
@@ -141,6 +156,9 @@ public class Simulator
 	
 	/**
 	 * Returns simulator to initial state
+	 * @param intRegister
+	 * @param floatRegister
+	 * @param memoryBlock
 	 */
 	public void reset(ObservableList<IntRegisters> intRegister, ObservableList<FloatRegisters> floatRegister, ObservableList<Memory> memoryBlock)
 	{
@@ -152,15 +170,38 @@ public class Simulator
 
 	/**
 	 * Undo instruction
+	 * @param intRegister
+	 * @param floatRegister
+	 * @param memoryBlock
 	 */
 	private void restore(ObservableList<IntRegisters> intRegister, ObservableList<FloatRegisters> floatRegister, ObservableList<Memory> memoryBlock)
 	{
-		// LL.get(i).getLocation()
-		// LL.get(i).getValue()
+		switch (LL.get(i).getType())
+		{
+		case INT_REG :
+			MemRegController.setIntRegister(intRegister, LL.get(i).getLocation(), Integer.parseInt(LL.get(i).getValue()));
+			break;
+		
+		case FLOAT_REG :
+			MemRegController.setFloatRegister(floatRegister, LL.get(i).getLocation(), Integer.parseInt(LL.get(i).getValue()));
+			break;
+		
+		case MEMORY :
+			MemRegController.setMemory(memoryBlock, LL.get(i).getLocation(), Integer.parseInt(LL.get(i).getValue()));
+			break;
+		
+		default :
+			break;
+		}
 	}
 
 	/**
 	 * Dynamically calls function in certain classes during runtime
+	 * @param intRegister
+	 * @param floatRegister
+	 * @param memoryBlock
+	 * @param tokens
+	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	private StateNode dynamicCall(ObservableList<IntRegisters> intRegister, ObservableList<FloatRegisters> floatRegister, ObservableList<Memory> memoryBlock, ArrayList<Token> tokens)

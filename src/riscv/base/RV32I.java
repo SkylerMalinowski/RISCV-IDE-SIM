@@ -23,6 +23,7 @@ package riscv.base;
 
 import riscv.*;
 import controller.*;
+import simulator.LocationType;
 import simulator.Simulator;
 import simulator.StateNode;
 
@@ -128,7 +129,7 @@ public class RV32I {
 				program.appendWarningList(new ErrorMessage(ErrorMessage.WARNING, "Register Overflow"));
 			}
 			MemRegController.setIntRegister(intRegister, arg0, value);
-			return new StateNode(arg0,""+MemRegController.getIntRegister(intRegister, arg0));
+			return new StateNode(LocationType.INT_REG,arg0,""+MemRegController.getIntRegister(intRegister, arg0));
 		
 		// arg0 = arg1 + arg2
 		case "ADDI" :
@@ -149,7 +150,7 @@ public class RV32I {
 				program.appendWarningList(new ErrorMessage(ErrorMessage.WARNING, "Register Overflow"));
 			}
 			MemRegController.setIntRegister(intRegister, arg0, value);
-			return new StateNode(arg0,""+MemRegController.getIntRegister(intRegister, arg0));
+			return new StateNode(LocationType.INT_REG,arg0,""+MemRegController.getIntRegister(intRegister, arg0));
 		
 		//sw arg0, arg1 ( arg2 )
 		// MEM[arg1+arg2]=arg0;	
@@ -164,7 +165,7 @@ public class RV32I {
 				program.appendWarningList(new ErrorMessage(ErrorMessage.WARNING, "Register Overflow"));
 			}
 			MemRegController.setMemory(memory, arg0, value);
-			return new StateNode(arg0,""+MemRegController.getIntRegister(intRegister, arg0));
+			return new StateNode(LocationType.MEMORY,arg0,""+MemRegController.getIntRegister(intRegister, arg0));
 		
 		
 		//lw arg0, arg1 ( arg2 )
@@ -180,7 +181,7 @@ public class RV32I {
 				program.appendWarningList(new ErrorMessage(ErrorMessage.WARNING, "Register Overflow"));
 			}
 			MemRegController.setIntRegister(intRegister, arg0, value);
-			return new StateNode(arg0,""+MemRegController.getIntRegister(intRegister, arg0));
+			return new StateNode(LocationType.MEMORY,arg0,""+MemRegController.getIntRegister(intRegister, arg0));
 		
 		// if arg0 != arg1
 			// j arg2
@@ -196,7 +197,7 @@ public class RV32I {
 				program.appendWarningList(new ErrorMessage(ErrorMessage.WARNING, "Register Overflow"));
 			}
 			if (temp1 != temp2) {
-				return new StateNode(arg2,""+MemRegController.getIntRegister(intRegister, arg2));
+				return new StateNode(LocationType.INT_REG,arg2,""+MemRegController.getIntRegister(intRegister, arg2));
 				//Simulator.PC++;
 			}
 			
@@ -213,7 +214,7 @@ public class RV32I {
 				program.appendWarningList(new ErrorMessage(ErrorMessage.WARNING, "Register Overflow"));
 			}
 			MemRegController.setIntRegister(intRegister, arg0, shift);
-			return new StateNode(arg0,""+MemRegController.getIntRegister(intRegister, arg0));
+			return new StateNode(LocationType.INT_REG,arg0,""+MemRegController.getIntRegister(intRegister, arg0));
 		
 		default :
 			return null;

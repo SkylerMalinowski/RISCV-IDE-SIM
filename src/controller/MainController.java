@@ -44,6 +44,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
+<<<<<<< HEAD
+=======
+//import javafx.scene.layout.VBoxBuilder;
+>>>>>>> 1643c682105cc3dd0fa33c3258a28adb2fb3f842
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -156,11 +160,13 @@ public class MainController extends Application implements Initializable
 	
 	@FXML private TableView<Memory> Table3;
 	
-	@FXML private TableColumn<Memory, String> MemoryValueColumn = new TableColumn<>("word");
+	@FXML private TableColumn<Memory, String> MemoryValueColumn = new TableColumn<>("value");
+	
+	@FXML private TableColumn<Memory, String> MemoryAddressColumn = new TableColumn<>("address");
 	
 	private ObservableList<IntRegisters> IntRegister = FXCollections.observableArrayList();
 	private ObservableList<FloatRegisters> FloatRegister= FXCollections.observableArrayList();
-	private ObservableList<Memory> MemoryBlock= FXCollections.observableArrayList();
+	public ObservableList<Memory> MemoryBlock = FXCollections.observableArrayList();
 	//private ObservableList<String> parsedText = FXCollections.observableArrayList();
 
 	
@@ -426,34 +432,28 @@ public class MainController extends Application implements Initializable
 	
 	
 	
-	public void InitializeparsedText()
+	public void InitializeParsedText()
 	{
-		// TODO
 		ArrayList<String> instruct = new ArrayList<String>();
-		String s = "";
-		for (ArrayList<Token> t : program.getDataList())
+		String line = "";
+		for (ArrayList<Token> tokenArray : program.getTextList())
 		{
-			
+			for (Token token : tokenArray)
+			{
+				line += token.getData() + " ";
+			}
+			instruct.add(line);
+			line = "";
 		}
-			//{
-			///	instruct.add(s.substring(i,10));
-				
-				//parsedText.setItems(FXCollections.observableArrayList());
-		//	}
-			//parsedText.setItems(FXCollections.observableArrayList(s));
-			//String n = s.substring(10);
-			//String r = s.substring(20);
-			//String p = s.substring(30);
 		
-		parsedText.setItems(FXCollections.observableArrayList(program.getDataList()));
-		System.out.println(s);
+		parsedText.setItems(FXCollections.observableArrayList(instruct));
 		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
 		selectionModel.select(executeTab);
 	}
 	
 	public ObservableList<IntRegisters> InitializeIntRegisters()
 	{
-	// get 32 or 64 option  
+		// get 32 or 64 option  
 		IntRegister.add(new IntRegisters("x0",0,0));
 		IntRegister.add(new IntRegisters("x1",1,0));
 		IntRegister.add(new IntRegisters("x2",2,0));
@@ -494,10 +494,8 @@ public class MainController extends Application implements Initializable
 	
 	public ObservableList<Memory> InitializeMemoryBlocks()
 	{
-		for(int i=0;i<1000;i++)
-		{
-			MemoryBlock.add(new Memory(null,i));
-		}
+		
+		MemoryBlock.add(new Memory("",0));
 		return MemoryBlock;
 	}
 	/*
@@ -565,9 +563,12 @@ public class MainController extends Application implements Initializable
 		FloatValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 		Table2.setItems(InitializeFloatRegisters());
 		
-		
-		MemoryValueColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
+		MemoryAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+		MemoryValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 		Table3.setItems(InitializeMemoryBlocks());
+		
+		
+		
 	}
 
 
@@ -653,7 +654,7 @@ public class MainController extends Application implements Initializable
 			this.simulator = new Simulator(this.riscv, this.program);
 		}
 		
-		InitializeparsedText();
+		InitializeParsedText();
 	}
 	
 	
