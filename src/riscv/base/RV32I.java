@@ -152,10 +152,10 @@ public class RV32I {
 			MemRegController.setIntRegister(intRegister, arg0, value);
 			return new StateNode(LocationType.INT_REG,arg0,""+MemRegController.getIntRegister(intRegister, arg0));
 		
-		//sw arg0, arg1 ( arg2 )
+		//sw arg0, arg1 ( arg2 )		sw destination, offest, (address
 		// MEM[arg1+arg2]=arg0;	
-		case "SW" :
-			value = MemRegController.getMemory(memoryBlock, arg1) + MemRegController.getMemory(memoryBlock, arg2);
+		case "SW" :	 
+			value = Integer.parseInt(MemRegController.getMemory(memoryBlock, arg1)) + Integer.parseInt(MemRegController.getMemory(memoryBlock, arg2));
 			// Check for overflow
 			if (value % (Math.pow(2,this.xlen-1)-1) != 0)
 			{
@@ -169,7 +169,7 @@ public class RV32I {
 		//lw arg0, arg1 ( arg2 )
 		// arg0=MEM[arg1+arg2];	
 		case "LW" :
-			value = MemRegController.getMemory(memoryBlock, arg1) + MemRegController.getMemory(memoryBlock, arg2);
+			value = Integer.parseInt(MemRegController.getMemory(memoryBlock, arg1)) + Integer.parseInt(MemRegController.getMemory(memoryBlock, arg2));
 			// Check for overflow
 			if (value % (Math.pow(2,this.xlen-1)-1) != 0)
 			{

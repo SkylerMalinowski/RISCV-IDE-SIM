@@ -29,39 +29,43 @@ package riscv;
  */
 public class Conversion {
 
-	public static String ToBinary(String number, int width, Program program)
+	public static String ToBinary(String number, int width)
 	{
 		// Hexadecimal
 		if (number.split("-")[1].startsWith("0x") || number.split("-")[1].startsWith("0X"))
 		{
-			return DecimalToBinary(""+Integer.parseInt(number.split("0[xX]")[1], 16), width, program);
+			return DecimalToBinary(""+Integer.parseInt(number.split("0[xX]")[1], 16), width);
 		}
 		// Octal
 		else if (number.split("-")[1].startsWith("0o") || number.split("-")[1].startsWith("0O"))
 		{
-			return DecimalToBinary(""+Integer.parseInt(number.split("0[oO]")[1], 8), width, program);
+			return DecimalToBinary(""+Integer.parseInt(number.split("0[oO]")[1], 8), width);
 		}
 		// Binary
 		else if (number.split("-")[1].startsWith("0b") || number.split("-")[1].startsWith("0B"))
 		{
 			if (number.charAt(0) == '-')
 			{
-				return DecimalToBinary("-"+Integer.parseInt(number.split("0[bB]")[1], 2), width, program);
+				return DecimalToBinary("-"+Integer.parseInt(number.split("0[bB]")[1], 2), width);
 			}
 			else
 			{
 				return Integer.toBinaryString(Integer.parseInt(number.split("0[bB]")[1],2));
 			}
 		}
-		// Decimal
 		else
 		{
-			return DecimalToBinary(""+Integer.parseInt(number, 10), width, program);
+			return DecimalToBinary(""+Integer.parseInt(number, 10), width);
 		}
 	}
 
+	public static String ASCIIToBinary(String string, int width)
+	{
+		
+		return "";
+	}
 	
-	public static String DecimalToBinary(String number, int width, Program program)
+	public static String DecimalToBinary(String number, int width)
 	{
 		int padding;
 		String Binary = "";

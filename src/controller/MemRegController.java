@@ -337,17 +337,58 @@ public class MemRegController
 	 * @param name
 	 * @return
 	 */
-	public static int getMemory(ObservableList<Memory> memoryBlock, String name)
+	public static String getMemory(ObservableList<Memory> memoryBlock, String Address)
 	{
-
-		return 0;
+		int offset = Integer.parseInt(Address)%16;
+		for(Memory m : memoryBlock)
+		{
+			if(offset == 0)
+			{
+				return m.getValue0();
+			}
+			else if(offset == 4)
+			{
+				return m.getValue1();
+			}
+			else if(offset == 8)
+			{
+				return m.getValue2();
+			}
+			else if(offset == 12)
+			{
+				return m.getValue3();
+			}
+		}
+		return "";
 	}
 
 	/**
 	 * Setter method for Memory
 	 */
-	public static void setMemory(ObservableList<Memory> memoryBlock, String name, int value)
+	public static void setMemory(ObservableList<Memory> memoryBlock, String Address, int value)
 	{
+		// Need function for integer --> string
+		
+		int offset = Integer.parseInt(Address)%16;
+		for(Memory m : memoryBlock)
+		{
+			if(offset == 0)
+			{
+				m.setValue0(""+value);
+			}
+			else if(offset == 4)
+			{
+				m.setValue1(""+value);
+			}
+			else if(offset == 8)
+			{
+				m.setValue2(""+value);
+			}
+			else if(offset == 12)
+			{
+				m.setValue3(""+value);
+			}
+		}
 		return;
 	}
 }

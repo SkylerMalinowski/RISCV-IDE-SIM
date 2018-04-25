@@ -40,7 +40,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="Main" prefHeight="617.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<VBox fx:id="Main" prefHeight="617.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
   <children>
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
       <menus>
@@ -173,8 +173,11 @@
                                              <children>
                                                 <TableView fx:id="Table3" layoutX="155.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                   <columns>
-                                                    <TableColumn maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="75.0" text="MEM" />
-                                                      <TableColumn fx:id="MemoryAddressColumn" prefWidth="75.0" text="Address" />
+                                                    <TableColumn fx:id="MemoryAddressColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="75.0" text="Address" />
+                                                      <TableColumn fx:id="MemoryValueColumn0" prefWidth="91.0" text="Value (+0)" />
+                                                      <TableColumn fx:id="MemoryValueColumn1" prefWidth="90.0" text="Value (+4)" />
+                                                      <TableColumn fx:id="MemoryValueColumn2" prefWidth="86.0" text="Value (+8)" />
+                                                      <TableColumn fx:id="MemoryValueColumn3" prefWidth="97.0" text="Value (+12)" />
                                                   </columns>
                                                 </TableView>
                                              </children>

@@ -156,7 +156,10 @@ public class MainController extends Application implements Initializable
 	
 	@FXML private TableView<Memory> Table3;
 	
-	@FXML private TableColumn<Memory, String> MemoryValueColumn = new TableColumn<>("value");
+	@FXML private TableColumn<Memory, String> MemoryValueColumn0 = new TableColumn<>("value0");
+	@FXML private TableColumn<Memory, String> MemoryValueColumn1 = new TableColumn<>("value1");
+	@FXML private TableColumn<Memory, String> MemoryValueColumn2 = new TableColumn<>("value2");
+	@FXML private TableColumn<Memory, String> MemoryValueColumn3 = new TableColumn<>("value3");
 	
 	@FXML private TableColumn<Memory, String> MemoryAddressColumn = new TableColumn<>("address");
 	
@@ -490,23 +493,12 @@ public class MainController extends Application implements Initializable
 	
 	public ObservableList<Memory> InitializeMemoryBlocks()
 	{
-		
-		MemoryBlock.add(new Memory("",0));
+		for(int i=0;i<50;i++)
+		{
+			MemoryBlock.add(new Memory("0","0","0","0",i*16));
+		}
 		return MemoryBlock;
 	}
-	/*
-	public void StoreData(String Data, int Address)
-	{
-		if(Data.length()==1)		// The data to be stored is a single word
-		{
-			MemoryBlock.set(Address, new Memory)
-		}
-	}*/
-	public void StoreData(ArrayList <Integer> num, int Address)
-	{
-			
-	}
-	
 	
 	public ObservableList<FloatRegisters> InitializeFloatRegisters()
 	{
@@ -559,10 +551,12 @@ public class MainController extends Application implements Initializable
 		FloatValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 		Table2.setItems(InitializeFloatRegisters());
 		
+		MemoryValueColumn0.setCellValueFactory(new PropertyValueFactory<>("value0"));
+		MemoryValueColumn1.setCellValueFactory(new PropertyValueFactory<>("value1"));
+		MemoryValueColumn2.setCellValueFactory(new PropertyValueFactory<>("value2"));
+		MemoryValueColumn3.setCellValueFactory(new PropertyValueFactory<>("value3"));
 		MemoryAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-		MemoryValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 		Table3.setItems(InitializeMemoryBlocks());
-		
 		
 		
 	}
