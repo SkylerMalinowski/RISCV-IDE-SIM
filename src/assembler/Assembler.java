@@ -51,7 +51,6 @@ public class Assembler
 	{
 		System.out.println("Assembler: assembling "+program.getFile()+"\n");
 
-		
 		Lexer lexer = new Lexer(this.riscv);
 		lexer.lex(program);
 		

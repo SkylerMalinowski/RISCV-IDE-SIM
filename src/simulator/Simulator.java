@@ -52,8 +52,10 @@ public class Simulator
 	
 	/**
 	 * Constructor
+	 * @param riscv
+	 * @param program
 	 */
-	public Simulator(RISCV riscv, Program program)
+	public Simulator(RISCV riscv, Program program, ObservableList<Memory> memoryBlock)
 	{
 		this.riscv = riscv;
 		this.program = program;
@@ -61,8 +63,37 @@ public class Simulator
 		LL.add(new StateNode(null, null, null));  // Head node
 		PC = -1;
 		i = 0;
+		
+		initializeMemory(memoryBlock);
 	}
 	
+	/**
+	 * Loads memory with information from DATA region
+	 * @param memoryBlock
+	 */
+	private void initializeMemory(ObservableList<Memory> memoryBlock)
+	{
+		for (ArrayList<Token> tokens : program.getDataList())
+		{
+			for (Token token : tokens)
+			{
+				switch (token.getType())
+				{
+				case STRING :
+					// Load string into adjacent vacant memory
+					break;
+					
+				case NUMBER :
+					// Load number into adjacent vacant memory
+					break;
+					
+				default :
+					break;
+				}
+			}
+		}
+	}
+
 	/**
 	 * Handles the next instruction
 	 * @param memoryBlock 

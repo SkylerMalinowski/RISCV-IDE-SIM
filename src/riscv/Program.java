@@ -222,13 +222,16 @@ public class Program
 	/**
 	 * Method prints 'this.errorList'
 	 */
-	public void printErrorList()
+	public ArrayList<String> printErrorList()
 	{
+		ArrayList<String> msg = new ArrayList<String>();
 		for (ErrorMessage error : this.errorList)
 		{
+			msg.add(error.toString());
 			System.out.println(error.toString());
 		}
 		System.out.println();
+		return msg;
 	}
 	
 	/**
@@ -252,13 +255,16 @@ public class Program
 	/**
 	 * Method prints 'this.warningList'
 	 */
-	public void printWarningList()
+	public ArrayList<String> printWarningList()
 	{
+		ArrayList<String> msg = new ArrayList<String>();
 		for (ErrorMessage warning : this.warningList)
 		{
+			msg.add(warning.toString());
 			System.out.println(warning.toString());
 		}
 		System.out.println();
+		return msg;
 	}
 	
 	/**
@@ -281,18 +287,19 @@ public class Program
 		{
 			try
 			{
-				if (tokens.get(0).getData().equalsIgnoreCase(".TEXT"))
+				if (found)
+				{
+					if (tokens.size() > 0)
+						this.appendTextList(tokens);
+				}
+				else if (tokens.get(0).getData().equalsIgnoreCase(".TEXT"))
 				{
 					found = true;
 				}
 				else if (tokens.get(0).getData().equalsIgnoreCase(".DATA"))
 				{
 					found = false;
-				}
-				
-				if (found)
-				{
-					this.appendTextList(tokens);
+					break;
 				}
 			} 
 			catch (Exception ex)
@@ -335,19 +342,21 @@ public class Program
 		{
 			try
 			{
-				if (tokens.get(0).getData().equalsIgnoreCase(".DATA"))
+				if (found)
+				{
+					if (tokens.size() > 0)
+						this.appendDataList(tokens);
+				}
+				else if (tokens.get(0).getData().equalsIgnoreCase(".DATA"))
 				{
 					found = true;
 				}
 				else if (tokens.get(0).getData().equalsIgnoreCase(".TEXT"))
 				{
 					found = false;
+					break;
 				}
 				
-				if (found)
-				{
-					this.appendDataList(tokens);
-				}
 			} 
 			catch (Exception ex)
 			{

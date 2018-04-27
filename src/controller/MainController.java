@@ -173,7 +173,7 @@ public class MainController extends Application implements Initializable
 	private String base = "RV32I";
 	private ArrayList<String> exts;
 	private RISCV riscv = new RISCV(this.base);
-	private Simulator simulator = new Simulator(null, null);
+	private Simulator simulator = new Simulator(null, null, null);
 	private Program program;
 	private int count = 0;
 	private File globalFile;
@@ -618,33 +618,41 @@ public class MainController extends Application implements Initializable
 			if (this.program.getWarningList().size() > 0)
 			{
 				System.out.println("Assembler: completed with these warnings:\n");
-				this.program.printWarningList();
+				for (String msg : this.program.printWarningList())
+				{
+					console_text.appendText(msg);
+				}
+				console_text.appendText("\n");
 			}
 			else
 			{
 				System.out.println("Assembler: completed without warnings.\n");
-				console_text.setText("Assembler: completed without warnings.\n");
+				console_text.appendText("Assembler: completed without warnings.\n");
 			}
 			if (this.program.getErrorList().size() > 0)
 			{
-				System.out.println("Assembler: completed with these errors:\n");
 				this.program.setAssembled(false);
-				this.program.printErrorList();
+				System.out.println("Assembler: completed with these errors:\n");
+				console_text.appendText("Assembler: completed with these errors:\n");
+				for (String msg: this.program.printErrorList())
+				{
+					console_text.appendText(msg);
+				}
+				console_text.appendText("\n");
 			}
 			else
 			{
+				this.program.setAssembled(true);
 				System.out.println("Assembler: completed without errors.\n");
 				console_text.appendText("Assembler: completed without errors.\n");
-				this.program.setAssembled(true);
 			}
 		}
 		
 		if (this.program.getAssebled() == true)
 		{
-			this.simulator = new Simulator(this.riscv, this.program);
+			this.simulator = new Simulator(this.riscv, this.program, MemoryBlock);
+			InitializeParsedText();
 		}
-		
-		InitializeParsedText();
 	}
 	
 	

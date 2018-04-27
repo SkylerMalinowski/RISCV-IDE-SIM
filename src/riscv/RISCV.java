@@ -233,7 +233,7 @@ public class RISCV
 				expectedTokens.add(new Token(TokenType.LITERAL, null, 0, 0, 0));
 				break;
 			case U_Type :
-				expectedTokens.add(new Token(TokenType.NUMBER, null, 0, 0, 0));
+				expectedTokens.add(new Token(TokenType.LITERAL, null, 0, 0, 0));
 				break;
 			default :
 				System.out.println("System Internal Error: Token "+this.instructionMap.get(token.getData().toUpperCase())+" not handled.");

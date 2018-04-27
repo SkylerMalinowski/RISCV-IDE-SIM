@@ -46,50 +46,50 @@ public class RV32I {
 	 */
 	public RV32I()
 	{
-		TypeMap.put("LUI", InstructionType.U_Type);
-		TypeMap.put("AUIPC", InstructionType.U_Type);
+		//TypeMap.put("LUI", InstructionType.U_Type);
+		//TypeMap.put("AUIPC", InstructionType.U_Type);
 		TypeMap.put("JAL", InstructionType.U_Type);
 		
-		TypeMap.put("JALR", InstructionType.I_Type);
+		//TypeMap.put("JALR", InstructionType.I_Type);
 		
 		TypeMap.put("BEQ", InstructionType.B_Type);
 		TypeMap.put("BNE", InstructionType.B_Type);
-		TypeMap.put("BLT", InstructionType.B_Type);
-		TypeMap.put("BGE", InstructionType.B_Type);
-		TypeMap.put("BLTU", InstructionType.B_Type);
-		TypeMap.put("BGEU", InstructionType.B_Type);
+		//TypeMap.put("BLT", InstructionType.B_Type);
+		//TypeMap.put("BGE", InstructionType.B_Type);
+		//TypeMap.put("BLTU", InstructionType.B_Type);
+		//TypeMap.put("BGEU", InstructionType.B_Type);
 		
-		TypeMap.put("LB", InstructionType.I_Type);
-		TypeMap.put("LH", InstructionType.I_Type);
+		//TypeMap.put("LB", InstructionType.I_Type);
+		//TypeMap.put("LH", InstructionType.I_Type);
 		TypeMap.put("LW", InstructionType.I_Type);
-		TypeMap.put("LBU", InstructionType.I_Type);
-		TypeMap.put("LHU", InstructionType.I_Type);
+		//TypeMap.put("LBU", InstructionType.I_Type);
+		//TypeMap.put("LHU", InstructionType.I_Type);
 		
-		TypeMap.put("SB", InstructionType.S_Type);
-		TypeMap.put("SH", InstructionType.S_Type);
+		//TypeMap.put("SB", InstructionType.S_Type);
+		//TypeMap.put("SH", InstructionType.S_Type);
 		TypeMap.put("SW", InstructionType.S_Type);
 		
 		TypeMap.put("ADDI", InstructionType.I_Type);
-		TypeMap.put("SLTI", InstructionType.I_Type);
-		TypeMap.put("SLTIU", InstructionType.I_Type);
-		TypeMap.put("XORI", InstructionType.I_Type);
-		TypeMap.put("ORI", InstructionType.I_Type);
-		TypeMap.put("ANDI", InstructionType.I_Type);
+		//TypeMap.put("SLTI", InstructionType.I_Type);
+		//TypeMap.put("SLTIU", InstructionType.I_Type);
+		//TypeMap.put("XORI", InstructionType.I_Type);
+		//TypeMap.put("ORI", InstructionType.I_Type);
+		//TypeMap.put("ANDI", InstructionType.I_Type);
 		
-		TypeMap.put("SLLI", InstructionType.I_Type);
-		TypeMap.put("SRLI", InstructionType.I_Type);
-		TypeMap.put("SRAI", InstructionType.I_Type);
+		//TypeMap.put("SLLI", InstructionType.I_Type);
+		//TypeMap.put("SRLI", InstructionType.I_Type);
+		//TypeMap.put("SRAI", InstructionType.I_Type);
 		
 		TypeMap.put("ADD", InstructionType.R_Type);
 		TypeMap.put("SUB", InstructionType.R_Type);
-		TypeMap.put("SLL", InstructionType.R_Type);
-		TypeMap.put("SLT", InstructionType.R_Type);
-		TypeMap.put("SLTU", InstructionType.R_Type);
-		TypeMap.put("XOR", InstructionType.R_Type);
-		TypeMap.put("SRL", InstructionType.R_Type);
-		TypeMap.put("SRA", InstructionType.R_Type);
-		TypeMap.put("OR", InstructionType.R_Type);
-		TypeMap.put("AND", InstructionType.R_Type);
+		//TypeMap.put("SLL", InstructionType.R_Type);
+		//TypeMap.put("SLT", InstructionType.R_Type);
+		//TypeMap.put("SLTU", InstructionType.R_Type);
+		//TypeMap.put("XOR", InstructionType.R_Type);
+		//TypeMap.put("SRL", InstructionType.R_Type);
+		//TypeMap.put("SRA", InstructionType.R_Type);
+		//TypeMap.put("OR", InstructionType.R_Type);
+		//TypeMap.put("AND", InstructionType.R_Type);
 		
 		/* Unimplemented Instructions
 		 * TypeMap.put("FENCE", InstructionType.);
@@ -198,20 +198,9 @@ public class RV32I {
 				//Simulator.PC++;
 			}
 			
-		
-		// arg0 = (arg1 << 16);
-		case "LUI" :
-			value = MemRegController.getIntRegister(intRegister, arg0);
-			int shift=Integer.parseInt(arg1, 10);
-			shift=shift*(2^16);
-			// check for overflows
-			if (value % (Math.pow(2,this.xlen-1)-1) != 0 || shift % (Math.pow(2,this.xlen-1)-1) != 0)
-			{
-				// TODO :: Display to terminal instead
-				program.appendWarningList(new ErrorMessage(ErrorMessage.WARNING, "Register Overflow"));
-			}
-			MemRegController.setIntRegister(intRegister, arg0, shift);
-			return new StateNode(LocationType.INT_REG,arg0,""+MemRegController.getIntRegister(intRegister, arg0));
+		// PC = offset + location of label
+		case "JAL" :
+			return new StateNode(LocationType.INT_REG,"PC","*value of new pc*");
 		
 		default :
 			return null;
