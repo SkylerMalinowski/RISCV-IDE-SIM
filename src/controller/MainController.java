@@ -173,7 +173,7 @@ public class MainController extends Application implements Initializable
 	private String base = "RV32I";
 	private ArrayList<String> exts;
 	private RISCV riscv = new RISCV(this.base);
-	private Simulator simulator = new Simulator(null, null, null);
+	private Simulator simulator;
 	private Program program;
 	private int count = 0;
 	private File globalFile;
@@ -650,7 +650,7 @@ public class MainController extends Application implements Initializable
 		
 		if (this.program.getAssebled() == true)
 		{
-			this.simulator = new Simulator(this.riscv, this.program, MemoryBlock);
+			this.simulator = new Simulator(this.riscv, this.program, this.MemoryBlock);
 			InitializeParsedText();
 		}
 	}
