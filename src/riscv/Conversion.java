@@ -59,12 +59,20 @@ public class Conversion {
 		}
 	}
 
-	public static String ASCIIToBinary(String string, int width)
+	public static String ASCIIToBinary(String string, int width) 	// convert a given string of ASCII characters into binary
 	{
-		
-		return "";
-	}
+		String summation ="";
+		int ASCII,sum;
+		for(int i=0;i <string.length();i++)
+		{
+			summation = summation + DecimalToBinary(""+string.charAt(i), 8);	// binary string of 4 characters in this case
+			break;
+		}									
+		return summation;			// returns a giant binary string of 32 characters ex: 0101010100101011010011
+	}								
+
 	
+
 	public static String DecimalToBinary(String number, int width)
 	{
 		int padding;
